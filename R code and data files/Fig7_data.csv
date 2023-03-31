@@ -1,0 +1,37 @@
+﻿Complex,Cargo_Type,R1rate,R2rate,N1rate
+recycling from Rab4a to surface,enters surface,37.741,12.484,120.41
+recycling from Rab4a to surface,leaves surface,0,0,0
+recycling from Rab4a to surface,enters Rab4a/5a,0,0,0
+recycling from Rab4a to surface,leaves Rab4a/5a,37.741,12.484,120.41
+recycling from Rab4a to surface,enters Rab11a,0,0,0
+recycling from Rab4a to surface,leaves Rab11a,0,0,0
+recycling from Rab11a to surf,enters surface,32.35,3.6399,115.07
+recycling from Rab11a to surf,leaves surface,0,0,0
+recycling from Rab11a to surf,enters Rab4a/5a,0,0,0
+recycling from Rab11a to surf,leaves Rab4a/5a,0,0,0
+recycling from Rab11a to surf,enters Rab11a,0,0,0
+recycling from Rab11a to surf,leaves Rab11a,32.35,3.6399,115.07
+transfer from Rab4a to Rab11a,enters surface,0,0,0
+transfer from Rab4a to Rab11a,leaves surface,0,0,0
+transfer from Rab4a to Rab11a,enters Rab4a/5a,0,0,0
+transfer from Rab4a to Rab11a,leaves Rab4a/5a,32.35,3.6399,115.07
+transfer from Rab4a to Rab11a,enters Rab11a,32.35,3.6399,115.07
+transfer from Rab4a to Rab11a,leaves Rab11a,0,0,0
+transfer from Rab4a to Rab7a,enters surface,0,0,0
+transfer from Rab4a to Rab7a,leaves surface,0,0,0
+transfer from Rab4a to Rab7a,enters Rab4a/5a,0,0,0
+transfer from Rab4a to Rab7a,leaves Rab4a/5a,3.7592,1.5162,3.742
+transfer from Rab4a to Rab7a,enters Rab11a,0,0,0
+transfer from Rab4a to Rab7a,leaves Rab11a,0,0,0
+production to surface,enters surface,3.7592,1.5162,3.742
+production to surface,leaves surface,0,0,0
+production to surface,enters Rab4a/5a,0,0,0
+production to surface,leaves Rab4a/5a,0,0,0
+production to surface,enters Rab11a,0,0,0
+production to surface,leaves Rab11a,0,0,0
+internalization from surface to Rab4a,enters surface,0,0,0
+internalization from surface to Rab4a,leaves surface,73.85,17.64,239.22
+internalization from surface to Rab4a,enters Rab4a/5a,73.85,17.64,239.22
+internalization from surface to Rab4a,leaves Rab4a/5a,0,0,0
+internalization from surface to Rab4a,enters Rab11a,0,0,0
+internalization from surface to Rab4a,leaves Rab11a,0,0,0

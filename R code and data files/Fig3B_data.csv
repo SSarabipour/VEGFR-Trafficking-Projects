@@ -1,0 +1,13 @@
+﻿Rtype,Rcomp,Rvalue,RSD
+R1 Expt,R1 surf exp,10,5.8
+R1 Sim,R1 surf sim,58.308,
+R1 Sim,R1 Rab4a sim,38.912,
+R1 Sim,R1 Rab11a sim,2.7794,
+R2 Expt,R2 surf exp,51,2.2
+R2 Sim,R2 surf sim,57.82,
+R2 Sim,R2 Rab4a sim,39.368,
+R2 Sim,R2 Rab11a sim,2.812,
+N1 Expt,N1 surf exp,74,10.8
+N1 Sim,N1 surf sim,75.41,
+N1 Sim,N1 Rab4a sim,11.152,
+N1 Sim,N1 Rab11a sim,13.438,
