@@ -1,6 +1,6 @@
 function parameters = base_parameters(model,baseparams)
 
-if model == "Unligated_VEGFR_model_20230321"
+if model == "Unligated_VEGFR_model_20230831"
     runmodel = 1
 end
 
@@ -19,18 +19,32 @@ switch runmodel
         %% INITIAL CONDITIONS
 
         %% Initial receptor levels
-        %Units; receptors/um^2
-        parameters.VEGFR1_0 = 18; % total R1 calculated from 1800 rec/cell on surface/total fraction of 0.1
-        parameters.VEGFR2_0 =  9.607; % total R2 calculated from 4900 rec/cell on surface/total fraction of 0.51
-        parameters.NRP1_0   = 91.891; % total N1 calculated from 68000 rec/cell on surface/total fraction of 0.74
+        %Units; receptors/cell
+        parameters.VEGFR1_0 = 18000; % total R1 calculated from 1800 rec/cell on surface/total fraction of 0.1
+        parameters.VEGFR2_0 =  9607; % total R2 calculated from 4900 rec/cell on surface/total fraction of 0.51
+        parameters.NRP1_0   = 91891; % total R1 calculated from 68000 rec/cell on surface/total fraction of 0.74
+
+        %% Surface area of cellular compartments
+        SA_surface = 1000; % (um2/cell)
+        SA_rab4    = 950; % (um2/cell)
+        SA_rab11   = 325; % (um2/cell)
 
         %% Receptor-Receptor association/dissociation parameters 
-        % Units: kon = (receptors/um2)-1.s-1; koff = s-1
-        parameters.kR1R1on  = 0.008;
+        % Units: kon = (receptors/cell)-1.s-1; koff = s-1
+        kR1R1on = 8e-4; % units = (receptors/um2)-1.s-1
+        parameters.kR1R1on_surf  = kR1R1on/SA_surface;
+        parameters.kR1R1on_rab4  = kR1R1on/SA_rab4;
+        parameters.kR1R1on_rab11 = kR1R1on/SA_rab11;
         parameters.kR1R1off = 0.01;
-        parameters.kR2R2on  = 0.002;
+        kR2R2on = 2e-3; % units = (receptors/um2)-1.s-1
+        parameters.kR2R2on_surf  = kR2R2on/SA_surface;
+        parameters.kR2R2on_rab4  = kR2R2on/SA_rab4;
+        parameters.kR2R2on_rab11 = kR2R2on/SA_rab11;
         parameters.kR2R2off = 0.01;
-        parameters.kN1R1on  = 0.0166;
+        kN1R1on = 8e-4; %1.66e-2; % units = (receptors/um2)-1.s-1
+        parameters.kN1R1on_surf  = kN1R1on/SA_surface;
+        parameters.kN1R1on_rab4  = kN1R1on/SA_rab4;
+        parameters.kN1R1on_rab11 = kN1R1on/SA_rab11;
         parameters.kN1R1off = 0.01;
 
         %% TRAFFICKING PARAMETERS (all first order processes, all s-1)

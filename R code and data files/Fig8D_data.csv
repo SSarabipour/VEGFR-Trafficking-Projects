@@ -1,9 +1,9 @@
 ﻿Rtype,Rcomp,Rvalue,RSD
 R1 Expt A,R1 Expt A,110.5,10.4
 R1 Expt B,R1 Expt B,120.4,15.1
-R1 Sim A,R1 Sim A,157.42,
-R1 Sim B,R1 Sim B,160.55,
+R1 Sim A,R1 Sim A,149.68,
+R1 Sim B,R1 Sim B,159.89,
 R2 Expt C,R2 Expt C,223.7,15.9
 R2 Expt D,R2 Expt D,157.9,18.6
-R2 Sim C,R2 Sim C,168.71,
+R2 Sim C,R2 Sim C,160.17,
 R2 Sim D,R2 Sim D,172.39,

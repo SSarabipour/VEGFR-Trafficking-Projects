@@ -8,11 +8,6 @@ function CostOut = CostFxn_ReceptorProduction(p2,targets,parameters,model)
 %               the simulated and target VEGFR1, VEGFR2, NRP1 surface expressions)
 %
 
-global r1loop
-global ploop 
-
-r1loop = r1loop + 1;
-loops = [ploop r1loop]
 
 p2(targets==0) = 0; 
 

@@ -7,24 +7,28 @@ close all;
 
 %% KEY INITIALIZATIONS and OPTIONS
 
-model = "Unligated_VEGFR_model_20230321"; % which compiled model to use
-baseparams = "SSfit2022.csv"; % which baseline unliganded receptor parameters to use
+model = "Unligated_VEGFR_model_20230831"; % which compiled model to use
+baseparams = "SSfit2023.csv"; % which baseline unliganded receptor parameters to use
 % Alternate parameter sets to use as a baseline: 'LWCfit2015.csv'
 parameters = base_parameters(model,baseparams); % Initialize model parameters
-% parameters.kN1R1on = 0; % if preventing R1-N1 coupling (e.g. Fig S5)
+
+% parameters.kN1R1on_surf = 0; % if preventing R1-N1 coupling (e.g. Fig S5)
+% parameters.kN1R1on_rab4 = 0; % if preventing R1-N1 coupling (e.g. Fig S5)
+% parameters.kN1R1on_rab11 = 0; % if preventing R1-N1 coupling (e.g. Fig S5)
+% parameters.kN1prod = parameters.kN1prod/1000; % if preventing R1-N1 coupling (e.g. Fig S5)
+
 timestp_stst = 3600*3; % steady-state - only output every 3 hours
-% time step size for the ligand simulations is defined in the ligand simulation code (RunOneVEGFPlGFsim.m) 
 
 % Target values for surface receptor levels
-R1surf_target = 1.8;
-R2surf_target = 4.9;
-N1surf_target = 68;
+R1surf_target = 1800;
+R2surf_target = 4900;
+N1surf_target = 68000;
 recsurftargets = [R1surf_target; R2surf_target; N1surf_target];
 
 suppressligands = 1; % for unliganded simulations, set = 1 to suppress ligand outputs
 % for liganded simulations, set = 0 to get both
 
-RunSim = 2;
+RunSim = 1;
 optimizeR = 0;
 
 % Simulations: 
@@ -51,8 +55,8 @@ if optimizeR == 1
     p2(2)=currentR2prodguess;
     p2(3)=currentN1prodguess; 
     initguesses = p2;
-    lb=p2*.001;     % lower bound
-    ub=p2*1000;     % upper bound
+    lb=p2*.0000001;     % lower bound
+    ub=p2*10000000;     % upper bound
     options = optimoptions('lsqnonlin','Display','iter'); % display output
     optimalR = lsqnonlin(@CostFxn_ReceptorProduction,p2,lb,ub,options,recsurftargets,parameters,model);
 
@@ -114,7 +118,7 @@ switch RunSim
     case 1
 
         scanparams = logspace(-2,2,17);
-        for i = 1:length(p0names) % do all 15 parameters
+        for i = 1:length(p0names) % do all 18 parameters
             runparams = parameters;
             for j = 1:length(scanparams)
                 ploop = i*100+j;
@@ -135,8 +139,8 @@ switch RunSim
                     p2(2)=currentR2prodguess;
                     p2(3)=currentN1prodguess; 
                     initguesses = p2;
-                    lb=p2*.001;     % lower bound
-                    ub=p2*1000;     % upper bound
+                    lb=p2*1e-4;     % lower bound
+                    ub=p2*1e4;     % upper bound
                     options = optimoptions('lsqnonlin','Display','iter'); % display output
                     optimalR = lsqnonlin(@CostFxn_ReceptorProduction,p2,lb,ub,options,recsurftargets,runparams,model);
 
@@ -149,7 +153,7 @@ switch RunSim
                 speciesInit = species_out(end,:); % we just ran everything to steady state, so use the outputs as new inputs
                 ConcOut=CalcOutputs(observables_out,suppressligands);
                 baselines = CalcBaselines(ConcOut);
-%                [DATA: surfperc x 3; st st R surf level x 3];
+%                [DATA: surfperc x 3; st st R surf level x 3; st st R whole cell level x 3];
                 surfPercR1.(p0names{i})(j) = ConcOut.R1_percSurf(end);
                 surfPercR2.(p0names{i})(j) = ConcOut.R2_percSurf(end);
                 surfPercN1.(p0names{i})(j) = ConcOut.N1_percSurf(end);
@@ -160,8 +164,8 @@ switch RunSim
                 totalR2.(p0names{i})(j) = ConcOut.R2_total(end);
                 totalN1.(p0names{i})(j) = ConcOut.N1_total(end);
                 
-%                [RUN SIMULATION pt 2 - KQ cost - GET DATA]
-        % RUN KQ Unliganded EXPERIMENTS and output figures
+%                [RUN SIMULATION pt 2 - Exptl cost - GET DATA]
+        % RUN Compiled Unliganded EXPERIMENTAL SIMULATIONS and output figures
         % severity of knockdowns (can put these in function call to see the effect of varying effect size)
                 perturbs.R1reductionByCHX = 0.00; % 0 = complete shutdown of production
                 perturbs.R2reductionByCHX = 0.00; % 0.5 = half of production
@@ -172,38 +176,51 @@ switch RunSim
 
                 createFigs = 0;
                 [R1_exp,R1_sim,R2_exp,R2_sim,N1_exp,N1_sim] = UnligandedHUVECExperimentsAll(runparams,speciesInit,baselines,perturbs,recsurftargets,model,createFigs);
-% Traditional CostOut - absolute differences in levels
-%                 CostOut = [R1_sim - R1_exp; R2_sim - R2_exp; N1_sim - N1_exp]; %3*length(R1_theor) elements
 
-% Consider alternate cost methods - (a) normalization
+                % The error (CostOut) is the difference between the simulated and
+                % experimental values
+
+                % Cost Function type (a) - absolute difference
+%                 CostOut = [R1_sim - R1_exp; R2_sim - R2_exp; N1_sim - N1_exp]; % 3*length(R1_theor) elements
+
+                % Cost Function type (b) - normalization
                 CostOut = [(R1_sim - R1_exp)./R1_exp; (R2_sim - R2_exp)./R2_exp; (N1_sim - N1_exp)./N1_exp]; %3*length(R1_theor) elements
                 CostOut (isnan(CostOut)) = 0; 
 
-% Consider alternate cost methods - (b) fold change - max increase or decrease
-%                 CostOuta = [R1_sim./R1_exp; R2_sim./R2_exp; N1_sim./N1_exp]; %3*length(R1_theor) elements
+                % Cost Function type (c) fold change - max increase or decrease
+%                 CostOuta = [R1_sim./R1_exp; R2_sim./R2_exp; N1_sim./N1_exp]; % 3*length(R1_theor) elements
 %                 CostOuta(isnan(CostOuta)) = 0;
-%                 CostOutb = [R1_exp./R1_sim; R2_exp./R2_sim; N1_exp./N1_sim]; %3*length(R1_theor) elements
+%                 CostOutb = [R1_exp./R1_sim; R2_exp./R2_sim; N1_exp./N1_sim]; % 3*length(R1_theor) elements
 %                 CostOutb(isnan(CostOutb)) = 0;
 %                 CostOut = max(CostOuta,CostOutb);
 
-                k=9;
-                CostOut(k) = CostOut(k)*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1, 17 is the number of data points in Bouchert et al (2017) paper
-                CostOut(k+length(R1_sim)) = CostOut(k+length(R1_sim))*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1
-                CostOut(k+length(R1_sim)+length(R2_sim)) = CostOut(k+length(R1_sim)+length(R2_sim))*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1
-
-                % Emphasize the siRNA simulations
-                k=6:8;
-                CostOut(k) = CostOut(k)*3; 
-                CostOut(k+length(R1_sim)) = CostOut(k+length(R1_sim))*3; 
-                CostOut(k+length(R1_sim)+length(R2_sim)) = CostOut(k+length(R1_sim)+length(R2_sim))*3; 
+%                 % COST ADJUSTMENTS (if used)
+%                 k=9;
+%                 CostOut(k) = CostOut(k)*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1, 17 is the number of data points in Bouchert et al (2017) paper
+%                 CostOut(k+length(R1_sim)) = CostOut(k+length(R1_sim))*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1
+%                 CostOut(k+length(R1_sim)+length(R2_sim)) = CostOut(k+length(R1_sim)+length(R2_sim))*10; % give these equal weight to the other readouts; basically, try to enforce low surface R1
+% 
+%                 % Emphasize the siRNA simulations
+%                 k=6:8;
+%                 CostOut(k) = CostOut(k)*3; 
+%                 CostOut(k+length(R1_sim)) = CostOut(k+length(R1_sim))*3; 
+%                 CostOut(k+length(R1_sim)+length(R2_sim)) = CostOut(k+length(R1_sim)+length(R2_sim))*3; 
  
                 costTotal.(p0names{i})(j) = sqrt(sum(CostOut.*CostOut));
                 k = [9 9+length(R1_sim) 9+length(R1_sim)+length(R2_sim)];
                 costPercSurf.(p0names{i})(j) = sqrt(sum(CostOut(k).*CostOut(k)));
-                k = [1:5 1:5+length(R1_sim) 1:5+length(R1_sim)+length(R2_sim)];
+                k = [1:5 [1:5]+length(R1_sim) [1:5]+length(R1_sim)+length(R2_sim)];
                 costCHX.(p0names{i})(j) = sqrt(sum(CostOut(k).*CostOut(k)));
-                k = [6:8 6:8+length(R1_sim) 6:8+length(R1_sim)+length(R2_sim)];
+                k = [6:8 [6:8]+length(R1_sim) [6:8]+length(R1_sim)+length(R2_sim)];
                 costRab411.(p0names{i})(j) = sqrt(sum(CostOut(k).*CostOut(k)));
+
+                CHX2R1.(p0names{i})(j) = R1_sim(4)/totalR1.(p0names{i})(j);
+                CHX2R2.(p0names{i})(j) = R2_sim(4)/totalR2.(p0names{i})(j);
+                CHX2N1.(p0names{i})(j) = N1_sim(4)/totalN1.(p0names{i})(j);
+
+                sirnaR1.(p0names{i})(j) = R1_sim(8)/totalR1.(p0names{i})(j);
+                sirnaR2.(p0names{i})(j) = R2_sim(8)/totalR2.(p0names{i})(j);
+                sirnaN1.(p0names{i})(j) = N1_sim(8)/totalN1.(p0names{i})(j);
 
             disp(['global univariate sensitivity ' num2str((length(scanparams)*(i-1)+j)/(length(scanparams)*length(p0names))*100) ' % complete']);
 
@@ -265,15 +282,27 @@ switch RunSim
             d0(i,j) = costRab411.(p0names{i})(j);            
             e0(i,j) = surfPercR1.(p0names{i})(j);            
             f0(i,j) = surfPercR2.(p0names{i})(j);            
+            g0(i,j) = surfPercN1.(p0names{i})(j);            
+            h0(i,j) = surfR1.(p0names{i})(j);            
+            i0(i,j) = surfR2.(p0names{i})(j);            
+            j0(i,j) = surfN1.(p0names{i})(j);        
+            k0(i,j) = CHX2R1.(p0names{i})(j);        
+            l0(i,j) = CHX2R2.(p0names{i})(j);        
+            m0(i,j) = CHX2N1.(p0names{i})(j);        
+            n0(i,j) = sirnaR1.(p0names{i})(j);        
+            o0(i,j) = sirnaR2.(p0names{i})(j);        
+            q0(i,j) = sirnaN1.(p0names{i})(j);        
         end
         end
         a = a0/(min(min(a0))); b = b0/(min(min(b0)));
         c = c0/(min(min(c0))); d = d0/(min(min(d0))); 
-        e = e0*100; f = f0*100;
-
+        e = e0*100; f = f0*100; g = g0*100;
+        h = h0/1000; iz = i0/1000; jz = j0/1000;
+        k = k0*100; l = l0*100; m = m0*100;
+        n = n0*100; o = o0*100; q = q0*100;
         a2 = log10(a); b2 = log10(b);
         c2 = log10(c); d2 = log10(d); 
-        e2 = log10(e); f2 = log10(f);        
+        e2 = log10(e); f2 = log10(f); g2 = log10(g);               
 
         
         f2 = figure;
@@ -351,17 +380,40 @@ switch RunSim
         set(fs2, 'PaperSize', [4 6]);
         exportgraphics(fs2,strcat("GlobalSensitivityHM2.png"),'Resolution',300);
 
-        fs3 = figure;
+        fs3a = figure;
         ax1 = subplot(2,1,1);
-        h1 = htmp2(round(scanparams,2,'significant'),p0names,e,'PercSurfR1 (%)','parameter value/baseline value','Params',[min(min(e)) max(max(e))]);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,e,'Surface R1 (% of total)','parameter value/baseline value','Params',[0 100]);
             ax2 = subplot(2,1,2);
-            h2 = htmp2(round(scanparams,2,'significant'),p0names,f,'PercSurfR2 (%)','parameter value/baseline value','Params',[min(min(f)) max(max(f))]);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,h,'Surface R1 (,000/cell)','parameter value/baseline value','Params',[min(min(h)) max(max(h))]);
 
-        set(fs3, 'Position',[0 0 500 2000])
-        set(fs3, 'PaperUnits', 'inches');
-        set(fs3, 'PaperSize', [4 6]);
-        exportgraphics(fs3,strcat("GlobalSensitivityHM3.png"),'Resolution',300);
+        set(fs3a, 'Position',[0 0 500 2000])
+        set(fs3a, 'PaperUnits', 'inches');
+        set(fs3a, 'PaperSize', [4 6]);
+        exportgraphics(fs3a,strcat("GlobalSensitivityHM3a.png"),'Resolution',300);
 
+        fs3b = figure;
+        ax1 = subplot(2,1,1);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,f,'Surface R2 (% of total)','parameter value/baseline value','Params',[0 100]);
+            ax2 = subplot(2,1,2);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,iz,'Surface R2 (,000/cell)','parameter value/baseline value','Params',[min(min(iz)) max(max(iz))]);
+
+        set(fs3b, 'Position',[0 0 500 2000])
+        set(fs3b, 'PaperUnits', 'inches');
+        set(fs3b, 'PaperSize', [4 6]);
+        exportgraphics(fs3b,strcat("GlobalSensitivityHM3b.png"),'Resolution',300);
+        
+        fs3c = figure;
+        ax1 = subplot(2,1,1);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,g,'Surface N1 (% of total)','parameter value/baseline value','Params',[0 100]);
+            ax2 = subplot(2,1,2);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,jz,'Surface N1 (,000/cell)','parameter value/baseline value','Params',[min(min(jz)) max(max(jz))]);
+
+        set(fs3c, 'Position',[0 0 500 2000])
+        set(fs3c, 'PaperUnits', 'inches');
+        set(fs3c, 'PaperSize', [4 6]);
+        exportgraphics(fs3c,strcat("GlobalSensitivityHM3c.png"),'Resolution',300);
+
+        
         fs4 = figure;
         ax1 = subplot(2,1,1);
         h1 = htmp2(round(scanparams,2,'significant'),p0names,a,'Cost total (RSS)','parameter value/baseline value','Params',[min(min(a)) max(max(a))]);
@@ -388,6 +440,39 @@ switch RunSim
         set(fs5, 'PaperSize', [4 6]);
         exportgraphics(fs5,strcat("GlobalSensitivityHM5.png"),'Resolution',300);
 
+        
+        fs6a = figure;
+        ax1 = subplot(2,1,1);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,k,'Total R1, 2hr CHX (% vs ctrl)','parameter value/baseline value','Params',[0 100]);
+            ax2 = subplot(2,1,2);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,n,'Total R1, Rab4/11 siRNA (% vs ctrl)','parameter value/baseline value','Params',[min(min(n)) max(max(n))]);
+
+        set(fs6a, 'Position',[0 0 500 2000])
+        set(fs6a, 'PaperUnits', 'inches');
+        set(fs6a, 'PaperSize', [4 6]);
+        exportgraphics(fs6a,strcat("GlobalSensitivityHM6a.png"),'Resolution',300);
+
+        fs6b = figure;
+        ax1 = subplot(2,1,1);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,l,'Total R2, 2hr CHX (% vs ctrl)','parameter value/baseline value','Params',[0 100]);
+            ax2 = subplot(2,1,2);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,o,'Total R2, Rab4/11 siRNA (% vs ctrl)','parameter value/baseline value','Params',[min(min(o)) max(max(o))]);
+
+        set(fs6b, 'Position',[0 0 500 2000])
+        set(fs6b, 'PaperUnits', 'inches');
+        set(fs6b, 'PaperSize', [4 6]);
+        exportgraphics(fs6b,strcat("GlobalSensitivityHM6b.png"),'Resolution',300);
+
+        fs6c = figure;
+        ax1 = subplot(2,1,1);
+        h1 = htmp2(round(scanparams,2,'significant'),p0names,m,'Total N1, 2hr CHX (% vs ctrl)','parameter value/baseline value','Params',[0 100]);
+            ax2 = subplot(2,1,2);
+            h2 = htmp2(round(scanparams,2,'significant'),p0names,q,'Total N1, Rab4/11 siRNA (% vs ctrl)','parameter value/baseline value','Params',[min(min(q)) max(max(q))]);
+
+        set(fs6c, 'Position',[0 0 500 2000])
+        set(fs6c, 'PaperUnits', 'inches');
+        set(fs6c, 'PaperSize', [4 6]);
+        exportgraphics(fs6c,strcat("GlobalSensitivityHM6c.png"),'Resolution',300);
 
 % plot data
 % loop through the parameters (3x5 or 3x6) and give total cost with ylog

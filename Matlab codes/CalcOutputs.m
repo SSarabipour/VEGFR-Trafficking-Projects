@@ -45,6 +45,21 @@ if ConcOut.R1_total == 0
 else
     ConcOut.R1_dimericfraction = ConcOut.R1_dimers./ConcOut.R1_total;
 end
+if ConcOut.R1_surf == 0
+    ConcOut.R1_dimericfraction_surf = 0;
+else
+    ConcOut.R1_dimericfraction_surf = observables_out(:,21)'./ConcOut.R1_surf;
+end
+if ConcOut.R1_Rab4 == 0
+    ConcOut.R1_dimericfraction_Rab4 = 0;
+else
+    ConcOut.R1_dimericfraction_Rab4 = observables_out(:,26)'./ConcOut.R1_Rab4;
+end
+if ConcOut.R1_Rab11 == 0
+    ConcOut.R1_dimericfraction_Rab11 = 0;
+else
+    ConcOut.R1_dimericfraction_Rab11 = observables_out(:,31)'./ConcOut.R1_Rab11;
+end
 
 ConcOut.R2_dimers = observables_out(:,22)' + observables_out(:,27)' + observables_out(:,32)';
 ConcOut.R2_monomers = ConcOut.R2_total - ConcOut.R2_dimers;
@@ -53,6 +68,21 @@ if ConcOut.R2_total == 0
 else
     ConcOut.R2_dimericfraction = ConcOut.R2_dimers./ConcOut.R2_total;
 end
+if ConcOut.R2_surf == 0
+    ConcOut.R2_dimericfraction_surf = 0;
+else
+    ConcOut.R2_dimericfraction_surf = observables_out(:,22)'./ConcOut.R2_surf;
+end
+if ConcOut.R2_Rab4 == 0
+    ConcOut.R2_dimericfraction_Rab4 = 0;
+else
+    ConcOut.R2_dimericfraction_Rab4 = observables_out(:,27)'./ConcOut.R2_Rab4;
+end
+if ConcOut.R2_Rab11 == 0
+    ConcOut.R2_dimericfraction_Rab11 = 0;
+else
+    ConcOut.R2_dimericfraction_Rab11 = observables_out(:,32)'./ConcOut.R2_Rab11;
+end
 
 ConcOut.N1_dimers = observables_out(:,25)' + observables_out(:,30)' + observables_out(:,35)';
 ConcOut.N1_monomers = ConcOut.N1_total - ConcOut.N1_dimers;
@@ -60,6 +90,21 @@ if ConcOut.N1_total == 0
     ConcOut.N1_dimericfraction = 0;
 else
     ConcOut.N1_dimericfraction = ConcOut.N1_dimers./ConcOut.N1_total;
+end
+if ConcOut.N1_surf == 0
+    ConcOut.N1_dimericfraction_surf = 0;
+else
+    ConcOut.N1_dimericfraction_surf = observables_out(:,25)'./ConcOut.N1_surf;
+end
+if ConcOut.N1_Rab4 == 0
+    ConcOut.N1_dimericfraction_Rab4 = 0;
+else
+    ConcOut.N1_dimericfraction_Rab4 = observables_out(:,30)'./ConcOut.N1_Rab4;
+end
+if ConcOut.N1_Rab11 == 0
+    ConcOut.N1_dimericfraction_Rab11 = 0;
+else
+    ConcOut.N1_dimericfraction_Rab11 = observables_out(:,35)'./ConcOut.N1_Rab11;
 end
 
 
@@ -78,7 +123,7 @@ A = R1N1 - R1R1N1;  B = (R1R1N1 - N1R1R1N1)/2;  C = N1R1R1N1/4;
 ConcOut.R1_in_R1N1_Rab4 = A + 2*B + 2*C;
 ConcOut.N1_in_R1N1_Rab4 = A +   B + 2*C;
 % In Rab11
-R1N1 = observables_out(:,33)'; R1R1N1 = observables_out(:,34)'; N1R1R1N1 = observables_out(:,34)';
+R1N1 = observables_out(:,33)'; R1R1N1 = observables_out(:,34)'; N1R1R1N1 = observables_out(:,35)';
 A = R1N1 - R1R1N1;  B = (R1R1N1 - N1R1R1N1)/2;  C = N1R1R1N1/4;
 ConcOut.R1_in_R1N1_Rab11 = A + 2*B + 2*C;
 ConcOut.N1_in_R1N1_Rab11 = A +   B + 2*C;
@@ -94,13 +139,42 @@ if ConcOut.R1_total == 0
 else
     ConcOut.R1_fractioninR1N1 = ConcOut.R1_in_R1N1_total./ConcOut.R1_total;
 end
+if ConcOut.R1_surf == 0
+    ConcOut.R1_fractioninR1N1_surf = 0;
+else
+    ConcOut.R1_fractioninR1N1_surf = ConcOut.R1_in_R1N1_surf./ConcOut.R1_surf;
+end
+if ConcOut.R1_Rab4 == 0
+    ConcOut.R1_fractioninR1N1_Rab4 = 0;
+else
+    ConcOut.R1_fractioninR1N1_Rab4 = ConcOut.R1_in_R1N1_Rab4./ConcOut.R1_Rab4;
+end
+if ConcOut.R1_Rab11 == 0
+    ConcOut.R1_fractioninR1N1_Rab11 = 0;
+else
+    ConcOut.R1_fractioninR1N1_Rab11 = ConcOut.R1_in_R1N1_Rab11./ConcOut.R1_Rab11;
+end
 
 if ConcOut.N1_total == 0
     ConcOut.N1_fractioninR1N1 = 0;
 else
     ConcOut.N1_fractioninR1N1 = ConcOut.N1_in_R1N1_total./ConcOut.N1_total;
 end
-
+if ConcOut.N1_surf == 0
+    ConcOut.N1_fractioninR1N1_surf = 0;
+else
+    ConcOut.N1_fractioninR1N1_surf = ConcOut.N1_in_R1N1_surf./ConcOut.N1_surf;
+end
+if ConcOut.N1_Rab4 == 0
+    ConcOut.N1_fractioninR1N1_Rab4 = 0;
+else
+    ConcOut.N1_fractioninR1N1_Rab4 = ConcOut.N1_in_R1N1_Rab4./ConcOut.N1_Rab4;
+end
+if ConcOut.N1_Rab11 == 0
+    ConcOut.N1_fractioninR1N1_Rab11 = 0;
+else
+    ConcOut.N1_fractioninR1N1_Rab11 = ConcOut.N1_in_R1N1_Rab11./ConcOut.N1_Rab11;
+end
 
 %% Surface percentage for Receptors
 

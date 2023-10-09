@@ -1,0 +1,283 @@
+# BioNetGen language code file for a single cell type in one compartment (e.g. endothelial cell culture) 
+#   with VEGFR1, VEGFR2, NRP1 Production, Dimerization, and Trafficking
+# by Dr.Sarvenaz Sarabipour, Mac Gabhann Lab, Institute for Computational Medicine, Johns Hopkins University
+#
+# Parameters typical of human proteins expressed on HUVECs (human umbilical vein endothelial cells)
+#  - use different parameters for other scenarios
+#
+# All receptor levels are in units of molecules per cell (typically, 1000 um^2 cell surface per cell)
+#   assumption of equivalent surface area for intracellular compartments (Rab4/5; Rab11) for the
+#   receptor coupling parameter values below can be relaxed by adjusting the values
+
+begin parameters
+
+# Initial levels of transmembrane receptor species on the cell surface (from P.I. Imoukhuede and A.S. Popel, Exp Cell Res 2011)
+VEGFR1_0     1800       # 1800 surface receptors, in units of receptors per cell
+VEGFR2_0     4900       # 4900 surface receptors, in units of receptors per cell
+NRP1_0       68000      # 68000 surface receptors, in units of receptors per cell
+ 
+# Kinetics of unliganded receptor-receptor dimerization
+kR1R1on_surf     8E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1on_rab4     8.42E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1on_rab11    24.6E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1off         0.01  # first order;  units: s^-1
+
+kR2R2on_surf     2E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2on_rab4     2.11E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2on_rab11    6.15E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2off         0.01  # first order;  units: s^-1
+
+kN1R1on_surf     8E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1on_rab4     8.42E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1on_rab11    24.6E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1off         0.01    # first order;  units: s^-1
+
+# Trafficking rate constants (units: s^-1) (all assumed to be first order processes)
+# Same rate constants used for monomers and dimers
+#-------------------------
+# Receptor internalization
+kR1Rab5a 	0.0135
+kR2Rab5a 	0.000230
+kN1Rab5a 	0.000268
+kR1N1Rab5a  0.0135
+#-------------------------
+# Receptor recycling via Rab4a
+kR1Rab4a 	0.000537
+kR2Rab4a 	0.00000119
+kN1Rab4a 	0.0213
+kR1N1Rab4a  0.000537
+#-------------------------
+# Receptor transfer from Rab4a to Rab11a pathway
+kR1Rab4at11a  	0.000591
+kR2Rab4at11a  	0.00000149
+kN1Rab4at11a  	0.0702
+kR1N1Rab4at11a 0.000591
+#-------------------------
+#Receptor recycling via Rab11a
+kR1Rab11a 	0.1
+kR2Rab11a 	0.0893
+kN1Rab11a 	0.000786
+kR1N1Rab11a 0.1
+#-------------------------
+# Receptor intracellular degradation
+kR1Rab4at7a 	0.000229 
+kR2Rab4at7a 	0.000234 
+kN1Rab4at7a 	0.00000123
+kR1N1Rab4at7a 	0.000229  
+
+# Receptor production rates (units: (#/cell)/s)
+kR1prod       4.1007                       
+kR2prod       1.1142        
+kN1prod       0.4587                   
+
+end parameters  
+
+# Define molecule types, their binding domains, and in which cellular compartments they can reside
+begin molecule types 
+    vegfr1(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a) #binds to NRP1,VEGFR1,VEGFR2
+    vegfr2(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a) #binds to VEGFR1,VEGFR2
+    nrp1(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a)   #binds to VEGFR1
+end molecule types
+    
+# Define intial levels for pre-simulation (monomeric receptors only)
+begin seed species
+   vegfr1(lbd,rbd,nbd,c~s)		VEGFR1_0
+   vegfr2(lbd,rbd,nbd,c~s)    VEGFR2_0
+   nrp1(lbd,rbd,nbd,c~s)		NRP1_0
+end seed species
+
+#All receptor species in each compartment: monomers and higher order complexes
+begin observables
+   Molecules  	R1tot 		vegfr1()
+   Molecules  	R2tot 		vegfr2()
+   Molecules  	N1tot       nrp1()
+   	
+   Molecules  	R1tots 	 	vegfr1(c~s)
+   Molecules  	R2tots 		vegfr2(c~s)
+   Molecules   N1tots      nrp1(c~s)
+    
+   Molecules  	R1totRab4a5a 	vegfr1(c~Rab4a5a)
+   Molecules  	R2totRab4a5a 	vegfr2(c~Rab4a5a)
+   Molecules   N1totRab4a5a   nrp1(c~Rab4a5a)
+   	
+   Molecules  	R1totRab11a 	vegfr1(c~Rab11a)
+   Molecules  	R2totRab11a 	vegfr2(c~Rab11a)  
+   Molecules   N1totRab11a    nrp1(c~Rab11a)
+   	
+   Molecules  	R1totRab7a  	vegfr1(c~Rab7a)
+   Molecules  	R2totRab7a  	vegfr2(c~Rab7a)
+   Molecules   N1totRab7a     nrp1(c~Rab7a)
+
+#Total dimeric and higher order receptor complexes 
+   Molecules  	R1R1tot 		vegfr1().vegfr1()
+   Molecules  	R2R2tot 		vegfr2().vegfr2()
+   Molecules  	R1N1tot 		vegfr1().nrp1()
+   Molecules  	R1R1N1tot 	vegfr1().vegfr1().nrp1()
+   Molecules  	N1R1R1N1tot nrp1().vegfr1().vegfr1().nrp1()
+   	
+   Molecules  	R1R1tots 		vegfr1(c~s).vegfr1(c~s)
+   Molecules  	R2R2tots 		vegfr2(c~s).vegfr2(c~s)
+   Molecules  	R1N1tots 		vegfr1(c~s).nrp1(c~s)
+   Molecules  	R1R1N1tots 	   vegfr1(c~s).vegfr1(c~s).nrp1(c~s)
+   Molecules  	N1R1R1N1tots 	nrp1(c~s).vegfr1(c~s).vegfr1(c~s).nrp1(c~s)
+   	
+   Molecules  	R1R1totRab4a5a 		vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a)
+   Molecules  	R2R2totRab4a5a 		vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a)
+   Molecules  	R1N1totRab4a5a 		vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)
+   Molecules  	R1R1N1totRab4a5a 	   vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)
+   Molecules  	N1R1R1N1totRab4a5a 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)	
+   	
+   Molecules  	R1R1totRab11a 		vegfr1(c~Rab11a).vegfr1(c~Rab11a)
+   Molecules  	R2R2totRab11a 		vegfr2(c~Rab11a).vegfr2(c~Rab11a)
+   Molecules  	R1N1totRab11a 		vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   Molecules  	R1R1N1totRab11a 	vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   Molecules  	N1R1R1N1totRab11a nrp1(c~Rab11a).vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   	
+   Molecules  	R1R1totRab7a 		vegfr1(c~Rab7a).vegfr1(c~Rab7a)
+   Molecules  	R2R2totRab7a 		vegfr2(c~Rab7a).vegfr2(c~Rab7a)
+   Molecules  	R1N1totRab7a 		vegfr1(c~Rab7a).nrp1(c~Rab7a)
+   Molecules  	R1R1N1totRab7a 	vegfr1(c~Rab7a).vegfr1(c~Rab7a).nrp1(c~Rab7a)
+   Molecules  	N1R1R1N1totRab7a 	nrp1(c~Rab7a).vegfr1(c~Rab7a).vegfr1(c~Rab7a).nrp1(c~Rab7a)	
+
+end observables
+
+begin reaction rules
+##################################################################
+# Ligand-independent coupling of the receptors on the surface
+##################################################################
+vegfr1(lbd,rbd,c~s) + vegfr1(lbd,rbd,c~s) <-> \
+vegfr1(lbd,rbd!1,c~s).vegfr1(lbd,rbd!1,c~s) kR1R1on_surf,kR1R1off    
+
+vegfr2(lbd,rbd,c~s) + vegfr2(lbd,rbd,c~s) <->  \
+vegfr2(lbd,rbd!1,c~s).vegfr2(lbd,rbd!1,c~s) kR2R2on_surf,kR2R2off  
+
+vegfr1(lbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> vegfr1(lbd,nbd!1,c~s).nrp1(lbd,rbd!1,nbd,c~s) kN1R1on_surf,kN1R1off  
+
+##################################################################
+# Ligand-independent coupling of the receptors in Rab45
+##################################################################
+vegfr1(lbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd,c~Rab4a5a) <-> \
+vegfr1(lbd,rbd!1,c~Rab4a5a).vegfr1(lbd,rbd!1,c~Rab4a5a) kR1R1on_rab4,kR1R1off    
+
+vegfr2(lbd,rbd,c~Rab4a5a) + vegfr2(lbd,rbd,c~Rab4a5a) <->  \
+vegfr2(lbd,rbd!1,c~Rab4a5a).vegfr2(lbd,rbd!1,c~Rab4a5a) kR2R2on_rab4,kR2R2off  
+
+vegfr1(lbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> vegfr1(lbd,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,nbd,c~Rab4a5a) kN1R1on_rab4,kN1R1off  
+
+##################################################################
+# Ligand-independent coupling of the receptors in Rab11
+##################################################################
+vegfr1(lbd,rbd,c~Rab11a) + vegfr1(lbd,rbd,c~Rab11a) <-> \
+vegfr1(lbd,rbd!1,c~Rab11a).vegfr1(lbd,rbd!1,c~Rab11a) kR1R1on_rab11,kR1R1off    
+
+vegfr2(lbd,rbd,c~Rab11a) + vegfr2(lbd,rbd,c~Rab11a) <->  \
+vegfr2(lbd,rbd!1,c~Rab11a).vegfr2(lbd,rbd!1,c~Rab11a) kR2R2on_rab11,kR2R2off  
+
+vegfr1(lbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> vegfr1(lbd,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,nbd,c~Rab11a) kN1R1on_rab11,kN1R1off  
+
+
+#################################
+# Internalization: surface to Rab5a
+#################################
+vegfr1(lbd,rbd,nbd,c~s) -> vegfr1(lbd,rbd,nbd,c~Rab4a5a) kR1Rab5a
+vegfr2(lbd,rbd,nbd,c~s) -> vegfr2(lbd,rbd,nbd,c~Rab4a5a) kR2Rab5a
+nrp1(lbd,rbd,nbd,c~s) -> nrp1(lbd,rbd,nbd,c~Rab4a5a) kN1Rab5a
+
+vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) -> vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) kR1Rab5a
+vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) -> vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) kR2Rab5a
+
+vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) -> vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) kR1N1Rab5a
+
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) kR1N1Rab5a
+
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) ->\
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) kR1N1Rab5a
+
+###############################################################
+# Recycling to the surface via Rab4a vesicles 
+###############################################################
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~s) kR1Rab4a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~s) kR2Rab4a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~s) kN1Rab4a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) kR1Rab4a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2Rab4a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) kR1N1Rab4a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab4a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab4a
+
+#####################################################
+###Transfer from Rab4a to Rab11a Recycling Endosomes
+#####################################################
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~Rab11a) kR1Rab4at11a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~Rab11a) kR2Rab4at11a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~Rab11a) kN1Rab4at11a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) kR1Rab4at11a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) kR2Rab4at11a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~Rab11a).nrp1(rbd!1,lbd,c~Rab11a) kR1N1Rab4at11a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) kR1N1Rab4at11a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) kR1N1Rab4at11a
+
+##########################################################
+#Recycling to the surface via Rab11a vesicles
+##########################################################
+vegfr1(lbd,rbd,nbd,c~Rab11a) -> vegfr1(lbd,rbd,nbd,c~s) kR1Rab11a
+vegfr2(lbd,rbd,nbd,c~Rab11a) -> vegfr2(lbd,rbd,nbd,c~s) kR2Rab11a
+nrp1(lbd,rbd,nbd,c~Rab11a) -> nrp1(lbd,rbd,nbd,c~s) kN1Rab11a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) -> vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) kR1Rab11a
+vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) -> vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2Rab11a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab11a).nrp1(rbd!1,lbd,c~Rab11a) -> vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) kR1N1Rab11a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) ->\
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab11a
+
+nrp1(lbd,rbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) ->\
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab11a
+
+##################################
+#Degradation (intracellular)
+##################################
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~Rab7a)     kR1Rab4at7a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~Rab7a)     kR2Rab4at7a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~Rab7a)         kN1Rab4at7a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~Rab7a).vegfr1(lbd,rbd!1,nbd,c~Rab7a) kR1Rab4at7a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~Rab7a).vegfr2(lbd,rbd!1,nbd,c~Rab7a) kR2Rab4at7a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd,rbd!2,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~Rab7a).vegfr1(lbd,rbd!2,nbd!3,c~Rab7a).vegfr1(lbd,rbd!2,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+##############################################
+#Production of Receptors in the cell
+##############################################
+0-> vegfr1(lbd,rbd,nbd,c~s)     kR1prod
+0-> vegfr2(lbd,rbd,nbd,c~s)     kR2prod
+0-> nrp1(lbd,rbd,nbd,c~s)       kN1prod
+
+end reaction rules 
+
+#########
+#Actions
+#########
+generate_network({overwrite=>1,max_iter=>60,max_agg=>5,max_stoich=>{vegfr1=>2,vegfr2=>2,nrp1=>2}})
+writeMEXfile({atol=>1e-8,rtol=>1e-8,t_start=>0,t_end=>1800,n_steps=>10000,max_num_steps=>50000,sparse=>1,stiff=>1});
+writeMfile({atol=>1e-8,rtol=>1e-8,t_start=>0,t_end=>1800,n_steps=>10000,max_num_steps=>50000,sparse=>1,stiff=>1});

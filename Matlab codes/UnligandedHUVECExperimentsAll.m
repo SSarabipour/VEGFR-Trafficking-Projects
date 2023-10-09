@@ -180,19 +180,20 @@ exptimepoints2 = [24*60]; exptimepoints3 = exptimepoints2; exptimepoints4 = expt
 
 i = 9;
 
-R1_exp(i) = recsurftargets(1); %0.1*baselines.R1_total; % surface is about 10% of total R1
-R2_exp(i) = recsurftargets(2); %0.51*baselines.R2_total; % surface is about 51% of total R2
-N1_exp(i) = recsurftargets(3); %0.74*baselines.N1_total;  % surface is about 74% of total N1
-R1_sim(i) = baselines.R1_surf; % return the surface R1 only
-R2_sim(i) = baselines.R2_surf; % return the surface R2 only
-N1_sim(i) = baselines.N1_surf; % return the surface N1 only
+R1_exp(i) = 0.1;  % surface is about 10% of total R1
+R2_exp(i) = 0.51; % surface is about 51% of total R2
+N1_exp(i) = 0.74; % surface is about 74% of total N1
+R1_sim(i) = baselines.R1_percSurf; % return the surface R1 only
+R2_sim(i) = baselines.R2_percSurf; % return the surface R2 only
+N1_sim(i) = baselines.N1_percSurf; % return the surface N1 only
+
 
 %% Visualize results part 3
 % Create figures IFF figures are requested
 if createFigs == 1
     figure(Surface_figure);
     subplot(1,2,1);
-    graphing = [R1_exp(i) R1_sim(i) R2_exp(i) R2_sim(i) N1_exp(i) N1_sim(i)];
+    graphing = [recsurftargets(1) baselines.R1_surf recsurftargets(2) baselines.R2_surf recsurftargets(3) baselines.N1_surf];
     barcolors = [0 0 0; .5 .5 .5; 0 0 0; .5 .5 .5; 0 0 0; .5 .5 .5];
     b1 = bar(graphing);
     b1.FaceColor = 'flat';

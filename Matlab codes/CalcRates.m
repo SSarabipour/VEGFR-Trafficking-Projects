@@ -81,10 +81,4 @@ N1rates.Surf_net = N1rates.Surf_in_Synth + N1rates.Surf_in_Rab4  + N1rates.Surf_
 N1rates.Rab4_net = N1rates.Rab4_in_Surf  - N1rates.Rab4_out_Rab7 - N1rates.Rab4_out_Surf - N1rates.Rab4_out_Rab11;
 N1rates.Rab11_net= N1rates.Rab11_in_Rab4 - N1rates.Rab11_out_Surf;
 
-for i = 1:length(ratenames)
-    R1rates.(ratenames{i}) = R1rates.(ratenames{i})*1000 ;
-    R2rates.(ratenames{i}) = R2rates.(ratenames{i})*1000 ;
-    N1rates.(ratenames{i}) = N1rates.(ratenames{i})*1000 ;
-end
-
 end
