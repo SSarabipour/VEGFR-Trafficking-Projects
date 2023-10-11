@@ -31,8 +31,6 @@ function [err, timepoints, species_out, observables_out] = Unligated_VEGFR_model
 %                        (columns correspond to species, rows correspond to time).
 %   observables_out : array of observable trajectories
 %                        (columns correspond to observables, rows correspond to time).
-%
-%   QUESTIONS about the BNG Mfile generator?  Email justinshogg@gmail.com
 
 % convert between params (structure) and parameters (indexed) in the correct order
 a = fileread("Paramlist.txt");
