@@ -1,0 +1,2915 @@
+# BioNetGen language code file for a single cell type in one compartment (e.g. endothelial cell culture) 
+#   with VEGFR1, VEGFR2, NRP1 Production, Dimerization, and Trafficking
+#   plus ligand binding to the receptors and subsequent multireceptor coupling
+#   for the ligands VEGFA121a, VEGFA165a, PlGF1, PlGF2
+# by Dr.Sarvenaz Sarabipour, Mac Gabhann Lab, Institute for Computational Medicine, Johns Hopkins University
+#
+# Parameters typical of human proteins expressed on HUVECs (human umbilical vein endothelial cells)
+#  - use different parameters for other scenarios
+#
+# All receptor levels are in units of molecules per cell (typically, 1000 um^2 cell surface per cell)
+#   assumption of equivalent surface area for intracellular compartments (Rab4/5; Rab11) for the
+#   receptor coupling parameter values below can be relaxed by adjusting the values
+
+begin parameters
+
+# INITIAL CONCENTRATIONS/DENSITIES
+
+# Initial levels of extracellular ligands, if they bind to NRPs and the Matrix species, they can bind to one or the other not both at the same time
+VEGF165a_0    0  # 6843182 molecules/cell or 50ng/mL of ligand, Bind to NRPs or Matrix species, one or the other not both at the same time
+VEGF121a_0    0  #10753571 molecules/cell or 50ng/mL of ligand, Does not bind to NRPs or Matrix species
+PLGF1_0       0  #10138047 molecules/cell or 50ng/mL, Does not bind to NRPs or Matrix species
+PLGF2_0       0  # 8702312 molecules/cell or 50ng/mL of ligand, Bind to NRPs or Matrix species, one or the other not both at the same time
+
+# Initial levels of transmembrane receptors (on the cell surface) (values from P.I. Imoukhuede and A.S. Popel, Exp Cell Res 2011)
+VEGFR1_0     1800       # 1800 surface receptors, in units of receptors per cell
+VEGFR2_0     4900       # 4900 surface receptors, in units of receptors per cell
+NRP1_0       68000      # 68000 surface receptors, in units of receptors per cell
+
+# Initial levels of ligand-binding Matrix molecules (includes fibronection, glycoproteins such as HSPGs, Laminin)
+M_0          0.0 # 3.011E4   #1500 ng/mL    #Matrix which includes Laminin, Fibrronectin, HSPG and Collagen
+
+# RATE CONSTANTS
+
+# Kinetics of unliganded receptor-receptor dimerization
+
+kR1R1on_surf     8.0E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1on_rab4     8.42E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1on_rab11    24.6E-7 # second order; units: (receptors per cell)^-1 s^-1
+kR1R1off         0.01  # first order;  units: s^-1
+
+kR2R2on_surf     2E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2on_rab4     2.11E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2on_rab11    6.15E-6 # second order; units: (receptors per cell)^-1 s^-1
+kR2R2off         0.01  # first order;  units: s^-1
+
+kN1R1on_surf     8.0E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1on_rab4     8.42E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1on_rab11    24.6E-7 # second order; units: (receptors per cell)^-1 s^-1
+kN1R1off         0.01    # first order;  units: s^-1
+
+# VR1-N1 and PR1-N1 coupling is similar to R1-N1 coupling
+kplgfR1_N1on_surf    8.0E-7
+kplgfR1_N1on_rab4    8.42E-7 
+kplgfR1_N1on_rab11   24.6E-7 
+kplgfR1_N1off   0.01   
+
+kvegfAR1_N1on_surf   8.0E-7 
+kvegfAR1_N1on_rab4   8.42E-7 
+kvegfAR1_N1on_rab11  24.6E-7 
+kvegfAR1_N1off  0.01
+
+
+# Kinetics of ligands binding to receptors (initial binding of diffusible ligands)
+# All kon rates are in (#/cell)^-1.s^-1  (these rate constants are adjusted by location to account for local volume & area differences)
+# All koff rate constants are in s^-1    (these rate constants are not adjusted by location)
+
+# k_on and k_off (1:1 binding rate measured experimentally and interpreted using scatchard plots) in Mac Gabhann F & Popel AS. Biophys Chem. (2007) 128 (2-3):125–139. doi:10.1016/j.bpc.2007.03.010
+kvegfA_R1on_surf   1.245E-9  
+kvegfA_R1on_rab4   1.107E-3  
+kvegfA_R1on_rab11  3.321E-3  
+kvegfA_R1off  	   0.0224    
+
+kN1R1_vegfAon_surf  1.245E-9   #(N1-R1)-L, set same as L-R1
+kN1R1_vegfAon_rab4  1.107E-3   
+kN1R1_vegfAon_rab11 3.321E-3   
+kN1R1_vegfAoff	    0.0224
+
+kplgf_R1on_surf    6.227E-11 
+kplgf_R1on_rab4    5.535E-5 
+kplgf_R1on_rab11   1.661E-4 
+kplgf_R1off   	   0.0132  
+
+kN1R1_plgfon_surf  6.227E-11  #(N1-R1)-L, set same as L-R1
+kN1R1_plgfon_rab4  5.535E-5  
+kN1R1_plgfon_rab11 1.661E-4  
+kN1R1_plgfoff  	   0.0132
+
+kvegfA_R2on_surf  4.151E-10  
+kvegfA_R2on_rab4  3.690E-4  
+kvegfA_R2on_rab11 1.107E-3  
+kvegfA_R2off  	  0.0224    
+
+# Ligand binding to monomeric NRP1, in our model, NRP1 monomers does not form dimers with other NRP1 monomers
+kvegfA_N1on_surf   2.076E-11  # VEGF-A165a binding to NRP1
+kvegfA_N1on_rab4   1.845E-5  
+kvegfA_N1on_rab11  5.535E-5  
+kvegfA_N1off  	   0.0173     # sqrt(0.0006/2)   
+
+kplgf_N1on_surf   4.151E-13   # PLGF2 binding to NRP1
+kplgf_N1on_rab4   3.690E-7   
+kplgf_N1on_rab11  1.107E-6
+kplgf_N1off  	  0.0224     # sqrt(0.0006/2) 
+
+
+# kinetics of ligand-bound receptor coupling to a second receptor
+
+# R1V-R1
+kR1vegfA_R1on_surf  5.307E-4   # the off rate is kvegfA_R1off 
+kR1vegfA_R1on_rab4  5.586E-4   
+kR1vegfA_R1on_rab11 1.633E-3   
+
+# R1P-R1
+kR1plgf_R1on_surf   5.409E-4   # the off rate is kplgf_R1off 
+kR1plgf_R1on_rab4   5.693E-4   
+kR1plgf_R1on_rab11  1.664E-3   
+
+# R2V-R2
+kR2vegfA_R2on_surf  1.911E-4    # the off rate is kvegfA_R2off 
+kR2vegfA_R2on_rab4  2.011E-4    
+kR2vegfA_R2on_rab11 5.879E-4    
+
+# N1V-R2
+kN1vegfA_R2on_surf   2.500E-6 	
+kN1vegfA_R2on_rab4   2.632E-6  
+kN1vegfA_R2on_rab11  7.692E-6 
+
+kN1vegfA_R2off  0.0224   # matches kvegfA_R2off
+
+# R2V-N1
+kR2vegfA_N1on_surf   2.500E-6  
+kR2vegfA_N1on_rab4   2.632E-6  
+kR2vegfA_N1on_rab11  7.692E-6  
+
+kR2vegfA_N1off  0.0173  # matches kvegfA_N1off
+
+# N1V-N1
+kN1vegfA_N1on_surf   1.420E-5
+kN1vegfA_N1on_rab4   1.494E-5
+kN1vegfA_N1on_rab11  4.368E-5
+
+kN1vegfA_N1off  0.0173
+
+# N1P-N1
+kN1plgf2_N1on_surf   1.405E-5
+kN1plgf2_N1on_rab4   1.479E-5
+kN1plgf2_N1on_rab11  4.323E-5
+
+kN1plgf2_N1off  0.0173
+
+
+# INTRAMOLECULAR COUPLING rate constants
+#   - the kinetics of coupling with a second receptor, already attached via another molecule
+#	- these rate constants are first order intramolecular transitions and thus unaffected by volume or area
+# kdeltaRR
+kdeltaR1R1_V 1.44E-3   # 1/s; note: the off rate is kR1R1off 
+kdeltaR1R1_P 1.44E-3   # 1/s; note: the off rate is kR1R1off 
+kdeltaR2R2 1.00E-2   # 1/s; note: the off rate is kR2R2off 
+# kdeltaVR and kdeltaPR
+kdeltaVEGFA_R  9.55279E-1 # 1/s; note: the off rate is kvegfA_R1off 
+kdeltaPLGF_R   9.73542E-1 # 1/s; note: the off rate is kplgf_R1off 
+
+
+# MATRIX-LIGAND INTERACTIONS
+# Ligands binding to matrix
+kvegfAMon	2.658E-08 
+kvegfAMoff	0.01
+kplgfMon   3.65E-08 
+kplgfMoff  0.001
+
+# Matrix-bound ligands binding to receptors
+kMplgf_R1on 3.987E-07 
+kMplgf_R1off 3.5E-4
+kMvegfA_R1on  4.98E-6 
+kMvegfA_R1off 0.001
+kMvegfA_R2on 1.66E-6
+kMvegfA_R2off 0.001
+
+# Receptor-bound ligands binding to matrix
+kR1vegfA_Mon  2.658E-08
+kR1vegfA_Moff 0.01
+kR1plgf_Mon  3.65E-08 
+kR1plgf_Moff 0.001
+kR2vegfA_Mon  2.658E-08
+kR2vegfA_Moff 0.01
+
+
+# TRAFFICKING rate constants (all assumed first order, units of 1/s)
+
+# INTERNALIZATION (from cell surface to early endosome, Rab4a/5a)
+
+# Internalization of unligated receptors
+kR1Rab5a 1.347E-2
+kR2Rab5a 2.304E-4
+kN1Rab5a 2.685E-4
+kR1N1Rab5a 1.347E-2 #assumed same as kR1Rab5a
+kR2N1Rab5a 2.304E-4 #assumed same as kR2Rab5a
+
+# Internalization of ligated receptors
+kVegfR1Rab5a 1.347e-2   # assumed same as kR1Rab5a
+kVegfR1N1Rab5a 1.347e-2 # assumed same as kVegfR1Rab5a
+
+kPlgfR1Rab5a 1.347e-2   # assumed same as kR1Rab5a
+kPlgfR1N1Rab5a 1.347e-2 # assumed same as kPlgfR1Rab5a
+
+kVegfR2Rab5a   6.912e-4 # assumed to be 3 x kR2Rab5a
+kVegfR2N1Rab5a 6.912e-4 # assumed to be 3 x kR2Rab5a
+
+kVegfN1Rab5a 2.685e-4 # assumed same as kN1Rab5a
+kPlgfN1Rab5a 2.685e-4 # assumed same as kN1Rab5a
+
+# Internalization of ligands (pinocytosis)
+kVegfRab5a 0.0E-6 # internalization rate of free VEGF-A121a and VEGF-A165a
+kPlgfRab5a 0.0E-6 # internalization rate of free PLGF1 and PLGF2
+
+
+# RECYCLING (from Rab4/5 endosomes to surface)
+
+# Recycling of unligated receptors
+kR1Rab4a 5.367E-4
+kR2Rab4a 1.195E-6
+kN1Rab4a 2.127E-2
+kR1N1Rab4a 5.367E-4 # assumed same as kR1Rab4a
+kR2N1Rab4a 1.195E-6 # assumed same as kR2Rab4a
+
+# Recycling of ligated receptors 
+kVegfR1Rab4a 5.367E-4   # assumed same as kR1Rab4a
+kVegfR1N1Rab4a 5.367E-4 # assumed same as kVegfR1Rab4a
+
+kPlgfR1Rab4a 5.367E-4   # assumed same as kR1Rab4a
+kPlgfR1N1Rab4a 5.367E-4 # assumed same as kPlgfR1Rab4a
+
+kVegfR2Rab4a 1.195E-6   # assumed same as kR2Rab4a
+kVegfR2N1Rab4a 1.195E-6 # assumed same as kVegfR2Rab4a
+
+kVegfN1Rab4a 2.127E-2 # assumed same as kN1Rab4a
+kPlgfN1Rab4a 2.127E-2 # assumed same as kN1Rab4a
+
+# Recycling of ligands
+kVegfRab4a 0.0E-6 # 
+kPlgfRab4a 0.0E-6 # 
+
+
+# TRANSFER (from Rab4/5 endosomes to Rab11 endosomes)
+
+# Transfer of unligated receptors
+kR1Rab4at11a  5.909E-4
+kR2Rab4at11a  1.494E-6
+kN1Rab4at11a  7.02E-2
+kR1N1Rab4at11a  5.909E-4 # assumed same as kR1Rab4at11a
+kR2N1Rab4at11a  1.494E-6 # assumed same as kR2Rab4at11a
+
+# Transfer of ligated receptors
+
+kVegfR1Rab4at11a 5.909E-4   # assumed same as kR1Rab4at11a
+kVegfR1N1Rab4at11a 5.909E-4 # assumed same as kVegfR1Rav4at11a
+
+kPlgfR1Rab4at11a 5.909E-4   # assumed same as kR1Rab4at11a
+kPlgfR1N1Rab4at11a 5.909E-4 # assumed same as kPlgfR1Rav4at11a
+
+kVegfR2Rab4at11a 1.494E-6   # assumed same as kR2Rab4at11a
+kVegfR2N1Rab4at11a 1.494E-6 # assumed same as kVegfR2Rav4at11a
+
+kVegfN1Rab4at11a 7.02E-2  # assumed same as kN1Rab4at11a
+kPlgfN1Rab4at11a 7.02E-2  # assumed same as kN1Rab4at11a
+
+# Transfer of ligands
+kVegfRab4at11a 0.0E-6 # 
+kPlgfRab4at11a 0.0E-6 # 
+
+
+# RECYCLING (from Rab11 endosomes to cell surface)
+
+# Recycling of unligated receptors
+kR1Rab11a 9.999E-2
+kR2Rab11a 8.933E-2
+kN1Rab11a 7.856E-4 
+kR1N1Rab11a 9.999E-2 # assumed same as kR1Rab11a
+kR2N1Rab11a 8.933E-2 # assumed same as kR2Rab11a
+
+# Recycling of ligated receptors
+kVegfR1Rab11a 9.999E-2   # assumed same as kR1Rab11a
+kVegfR1N1Rab11a 9.999E-2 # assumed same as kVegfR1Rab11a
+
+kPlgfR1Rab11a 9.999E-2   # assumed same as kR1Rab11a
+kPlgfR1N1Rab11a 9.999E-2 # assumed same as kPlgfR1Rab11a
+
+kVegfR2Rab11a 8.933E-2   # assumed same as kR2Rab11a
+kVegfR2N1Rab11a 8.933E-2 # assumed same as kVegfR2Rab11a
+
+kVegfN1Rab11a 7.856E-4 # assumed same as kN1Rab11a
+kPlgfN1Rab11a 7.856E-4 # assumed same as kN1Rab11a
+
+# Recycling of ligands
+kVegfRab11a 0.0E-6 # 
+kPlgfRab11a 0.0E-6 # 
+
+
+# DEGRADATION (from Rab4 to Rab7a endosomes)
+
+# Degradation of unligated receptors
+kR1Rab4at7a 2.293E-4 
+kR2Rab4at7a 2.337E-4
+kN1Rab4at7a 1.228E-6  
+kR1N1Rab4at7a 2.293E-4  # assumed same as kR1Rab4at7a
+kR2N1Rab4at7a 2.337E-4  # assumed same as kR2Rab4at7a
+
+# Degradation of ligated receptors 
+kVegfR1Rab4at7a 2.293E-4   # assumed same as kR1Rab4at7a
+kVegfR1N1Rab4at7a 2.293E-4 # assumed same as kVegfR1Rab4at7a
+
+kPlgfR1Rab4at7a 2.293E-4   # assumed same as kR1Rab4at7a
+kPlgfR1N1Rab4at7a 2.293E-4 # assumed same as kPlgfR1Rab4at7a
+
+kVegfR2Rab4at7a 2.337E-4  	# assumed same as kR2Rab4at7a
+kVegfR2N1Rab4at7a 2.337E-4 # assumed same as kVegfR2Rab4at7a
+
+kVegfN1Rab4at7a 1.228E-6 # assumed same as kN1Rab4at7a
+kPlgfN1Rab4at7a 1.228E-6 # assumed same as kN1Rab4at7a
+
+# Degradation of ligands
+kVegfRab4at7a 0.0E-6 # degradation rate of free VEGF-A121a and VEGF-A165a
+kPlgfRab4at7a 0.0E-6 # degradation rate of free PLGF1 and PLGF2
+
+
+######################################################################
+# Production rates (All units are receptors per um^2.sec)
+kR1prod       4.1007 
+kR2prod       1.1142         
+kN1prod       0.4587                   
+
+end parameters  
+
+
+begin molecule types 
+#Define molecule types and their binding domains and which cellular compartment they can reside at
+    
+    vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s~Rab4a5a~Rab7a~Rab11a) #binds to VEGFR1,2 and NRP1 and Matrix species 
+    vegf121a(rbd,rbd,c~s~Rab4a5a~Rab7a~Rab11a) 			   #binds to VEGFR1,2 only
+    plgf1(rbd,rbd,c~s~Rab4a5a~Rab7a~Rab11a) 			   #binds to VEGFR1 only
+    plgf2(rbd,rbd,nbd,nbd,Mbd,c~s~Rab4a5a~Rab7a~Rab11a)    #binds to VEGFR1,2 and NRP1,HSPG and Matrix species 
+ 
+    vegfr1(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a) #binds to NRP1,VEGFR1,VEGFR2 and Matrix species and VEGF-A165a, PLGF1 
+    vegfr2(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a) #binds to VEGFR1,VEGFR2 and Matrix species and VEGF-A165a
+    nrp1(lbd,rbd,nbd,c~s~Rab4a5a~Rab7a~Rab11a)   #binds to VEGFR1 and VEGF-A165a
+    
+    M(lbd,rbd,c~s)	                             #binds to VEGFR1,VEGFR2,VEGF-A165a
+ 
+end molecule types
+    
+begin seed species
+  
+    vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s)   	 VEGF165a_0 
+    vegf121a(rbd,rbd,c~s)   				 VEGF121a_0 
+    plgf1(rbd,rbd,c~s)                  	 PLGF1_0		    
+    plgf2(rbd,rbd,nbd,nbd,Mbd,c~s)           PLGF2_0	    
+    
+    vegfr1(lbd,rbd,nbd,c~s)	                 VEGFR1_0
+    vegfr2(lbd,rbd,nbd,c~s)                  VEGFR2_0
+    nrp1(lbd,rbd,nbd,c~s)			     	 NRP1_0
+    M(lbd,rbd,c~s)							 M_0
+   
+end seed species
+
+begin observables
+
+#VEGFR involved monomer, dimer and oligomer populations with or without ligands, Matrix and Neuropilin
+#All VEGFR species in each compartment: monomer, dimer, ligand bound or not
+#All receptor species in each compartment: monomers and higher order complexes
+   	
+   	Molecules  	R1_surf 	vegfr1(c~s)
+   	Molecules  	R2_surf 	vegfr2(c~s)
+    Molecules   N1_surf     nrp1(c~s)
+    
+   	Molecules  	R1_Rab4a5a 	vegfr1(c~Rab4a5a)
+   	Molecules  	R2_Rab4a5a 	vegfr2(c~Rab4a5a)
+   	Molecules   N1_Rab4a5a  nrp1(c~Rab4a5a)
+   	
+   	Molecules  	R1_Rab11a 	vegfr1(c~Rab11a)
+   	Molecules  	R2_Rab11a 	vegfr2(c~Rab11a)  
+   	Molecules   N1_Rab11a   nrp1(c~Rab11a)
+   	
+#Total dimeric and higher order receptor complexes 
+   	Molecules  	R1R1_surf 		    vegfr1(c~s).vegfr1(c~s)
+   	Molecules  	R2R2_surf 		    vegfr2(c~s).vegfr2(c~s)
+   	Molecules  	R1N1_surf 		    vegfr1(c~s).nrp1(c~s)
+   	
+   	Molecules  	R1R1N1_surf 		vegfr1(c~s).vegfr1(c~s).nrp1(c~s)
+   	Molecules  	N1R1R1N1_surf 	    nrp1(c~s).vegfr1(c~s).vegfr1(c~s).nrp1(c~s)
+   	
+   	Molecules  	R1R1_Rab4a5a 		vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a)
+   	Molecules  	R2R2_Rab4a5a 		vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a)
+    Molecules  	R1N1_Rab4a5a 		vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)
+    
+   	Molecules  	R1R1N1_Rab4a5a 	    vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)
+   	Molecules  	N1R1R1N1_Rab4a5a 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a)
+   	
+   	Molecules  	R1R1_Rab11a 		vegfr1(c~Rab11a).vegfr1(c~Rab11a)
+   	Molecules  	R2R2_Rab11a 		vegfr2(c~Rab11a).vegfr2(c~Rab11a)
+   	Molecules  	R1N1_Rab11a 		vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   	
+   	Molecules  	R1R1N1_Rab11a 	    vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   	Molecules  	N1R1R1N1_Rab11a 	nrp1(c~Rab11a).vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a)
+   	
+#Ligated receptors with Neuropilin-1 in various compartments
+   #Surface complexes
+    Molecules  R2R2_121a_surf	    vegfr2(c~s).vegfr2(c~s).vegf121a(c~s)
+    Molecules  R2R2_165a_surf	    vegfr2(c~s).vegfr2(c~s).vegf165a(c~s)
+    Molecules  R1R1_121a_surf       vegfr1(c~s).vegfr1(c~s).vegf121a(c~s)
+    Molecules  R1R1_165a_surf       vegfr1(c~s).vegfr1(c~s).vegf165a(c~s)
+	Molecules  R1R1_plgf1_surf	    vegfr1(c~s).vegfr1(c~s).plgf1(c~s)
+	Molecules  R1R1_plgf2_surf	    vegfr1(c~s).vegfr1(c~s).plgf2(c~s)
+	
+	Molecules  R2R2N1_165a_surf     vegfr2(c~s).vegfr2(c~s).nrp1(c~s).vegf165a(c~s)
+   	Molecules  N1R2R2N1_165a_surf 	nrp1(c~s).vegfr2(c~s).vegfr2(c~s).nrp1(c~s).vegf165a(c~s)
+   		
+   	Molecules  R1R1N1_121a_surf     vegfr1(c~s).vegfr1(c~s).nrp1(c~s).vegf121a(c~s)
+   	Molecules  N1R1R1N1_121a_surf 	nrp1(c~s).vegfr1(c~s).vegfr1(c~s).nrp1(c~s).vegf121a(c~s)
+   	
+    Molecules  R1R1N1_plgf1_surf    vegfr1(c~s).vegfr1(c~s).nrp1(c~s).plgf1(c~s)
+   	Molecules  N1R1R1N1_plgf1_surf 	nrp1(c~s).vegfr1(c~s).vegfr1(c~s).nrp1(c~s).plgf1(c~s)
+   
+   #Rab4a5a complexes
+	Molecules  R2R2_121a_Rab4a5a	    vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a).vegf121a(c~Rab4a5a)
+	Molecules  R2R2_165a_Rab4a5a	    vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a).vegf165a(c~Rab4a5a)
+	Molecules  R1R1_121a_Rab4a5a        vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegf121a(c~Rab4a5a)
+	Molecules  R1R1_165a_Rab4a5a	    vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegf165a(c~Rab4a5a)
+	Molecules  R1R1_plgf1_Rab4a5a	    vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).plgf1(c~Rab4a5a)
+	Molecules  R1R1_plgf2_Rab4a5a	    vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).plgf2(c~Rab4a5a)
+   
+    Molecules  R2R2N1_165a_Rab4a5a      vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a)
+   	Molecules  N1R2R2N1_165a_Rab4a5a 	nrp1(c~Rab4a5a).vegfr2(c~Rab4a5a).vegfr2(c~Rab4a5a).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a)
+    
+    Molecules  R1R1N1_121a_Rab4a5a      vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a).vegf121a(c~Rab4a5a)
+   	Molecules  N1R1R1N1_121a_Rab4a5a 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a).vegf121a(c~Rab4a5a)
+   	
+    Molecules  R1R1N1_plgf1_Rab4a5a     vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a).plgf1(c~Rab4a5a)
+   	Molecules  N1R1R1N1_plgf1_Rab4a5a 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a).vegfr1(c~Rab4a5a).nrp1(c~Rab4a5a).plgf1(c~Rab4a5a)
+  
+   	#Rab11a complexes
+	Molecules  R2R2_121a_Rab11a	        vegfr2(c~Rab11a).vegfr2(c~Rab11a).vegf121a(c~Rab11a)
+	Molecules  R2R2_165a_Rab11a	       vegfr2(c~Rab11a).vegfr2(c~Rab11a).vegf165a(c~Rab11a)	
+	Molecules  R1R1_121a_Rab11a         vegfr1(c~Rab11a).vegfr1(c~Rab11a).vegf121a(c~Rab11a)
+	Molecules  R1R1_165a_Rab11a	       vegfr1(c~Rab11a).vegfr1(c~Rab11a).vegf165a(c~Rab11a)
+	Molecules  R1R1_plgf1_Rab11a	   vegfr1(c~Rab11a).vegfr1(c~Rab11a).plgf1(c~Rab11a)
+	Molecules  R1R1_plgf2_Rab11a	    vegfr1(c~Rab11a).vegfr1(c~Rab11a).plgf2(c~Rab11a)
+   
+    Molecules  R2R2N1_165a_Rab11a      vegfr2(c~Rab11a).vegfr2(c~Rab11a).nrp1(c~Rab11a).vegf165a(c~Rab11a)
+   	Molecules  N1R2R2N1_165a_Rab11a    nrp1(c~Rab11a).vegfr2(c~Rab11a).vegfr2(c~Rab11a).nrp1(c~Rab11a).vegf165a(c~Rab11a)
+    
+    Molecules  R1R1N1_121a_Rab11a       vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a).vegf121a(c~Rab11a)
+   	Molecules  N1R1R1N1_121a_Rab11a 	nrp1(c~Rab11a).vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a).vegf121a(c~Rab11a)
+   	
+    Molecules  R1R1N1_plgf1_Rab11a     vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a).plgf1(c~Rab11a)
+   	Molecules  N1R1R1N1_plgf1_Rab11a   nrp1(c~Rab11a).vegfr1(c~Rab11a).vegfr1(c~Rab11a).nrp1(c~Rab11a).plgf1(c~Rab11a)
+   	
+	Molecules  Freev165a_surf	        vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s)
+    Molecules  Freev121a_surf	        vegf121a(rbd,rbd,c~s)
+	Molecules  Freeplgf1_surf	        plgf1(rbd,rbd,c~s)
+	Molecules  Freeplgf2_surf	        plgf2(rbd,rbd,nbd,nbd,Mbd,c~s)
+
+	Molecules  Freev165a_Rab4a	        vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a)
+    Molecules  Freev121a_Rab4a	        vegf121a(rbd,rbd,c~Rab4a5a)
+	Molecules  Freeplgf1_Rab4a	        plgf1(rbd,rbd,c~Rab4a5a)
+	Molecules  Freeplgf2_Rab4a	        plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a)
+		
+	Molecules  Freev165a_Rab11a	        vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab11a)
+    Molecules  Freev121a_Rab11a	        vegf121a(rbd,rbd,c~Rab11a)
+	Molecules  Freeplgf1_Rab11a	        plgf1(rbd,rbd,c~Rab11a)
+	Molecules  Freeplgf2_Rab11a	        plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab11a)
+		
+#Ligated receptors without Neuropilin-1 in various compartments		
+	Molecules  noN1R2R2_surf_121a	    vegfr2(nbd,c~s).vegfr2(nbd,c~s).vegf121a(c~s)
+	Molecules  noN1R2R2_surf_165a	    vegfr2(nbd,c~s).vegfr2(nbd,c~s).vegf165a(nbd,nbd,c~s)
+	Molecules  noN1R1R1_surf_121a	    vegfr1(nbd,c~s).vegfr1(nbd,c~s).vegf121a(c~s)
+	Molecules  noN1R1R1_surf_165a	    vegfr1(nbd,c~s).vegfr1(nbd,c~s).vegf165a(nbd,nbd,c~s)
+	Molecules  noN1R1R1_surf_plgf1	    vegfr1(nbd,c~s).vegfr1(nbd,c~s).plgf1(c~s)
+	Molecules  noN1R1R1_surf_plgf2	    vegfr1(nbd,c~s).vegfr1(nbd,c~s).plgf2(nbd,nbd,c~s)
+		
+	Molecules  noN1R2R2_Rab4a5a_121a	    vegfr2(nbd,c~Rab4a5a).vegfr2(nbd,c~Rab4a5a).vegf121a(c~Rab4a5a)
+	Molecules  noN1R2R2_Rab4a5a_165a	    vegfr2(nbd,c~Rab4a5a).vegfr2(nbd,c~Rab4a5a).vegf165a(nbd,nbd,c~Rab4a5a)
+	Molecules  noN1R1R1_Rab4a5a_121a	    vegfr1(nbd,c~Rab4a5a).vegfr1(nbd,c~Rab4a5a).vegf121a(c~Rab4a5a)
+	Molecules  noN1R1R1_Rab4a5a_165a	    vegfr1(nbd,c~Rab4a5a).vegfr1(nbd,c~Rab4a5a).vegf165a(nbd,nbd,c~Rab4a5a)
+	Molecules  noN1R1R1_Rab4a5a_plgf1	    vegfr1(nbd,c~Rab4a5a).vegfr1(nbd,c~Rab4a5a).plgf1(c~Rab4a5a)
+	Molecules  noN1R1R1_Rab4a5a_plgf2	    vegfr1(nbd,c~Rab4a5a).vegfr1(nbd,c~Rab4a5a).plgf2(nbd,nbd,c~Rab4a5a)
+	
+	Molecules  noN1R2R2_Rab11a_121a	        vegfr2(nbd,c~Rab11a).vegfr2(nbd,c~Rab11a).vegf121a(c~Rab11a)
+	Molecules  noN1R2R2_Rab11a_165a	        vegfr2(nbd,c~Rab11a).vegfr2(nbd,c~Rab11a).vegf165a(nbd,nbd,c~Rab11a)
+	Molecules  noN1R1R1_Rab11a_121a	        vegfr1(nbd,c~Rab11a).vegfr1(nbd,c~Rab11a).vegf121a(c~Rab11a)
+	Molecules  noN1R1R1_Rab11a_165a	        vegfr1(nbd,c~Rab11a).vegfr1(nbd,c~Rab11a).vegf165a(nbd,nbd,c~Rab11a)
+	Molecules  noN1R1R1_Rab11a_plgf1	    vegfr1(nbd,c~Rab11a).vegfr1(nbd,c~Rab11a).plgf1(c~Rab11a)
+	Molecules  noN1R1R1_Rab11a_plgf2	    vegfr1(nbd,c~Rab11a).vegfr1(nbd,c~Rab11a).plgf2(nbd,nbd,c~Rab11a)
+	
+# Active Ligated receptors with Neuropilin-1 in various compartments
+   #Surface complexes
+    Molecules  R2R2_121a_surf_act	    vegfr2(c~s,lbd!1).vegfr2(c~s,lbd!2).vegf121a(c~s,rbd!1,rbd!2)
+    Molecules  R2R2_165a_surf_act	    vegfr2(c~s,lbd!1).vegfr2(c~s,lbd!2).vegf165a(c~s,rbd!1,rbd!2)
+    Molecules  R1R1_121a_surf_act       vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).vegf121a(c~s,rbd!1,rbd!2)
+    Molecules  R1R1_165a_surf_act       vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).vegf165a(c~s,rbd!1,rbd!2)
+	Molecules  R1R1_plgf1_surf_act	    vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).plgf1(c~s,rbd!1,rbd!2)
+	Molecules  R1R1_plgf2_surf_act	    vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).plgf2(c~s,rbd!1,rbd!2)
+	
+	Molecules  R2R2N1_165a_surf_act     vegfr2(c~s,lbd!1).vegfr2(c~s,lbd!2).nrp1(c~s).vegf165a(c~s,rbd!1,rbd!2)
+   	Molecules  N1R2R2N1_165a_surf_act 	nrp1(c~s).vegfr2(c~s,lbd!1).vegfr2(c~s,lbd!2).nrp1(c~s).vegf165a(c~s,rbd!1,rbd!2)
+   		
+   	Molecules  R1R1N1_121a_surf_act     vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).nrp1(c~s).vegf121a(c~s,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_121a_surf_act 	nrp1(c~s).vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).nrp1(c~s).vegf121a(c~s,rbd!1,rbd!2)
+   	
+    Molecules  R1R1N1_plgf1_surf_act    vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).nrp1(c~s).plgf1(c~s,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_plgf1_surf_act 	nrp1(c~s).vegfr1(c~s,lbd!1).vegfr1(c~s,lbd!2).nrp1(c~s).plgf1(c~s,rbd!1,rbd!2)
+   
+   #Rab4a5a complexes
+	Molecules  R2R2_121a_Rab4a5a_act	    vegfr2(c~Rab4a5a,lbd!1).vegfr2(c~Rab4a5a,lbd!2).vegf121a(c~Rab4a5a,rbd!1,rbd!2)
+	Molecules  R2R2_165a_Rab4a5a_act	    vegfr2(c~Rab4a5a,lbd!1).vegfr2(c~Rab4a5a,lbd!2).vegf165a(c~Rab4a5a,rbd!1,rbd!2)
+	Molecules  R1R1_121a_Rab4a5a_act        vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).vegf121a(c~Rab4a5a,rbd!1,rbd!2)
+	Molecules  R1R1_165a_Rab4a5a_act	    vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).vegf165a(c~Rab4a5a,rbd!1,rbd!2)
+	Molecules  R1R1_plgf1_Rab4a5a_act	    vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).plgf1(c~Rab4a5a,rbd!1,rbd!2)
+	Molecules  R1R1_plgf2_Rab4a5a_act	    vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).plgf2(c~Rab4a5a,rbd!1,rbd!2)
+   
+    Molecules  R2R2N1_165a_Rab4a5a_act      vegfr2(c~Rab4a5a,lbd!1).vegfr2(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a,rbd!1,rbd!2)
+   	Molecules  N1R2R2N1_165a_Rab4a5a_act 	nrp1(c~Rab4a5a).vegfr2(c~Rab4a5a,lbd!1).vegfr2(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a,rbd!1,rbd!2)
+    
+    Molecules  R1R1N1_121a_Rab4a5a_act      vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).vegf121a(c~Rab4a5a,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_121a_Rab4a5a_act 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).vegf121a(c~Rab4a5a,rbd!1,rbd!2)
+   	
+    Molecules  R1R1N1_plgf1_Rab4a5a_act     vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).plgf1(c~Rab4a5a,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_plgf1_Rab4a5a_act 	nrp1(c~Rab4a5a).vegfr1(c~Rab4a5a,lbd!1).vegfr1(c~Rab4a5a,lbd!2).nrp1(c~Rab4a5a).plgf1(c~Rab4a5a,rbd!1,rbd!2)
+  
+   	#Rab11a complexes
+	Molecules  R2R2_121a_Rab11a_act	        vegfr2(c~Rab11a,lbd!1).vegfr2(c~Rab11a,lbd!2).vegf121a(c~Rab11a,rbd!1,rbd!2)
+	Molecules  R2R2_165a_Rab11a_act	       vegfr2(c~Rab11a,lbd!1).vegfr2(c~Rab11a,lbd!2).vegf165a(c~Rab11a,rbd!1,rbd!2)	
+	Molecules  R1R1_121a_Rab11a_act         vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).vegf121a(c~Rab11a,rbd!1,rbd!2)
+	Molecules  R1R1_165a_Rab11a_act	       vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).vegf165a(c~Rab11a,rbd!1,rbd!2)
+	Molecules  R1R1_plgf1_Rab11a_act	   vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).plgf1(c~Rab11a,rbd!1,rbd!2)
+	Molecules  R1R1_plgf2_Rab11a_act	    vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).plgf2(c~Rab11a,rbd!1,rbd!2)
+   
+    Molecules  R2R2N1_165a_Rab11a_act      vegfr2(c~Rab11a,lbd!1).vegfr2(c~Rab11a,lbd!2).nrp1(c~Rab11a).vegf165a(c~Rab11a,rbd!1,rbd!2)
+   	Molecules  N1R2R2N1_165a_Rab11a_act    nrp1(c~Rab11a).vegfr2(c~Rab11a,lbd!1).vegfr2(c~Rab11a,lbd!2).nrp1(c~Rab11a).vegf165a(c~Rab11a,rbd!1,rbd!2)
+    
+    Molecules  R1R1N1_121a_Rab11a_act       vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).nrp1(c~Rab11a).vegf121a(c~Rab11a,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_121a_Rab11a_act 	nrp1(c~Rab11a).vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).nrp1(c~Rab11a).vegf121a(c~Rab11a,rbd!1,rbd!2)
+   	
+    Molecules  R1R1N1_plgf1_Rab11a_act     vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).nrp1(c~Rab11a).plgf1(c~Rab11a,rbd!1,rbd!2)
+   	Molecules  N1R1R1N1_plgf1_Rab11a_act   nrp1(c~Rab11a).vegfr1(c~Rab11a,lbd!1).vegfr1(c~Rab11a,lbd!2).nrp1(c~Rab11a).plgf1(c~Rab11a,rbd!1,rbd!2)
+   	
+	Molecules  	R1_empty_surf 	vegfr1(lbd,c~s)
+   	Molecules  	R2_empty_surf 	vegfr2(lbd,c~s)
+    Molecules   N1_empty_surf     nrp1(lbd,c~s)
+    
+   	Molecules  	R1_empty_Rab4a5a 	vegfr1(lbd,c~Rab4a5a)
+   	Molecules  	R2_empty_Rab4a5a 	vegfr2(lbd,c~Rab4a5a)
+   	Molecules   N1_empty_Rab4a5a  nrp1(lbd,c~Rab4a5a)
+   	
+   	Molecules  	R1_empty_Rab11a 	vegfr1(lbd,c~Rab11a)
+   	Molecules  	R2_empty_Rab11a 	vegfr2(lbd,c~Rab11a)  
+   	Molecules   N1_empty_Rab11a   nrp1(lbd,c~Rab11a)
+
+	# Total ligand
+	Molecules  Totv165a_surf	        vegf165a(c~s)
+    Molecules  Totv121a_surf	        vegf121a(c~s)
+	Molecules  Totplgf1_surf	        plgf1(c~s)
+	Molecules  Totplgf2_surf	        plgf2(c~s)
+
+	Molecules  Totv165a_Rab4a	        vegf165a(c~Rab4a5a)
+    Molecules  Totv121a_Rab4a	        vegf121a(c~Rab4a5a)
+	Molecules  Totplgf1_Rab4a	        plgf1(c~Rab4a5a)
+	Molecules  Totplgf2_Rab4a	        plgf2(c~Rab4a5a)
+		
+	Molecules  Totv165a_Rab11a	        vegf165a(c~Rab11a)
+    Molecules  Totv121a_Rab11a	        vegf121a(c~Rab11a)
+	Molecules  Totplgf1_Rab11a	        plgf1(c~Rab11a)
+	Molecules  Totplgf2_Rab11a	        plgf2(c~Rab11a)
+		
+	# N1 dimers
+   	Molecules  	N1N1_surf 		    nrp1(c~s).nrp1(c~s)
+    Molecules  	N1N1_Rab4a5a 		nrp1(c~Rab4a5a).nrp1(c~Rab4a5a)    
+   	Molecules  	N1N1_Rab11a 		nrp1(c~Rab11a).nrp1(c~Rab11a)
+
+# Additional R2N1 complexes
+	Molecules  R2N1_165a_surf     vegfr2(c~s).nrp1(c~s).vegf165a(c~s)
+	Molecules  R2N1_165a_Rab4a5a  vegfr2(c~Rab4a5a).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a)
+	Molecules  R2N1_165a_Rab11a   vegfr2(c~Rab11a).nrp1(c~Rab11a).vegf165a(c~Rab11a)
+	Molecules  R2N1N1_165a_surf     vegfr2(c~s).nrp1(c~s).nrp1(c~s).vegf165a(c~s)
+	Molecules  R2N1N1_165a_Rab4a5a  vegfr2(c~Rab4a5a).nrp1(c~Rab4a5a).nrp1(c~Rab4a5a).vegf165a(c~Rab4a5a)
+	Molecules  R2N1N1_165a_Rab11a   vegfr2(c~Rab11a).nrp1(c~Rab11a).nrp1(c~Rab11a).vegf165a(c~Rab11a)
+   
+		
+end observables
+
+begin reaction rules
+
+##################################################################
+# A. Ligand-independent coupling of the receptors
+##################################################################
+
+# A1. Ligand-independent coupling of the receptors on the surface
+
+vegfr1(lbd,rbd,c~s) + vegfr1(lbd,rbd,c~s) <-> \
+vegfr1(lbd,rbd!1,c~s).vegfr1(lbd,rbd!1,c~s) kR1R1on_surf,kR1R1off    
+
+vegfr2(lbd,rbd,c~s) + vegfr2(lbd,rbd,c~s) <->  \
+vegfr2(lbd,rbd!1,c~s).vegfr2(lbd,rbd!1,c~s) kR2R2on_surf,kR2R2off  
+
+vegfr1(lbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> vegfr1(lbd,nbd!1,c~s).nrp1(lbd,rbd!1,nbd,c~s) kN1R1on_surf,kN1R1off  
+#VEGFR1, VEGF-A165a and NRP1 can not form a complex together so this is set so that R1 can only bind to NRP1 only when R1 is not bound to VEGF-A165a or PLGF2; Note that VEGFR1 can bind to N1 when bound to VEGF-A121a and PLGF1 (this is dealt with later)
+
+
+# A2. Ligand-independent coupling of the receptors in Rab45
+
+vegfr1(lbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd,c~Rab4a5a) <-> \
+vegfr1(lbd,rbd!1,c~Rab4a5a).vegfr1(lbd,rbd!1,c~Rab4a5a) kR1R1on_rab4,kR1R1off    
+
+vegfr2(lbd,rbd,c~Rab4a5a) + vegfr2(lbd,rbd,c~Rab4a5a) <->  \
+vegfr2(lbd,rbd!1,c~Rab4a5a).vegfr2(lbd,rbd!1,c~Rab4a5a) kR2R2on_rab4,kR2R2off  
+
+vegfr1(lbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> vegfr1(lbd,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,nbd,c~Rab4a5a) kN1R1on_rab4,kN1R1off  
+
+
+# A3. Ligand-independent coupling of the receptors in Rab11
+
+vegfr1(lbd,rbd,c~Rab11a) + vegfr1(lbd,rbd,c~Rab11a) <-> \
+vegfr1(lbd,rbd!1,c~Rab11a).vegfr1(lbd,rbd!1,c~Rab11a) kR1R1on_rab11,kR1R1off    
+
+vegfr2(lbd,rbd,c~Rab11a) + vegfr2(lbd,rbd,c~Rab11a) <->  \
+vegfr2(lbd,rbd!1,c~Rab11a).vegfr2(lbd,rbd!1,c~Rab11a) kR2R2on_rab11,kR2R2off  
+
+vegfr1(lbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> vegfr1(lbd,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,nbd,c~Rab11a) kN1R1on_rab11,kN1R1off  
+
+
+##################################################################
+# B. Matrix binding ligands and ligand-receptor complexes (surface only)
+##################################################################
+
+# B1. Matrix binding to ligands
+
+M(lbd,rbd,c~s) + vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s) <->  \
+M(lbd!1,rbd,c~s).vegf165a(rbd,rbd,nbd,nbd,Mbd!1,c~s) kvegfAMon,kvegfAMoff
+
+M(lbd,rbd,c~s) + plgf2(rbd,rbd,nbd,nbd,Mbd,c~s) <->  \
+M(lbd!1,rbd,c~s).plgf2(rbd,rbd,nbd,nbd,Mbd!1,c~s) kplgfMon,kplgfMoff
+
+
+# B2. Matrix binding to ligand-receptor complexes
+
+# B2a. Matrix binding to VEGFA165a-VEGFR1
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd!2,c~s)  kR1vegfA_Mon,kR1vegfA_Moff 
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd,rbd,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd,rbd,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd!2,c~s)  kR1vegfA_Mon,kR1vegfA_Moff  
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s).vegf165a(rbd!1,rbd,nbd,nbd,Mbd!2,c~s)  kR1vegfA_Mon,kR1vegfA_Moff  
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).vegf165a(rbd!1,rbd!4,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).vegf165a(rbd!1,rbd!4,nbd,nbd,Mbd!2,c~s)  kR1vegfA_Mon,kR1vegfA_Moff  
+
+# B2b. Matrix binding to PlGF2-VEGFR1
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd!2,c~s)  kR1plgf_Mon,kR1plgf_Moff 
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd,rbd,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd,rbd,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd!2,c~s) kR1plgf_Mon,kR1plgf_Moff  
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s).plgf2(rbd!1,rbd,nbd,nbd,Mbd!2,c~s) kR1plgf_Mon,kR1plgf_Moff  
+
+M(lbd,rbd,c~s) + vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).plgf2(rbd!1,rbd!4,nbd,nbd,Mbd,c~s) <-> \  
+M(lbd!2,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).plgf2(rbd!1,rbd!4,nbd,nbd,Mbd!2,c~s) kR1plgf_Mon,kR1plgf_Moff  
+
+# B2c. Matrix binding to VEGFA165a-VEGFR2
+#   (note VEGF-A165a can only bind to M or NRP1 at the any time)
+
+M(lbd,rbd,c~s) + vegf165a(rbd!3,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s) <-> \
+M(lbd!2,rbd,c~s).vegf165a(rbd!3,rbd,nbd,nbd,Mbd!2,c~s).vegfr2(lbd!3,rbd,nbd,c~s) kR2vegfA_Mon,kR2vegfA_Moff
+
+M(lbd,rbd,c~s) + vegf165a(rbd!3,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s).vegfr2(lbd,rbd,nbd,c~s) <-> \
+M(lbd!2,rbd,c~s).vegf165a(rbd!3,rbd,nbd,nbd,Mbd!2,c~s).vegfr2(lbd!3,rbd,nbd,c~s).vegfr2(lbd,rbd,nbd,c~s) kR2vegfA_Mon,kR2vegfA_Moff
+
+M(lbd,rbd,c~s) + vegf165a(rbd!3,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!3,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) <-> \
+M(lbd!2,rbd,c~s).vegf165a(rbd!3,rbd,nbd,nbd,Mbd!2,c~s).vegfr2(lbd!3,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2vegfA_Mon,kR2vegfA_Moff
+
+M(lbd,rbd,c~s) + vegf165a(rbd!3,rbd!4,nbd,nbd,Mbd,c~s).vegfr2(lbd!3,rbd!1,nbd,c~s).vegfr2(lbd!4,rbd!1,nbd,c~s) <-> \
+M(lbd!2,rbd,c~s).vegf165a(rbd!3,rbd!4,nbd,nbd,Mbd!2,c~s).vegfr2(lbd!3,rbd!1,nbd,c~s).vegfr2(lbd!4,rbd!1,nbd,c~s) kR2vegfA_Mon,kR2vegfA_Moff
+
+
+# B3. Matrix-ligand binding to cell surface receptor
+
+# B3a. Matrix-VEGF165a binding to VEGFR1
+
+vegfr1(lbd,rbd,nbd,c~s) + M(lbd!1,rbd,c~s).vegf165a(rbd,rbd,nbd,nbd,Mbd!1,c~s) <-> \
+vegfr1(lbd!2,rbd,nbd,c~s).M(lbd!1,rbd,c~s).vegf165a(rbd!2,rbd,nbd,nbd,Mbd!1,c~s)  kMvegfA_R1on,kMvegfA_R1off
+
+M(lbd!1,rbd,c~s).vegf165a(rbd,rbd,nbd,nbd,Mbd!1,c~s)+vegfr1(lbd,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+M(lbd!1,rbd,c~s).vegf165a(rbd!2,rbd,nbd,nbd,Mbd!1,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kMvegfA_R1on,kMvegfA_R1off 
+
+# B3b. Matrix-PlGF2 binding to VEGFR1
+
+vegfr1(lbd,rbd,nbd,c~s) + M(lbd!1,rbd,c~s).plgf2(rbd,rbd,nbd,nbd,Mbd!1,c~s) <-> \
+vegfr1(lbd!2,rbd,nbd,c~s).M(lbd!1,rbd,c~s).plgf2(rbd!2,rbd,nbd,nbd,Mbd!1,c~s)  kMplgf_R1on,kMplgf_R1off
+
+M(lbd!1,rbd,c~s).plgf2(rbd,rbd,nbd,nbd,Mbd!1,c~s)+vegfr1(lbd,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+M(lbd!1,rbd,c~s).plgf2(rbd!2,rbd,nbd,nbd,Mbd!1,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kMplgf_R1on,kMplgf_R1off 
+
+# B3c. Matrix-VEGF165a binding to VEGFR2
+
+M(lbd!1,rbd,c~s).vegf165a(rbd,rbd,nbd,nbd,Mbd!1,c~s)+vegfr2(lbd,rbd,nbd,c~s) <-> \
+M(lbd!1,rbd,c~s).vegf165a(rbd!2,rbd,nbd,nbd,Mbd!1,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kMvegfA_R2on,kMvegfA_R2off 
+
+M(lbd!1,rbd,c~s).vegf165a(rbd,rbd,nbd,nbd,Mbd!1,c~s)+vegfr2(lbd,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) <-> \
+M(lbd!1,rbd,c~s).vegf165a(rbd!2,rbd,nbd,nbd,Mbd!1,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) kMvegfA_R2on,kMvegfA_R2off 
+
+
+###############################################
+# C. Ligand binding to receptors (surface)
+###############################################
+
+# C1. Ligands binding to NRP1 on the cell surface
+
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s)  kvegfA_N1on_surf,kvegfA_N1off
+
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s)  kplgf_N1on_surf,kplgf_N1off
+
+
+# C2. Ligands binding to VEGFR2 (monomer or dimer) (VEGFA165a, VEGFA121a)
+
+vegf165a(rbd,rbd,nbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kvegfA_R2on_surf,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd,nbd,c~s) + vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~s).vegfr2(lbd!2,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kvegfA_R2on_surf,kvegfA_R2off
+
+
+vegf121a(rbd,rbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kvegfA_R2on_surf,kvegfA_R2off
+
+vegf121a(rbd,rbd,c~s) + vegfr2(lbd,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!2,rbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) kvegfA_R2on_surf,kvegfA_R2off 
+
+
+# C3. Ligands binding to VEGFR1 (monomer or dimer) (VEGFA165a, VEGFA121a, PlGF1, PlGF2)
+
+vegf165a(rbd,rbd,nbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kvegfA_R1on_surf,kvegfA_R1off
+
+vegf165a(rbd,rbd,nbd,nbd,c~s) + vegfr1(lbd,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kvegfA_R1on_surf,kvegfA_R1off
+
+
+vegf121a(rbd,rbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)  kvegfA_R1on_surf,kvegfA_R1off
+
+vegf121a(rbd,rbd,c~s) + vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) <-> \
+vegf121a(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kvegfA_R1on_surf,kvegfA_R1off
+
+
+plgf1(rbd,rbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)  kplgf_R1on_surf,kplgf_R1off
+
+plgf1(rbd,rbd,c~s) + vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) <-> \
+plgf1(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kplgf_R1on_surf,kplgf_R1off
+
+
+plgf2(rbd,rbd,nbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kplgf_R1on_surf,kplgf_R1off
+
+plgf2(rbd,rbd,nbd,nbd,c~s) + vegfr1(lbd,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+plgf2(rbd!2,rbd,nbd,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kplgf_R1on_surf,kplgf_R1off
+
+
+# C4. Ligands binding to R1-N1 (VEGFA121a, PlGF1)
+
+nrp1(rbd!1,lbd,nbd,c~s).vegfr1(nbd!1,rbd,lbd,c~s) + vegf121a(rbd,rbd,c~s) <-> \
+nrp1(rbd!1,lbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd!1,c~s).vegf121a(rbd!2,rbd,c~s) kN1R1_vegfAon_surf,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~s)+vegfr1(lbd,rbd!1,nbd!2,c~s).vegfr1(lbd,rbd!1,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) <-> \
+vegf121a(rbd!3,rbd,c~s).vegfr1(lbd!3,rbd!1,nbd!2,c~s).vegfr1(lbd,rbd!1,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kN1R1_vegfAon_surf,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~s)+ vegfr1(lbd,rbd!1,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!1,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!4,rbd,c~s).vegfr1(lbd!4,rbd!1,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!1,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kN1R1_vegfAon_surf,kN1R1_vegfAoff
+
+
+nrp1(rbd!1,lbd,nbd,c~s).vegfr1(nbd!1,rbd,lbd,c~s) + plgf1(rbd,rbd,c~s) <-> \
+nrp1(rbd!1,lbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd!1,c~s).plgf1(rbd!2,rbd,c~s) kN1R1_plgfon_surf,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~s)+vegfr1(lbd,rbd!1,nbd!2,c~s).vegfr1(lbd,rbd!1,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) <-> \
+plgf1(rbd!3,rbd,c~s).vegfr1(lbd!3,rbd!1,nbd!2,c~s).vegfr1(lbd,rbd!1,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kN1R1_plgfon_surf,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~s)+ vegfr1(lbd,rbd!1,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!1,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+plgf1(rbd!4,rbd,c~s).vegfr1(lbd!4,rbd!1,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!1,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kN1R1_plgfon_surf,kN1R1_plgfoff
+
+
+
+###############################################
+# I. Ligand binding to receptors (Rab4/5 endosomes)
+###############################################
+
+# I1. Ligands binding to NRP1 in Rab4/Rab5 endosomes
+
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  kvegfA_N1on_rab4,kvegfA_N1off
+
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  kplgf_N1on_rab4,kplgf_N1off
+
+
+# I2. Ligands binding to VEGFR2 (monomer or dimer) (VEGFA165a, VEGFA121a)
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) kvegfA_R2on_rab4,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) kvegfA_R2on_rab4,kvegfA_R2off
+
+
+vegf121a(rbd,rbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) kvegfA_R2on_rab4,kvegfA_R2off
+
+vegf121a(rbd,rbd,c~Rab4a5a) + vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) kvegfA_R2on_rab4,kvegfA_R2off 
+
+
+# I3. Ligands binding to VEGFR1 (monomer or dimer) (VEGFA165a, VEGFA121a, PlGF1, PlGF2)
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) kvegfA_R1on_rab4,kvegfA_R1off
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) kvegfA_R1on_rab4,kvegfA_R1off
+
+
+vegf121a(rbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  kvegfA_R1on_rab4,kvegfA_R1off
+
+vegf121a(rbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  kvegfA_R1on_rab4,kvegfA_R1off
+
+
+plgf1(rbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  kplgf_R1on_rab4,kplgf_R1off
+
+plgf1(rbd,rbd,c~Rab4a5a) + vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  kplgf_R1on_rab4,kplgf_R1off
+
+
+plgf2(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) kplgf_R1on_rab4,kplgf_R1off
+
+plgf2(rbd,rbd,nbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!2,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) kplgf_R1on_rab4,kplgf_R1off
+
+
+# I4. Ligands binding to R1-N1 (VEGFA121a, PlGF1)
+
+nrp1(rbd!1,lbd,nbd,c~Rab4a5a).vegfr1(nbd!1,rbd,lbd,c~Rab4a5a) + vegf121a(rbd,rbd,c~Rab4a5a) <-> \
+nrp1(rbd!1,lbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd!1,c~Rab4a5a).vegf121a(rbd!2,rbd,c~Rab4a5a) kN1R1_vegfAon_rab4,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~Rab4a5a)+vegfr1(lbd,rbd!1,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!3,rbd,c~Rab4a5a).vegfr1(lbd!3,rbd!1,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kN1R1_vegfAon_rab4,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~Rab4a5a)+ vegfr1(lbd,rbd!1,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!4,rbd,c~Rab4a5a).vegfr1(lbd!4,rbd!1,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kN1R1_vegfAon_rab4,kN1R1_vegfAoff
+
+
+nrp1(rbd!1,lbd,nbd,c~Rab4a5a).vegfr1(nbd!1,rbd,lbd,c~Rab4a5a) + plgf1(rbd,rbd,c~Rab4a5a) <-> \
+nrp1(rbd!1,lbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd!1,c~Rab4a5a).plgf1(rbd!2,rbd,c~Rab4a5a) kN1R1_plgfon_rab4,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~Rab4a5a)+vegfr1(lbd,rbd!1,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!3,rbd,c~Rab4a5a).vegfr1(lbd!3,rbd!1,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kN1R1_plgfon_rab4,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~Rab4a5a)+ vegfr1(lbd,rbd!1,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!4,rbd,c~Rab4a5a).vegfr1(lbd!4,rbd!1,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kN1R1_plgfon_rab4,kN1R1_plgfoff
+
+
+
+###############################################
+# J. Ligand binding to receptors (Rab11 endosomes)
+###############################################
+
+# J1. Ligands binding to NRP1 in Rab11 endosomes
+
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a)  kvegfA_N1on_rab11,kvegfA_N1off
+
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a)  kplgf_N1on_rab11,kplgf_N1off
+
+
+# J2. Ligands binding to VEGFR2 (monomer or dimer) (VEGFA165a, VEGFA121a)
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) kvegfA_R2on_rab11,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) kvegfA_R2on_rab11,kvegfA_R2off
+
+
+vegf121a(rbd,rbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) kvegfA_R2on_rab11,kvegfA_R2off
+
+vegf121a(rbd,rbd,c~Rab11a) + vegfr2(lbd,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) kvegfA_R2on_rab11,kvegfA_R2off 
+
+
+# J3. Ligands binding to VEGFR1 (monomer or dimer) (VEGFA165a, VEGFA121a, PlGF1, PlGF2)
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) kvegfA_R1on_rab11,kvegfA_R1off
+
+vegf165a(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr1(lbd,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf165a(rbd!2,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) kvegfA_R1on_rab11,kvegfA_R1off
+
+
+vegf121a(rbd,rbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)  kvegfA_R1on_rab11,kvegfA_R1off
+
+vegf121a(rbd,rbd,c~Rab11a) + vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) <-> \
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  kvegfA_R1on_rab11,kvegfA_R1off
+
+
+plgf1(rbd,rbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)  kplgf_R1on_rab11,kplgf_R1off
+
+plgf1(rbd,rbd,c~Rab11a) + vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) <-> \
+plgf1(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  kplgf_R1on_rab11,kplgf_R1off
+
+
+plgf2(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) kplgf_R1on_rab11,kplgf_R1off
+
+plgf2(rbd,rbd,nbd,nbd,c~Rab11a) + vegfr1(lbd,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf2(rbd!2,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) kplgf_R1on_rab11,kplgf_R1off
+
+
+# J4. Ligands binding to R1-N1 (VEGFA121a, PlGF1)
+
+nrp1(rbd!1,lbd,nbd,c~Rab11a).vegfr1(nbd!1,rbd,lbd,c~Rab11a) + vegf121a(rbd,rbd,c~Rab11a) <-> \
+nrp1(rbd!1,lbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd!1,c~Rab11a).vegf121a(rbd!2,rbd,c~Rab11a) kN1R1_vegfAon_rab11,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~Rab11a)+vegfr1(lbd,rbd!1,nbd!2,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) <-> \
+vegf121a(rbd!3,rbd,c~Rab11a).vegfr1(lbd!3,rbd!1,nbd!2,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kN1R1_vegfAon_rab11,kN1R1_vegfAoff
+
+vegf121a(rbd,rbd,c~Rab11a)+ vegfr1(lbd,rbd!1,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!4,rbd,c~Rab11a).vegfr1(lbd!4,rbd!1,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kN1R1_vegfAon_rab11,kN1R1_vegfAoff
+
+
+nrp1(rbd!1,lbd,nbd,c~Rab11a).vegfr1(nbd!1,rbd,lbd,c~Rab11a) + plgf1(rbd,rbd,c~Rab11a) <-> \
+nrp1(rbd!1,lbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd!1,c~Rab11a).plgf1(rbd!2,rbd,c~Rab11a) kN1R1_plgfon_rab11,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~Rab11a)+vegfr1(lbd,rbd!1,nbd!2,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) <-> \
+plgf1(rbd!3,rbd,c~Rab11a).vegfr1(lbd!3,rbd!1,nbd!2,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kN1R1_plgfon_rab11,kN1R1_plgfoff
+
+plgf1(rbd,rbd,c~Rab11a)+ vegfr1(lbd,rbd!1,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf1(rbd!4,rbd,c~Rab11a).vegfr1(lbd!4,rbd!1,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kN1R1_plgfon_rab11,kN1R1_plgfoff
+
+
+
+##############################################################################
+# D. Ligand-receptor complexes coupling (surface)
+##############################################################################
+
+# D1. Ligand-Receptor complex binding to 2nd Receptor via Ligand
+################################
+
+# D1a. Ligand-NRP + NRP
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd,rbd,nbd!2,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) kN1vegfA_N1on_surf,kN1vegfA_N1off  
+
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf2(rbd,rbd,nbd!2,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) kN1plgf2_N1on_surf,kN1plgf2_N1off  
+
+# D1b. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kR2vegfA_R2on_surf,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kR2vegfA_R2on_surf,kvegfA_R2off
+
+# D1c. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kR1vegfA_R1on_surf,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kR1vegfA_R1on_surf,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kR1plgf_R1on_surf,kplgf_R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kR1plgf_R1on_surf,kplgf_R1off
+
+
+# D2. Ligand-Receptor complex binding to 2nd Receptor via Receptor
+################################
+
+# D2a. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr2(lbd!1,rbd!2,nbd,c~s).vegfr2(lbd,rbd!2,nbd,c~s) kR2R2on_surf,kR2R2off
+
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd!2,nbd,c~s).vegfr2(lbd,rbd!2,nbd,c~s) kR2R2on_surf,kR2R2off
+
+# D2b. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) kR1R1on_surf,kR1R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) kR1R1on_surf,kR1R1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) kR1R1on_surf,kR1R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) kR1R1on_surf,kR1R1off
+
+
+# D3. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via VR reaction - note absence of nbd terms in ligand
+################################
+
+# D3a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kdeltaVEGFA_R,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kdeltaVEGFA_R,kvegfA_R2off
+
+# D3b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kdeltaVEGFA_R,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,c~s).vegfr1(lbd,rbd!3,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,c~s).vegfr1(lbd!2,rbd!3,c~s) kdeltaVEGFA_R,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,c~s).vegfr1(lbd,rbd!3,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,c~s).vegfr1(lbd!2,rbd!3,c~s) kdeltaPLGF_R,kplgf_R1off
+
+plgf2(rbd!1,rbd,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kdeltaPLGF_R,kplgf_R1off
+
+
+# D4. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via RR reaction - note absence of nbd terms in ligand
+################################
+
+# D4a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s)   kdeltaR2R2,kR2R2off
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s)   kdeltaR2R2,kR2R2off
+
+# D4b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s)   kdeltaR1R1_V,kR1R1off
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,c~s).vegfr1(lbd!2,rbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,c~s).vegfr1(lbd!2,rbd!3,c~s)   kdeltaR1R1_V,kR1R1off
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s)      kdeltaR1R1_P,kR1R1off
+
+plgf2(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s)   kdeltaR1R1_P,kR1R1off
+
+
+################################
+# D5. VEGF-VEGFR2 binds NRP1; VEGF-NRP1 binds VEGFR2
+################################
+
+# D5a. VN + R2   [VN+R; VNN+R; VRN+R (via VR & RR); VRNN+R (via VR & RR)]
+
+vegf165a(rbd,rbd,nbd!1,nbd,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) kN1vegfA_R2on_surf,kN1vegfA_R2off  
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)   kN1vegfA_R2on_surf,kvegfA_R2off
+
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd!3,nbd!2,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s)   kR2vegfA_R2on_surf,kvegfA_R2off
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s)   kR2R2on_surf,kR2R2off
+
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!3,rbd!4,nbd!1,nbd!2,Mbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s).vegfr2(lbd!4,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)   kR2vegfA_R2on_surf,kvegfA_R2off
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s).vegfr2(lbd!3,rbd,nbd,c~s) + vegfr2(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~s).vegfr2(lbd!3,rbd!4,nbd,c~s).vegfr2(lbd,rbd!4,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)   kR2R2on_surf,kR2R2off
+
+
+# D5b. VN + R2R2   [VN+RR; VNN+RR]
+
+vegf165a(rbd,rbd,nbd!2,nbd,Mbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) + vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s)  <-> \
+vegf165a(rbd,rbd!3,nbd!2,nbd,Mbd,c~s).nrp1(lbd!2,rbd,nbd,c~s).vegfr2(lbd!3,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s)   kN1vegfA_R2on_surf,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) + vegfr2(lbd,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) <-> \
+vegf165a(rbd!4,rbd,nbd!1,nbd!2,Mbd,c~s).vegfr2(lbd!4,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)   kN1vegfA_R2on_surf,kvegfA_R2off
+
+
+# D5c. VR2 + N    [VR+N; VRN+N; VRR+N; VRRN+N; RVR+N; RVRN+N; VRRdel+N; VRRdelN+N]
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) kR2vegfA_N1on_surf,kR2vegfA_N1off  
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!3,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s)   kR2vegfA_N1on_surf,kR2vegfA_N1off
+
+
+# POTENTIAL GENERALIZATION (but not complete?):
+
+# vegf165a(rbd,rbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) + vegfr2(lbd,nbd,c~s) <-> \
+# vegf165a(rbd!2,rbd,nbd!1,Mbd,c~s).vegfr2(lbd!2,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) kN1vegfA_R2on,kN1vegfA_R2off  
+
+# vegf165a(rbd!1,rbd,nbd,Mbd,c~s).vegfr2(lbd!1,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+# vegf165a(rbd!1,rbd,nbd!2,Mbd,c~s).vegfr2(lbd!1,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) kR2vegfA_N1on,kR2vegfA_N1off  
+
+# End generalization - needs more work before replacing above
+
+
+################################
+# D6. VR1-N1
+################################
+
+# D6a. VR1+N1 (via R-N interactions)   [VR+N; VRR+N; VRRN+N; RVR+N; RVRN+N; RVRdel+N; RVRdelN+N]
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!4,c~s).nrp1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd!4,c~s).nrp1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd!5,c~s).nrp1(lbd,rbd!4,nbd,c~s).nrp1(lbd,rbd!5,nbd,c~s) kvegfAR1_N1on_surf,kvegfAR1_N1off
+
+
+# D6b. VR1+N1 (via R-R interactions)   [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+# D6c. VR1+N1 (via V-R interactions) [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!3,rbd,nbd,c~s)   kR1vegfA_R1on_surf,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1vegfA_R1on_surf,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1vegfA_R1on_surf,kvegfA_R1off
+
+
+# D6d. PR1+N1 (via R-N interactions)   [PR+N; PRR+N; PRRN+N; RPR+N; RPRN+N; RPRdel+N; RPRdelN+N]
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!4,c~s).nrp1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd,c~s).nrp1(lbd,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd!3,c~s).vegfr1(lbd!2,rbd,nbd!4,c~s).nrp1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).nrp1(lbd,rbd!4,nbd,c~s) + nrp1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd!4,c~s).vegfr1(lbd!2,rbd!3,nbd!5,c~s).nrp1(lbd,rbd!4,nbd,c~s).nrp1(lbd,rbd!5,nbd,c~s) kplgfR1_N1on_surf,kplgfR1_N1off
+
+# D6e. PR1+N1 (via R-R interactions)   [PRN+R; PRN+RN]
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1R1on_surf,kR1R1off
+
+# D6f. PR1+N1 (via P-R interactions) [PRN+R; PR+RN; PRN+RN]
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1plgf_R1on_surf,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1plgf_R1on_surf,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) + vegfr1(lbd,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) <-> \
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1plgf_R1on_surf,kplgf_R1off 
+
+
+
+##############################################################################
+# E. Ligand-receptor complexes coupling (Rab4)
+##############################################################################
+
+# E1. Ligand-Receptor complex binding to 2nd Receptor via Ligand
+################################
+
+# E1a. Ligand-NRP + NRP
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd,rbd,nbd!2,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) kN1vegfA_N1on_rab4,kN1vegfA_N1off  
+
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd,rbd,nbd!2,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) kN1plgf2_N1on_rab4,kN1plgf2_N1off  
+
+# E1b. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) kR2vegfA_R2on_rab4,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) kR2vegfA_R2on_rab4,kvegfA_R2off
+
+# E1c. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kR1vegfA_R1on_rab4,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kR1vegfA_R1on_rab4,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kR1plgf_R1on_rab4,kplgf_R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kR1plgf_R1on_rab4,kplgf_R1off
+
+
+# E2. Ligand-Receptor complex binding to 2nd Receptor via Receptor
+################################
+
+# E2a. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a) kR2R2on_rab4,kR2R2off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a) kR2R2on_rab4,kR2R2off
+
+# E2b. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) kR1R1on_rab4,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) kR1R1on_rab4,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) kR1R1on_rab4,kR1R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) kR1R1on_rab4,kR1R1off
+
+
+# E3. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via VR reaction - note absence of nbd terms in ligand
+################################
+
+# E3a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) kdeltaVEGFA_R,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) kdeltaVEGFA_R,kvegfA_R2off
+
+# E3b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kdeltaVEGFA_R,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!3,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd!3,c~Rab4a5a) kdeltaVEGFA_R,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!3,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd!3,c~Rab4a5a) kdeltaPLGF_R,kplgf_R1off
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kdeltaPLGF_R,kplgf_R1off
+
+
+# E4. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via RR reaction - note absence of nbd terms in ligand
+################################
+
+# E4a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a)   kdeltaR2R2,kR2R2off
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a)   kdeltaR2R2,kR2R2off
+
+# E4b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a)   kdeltaR1R1_V,kR1R1off
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd!3,c~Rab4a5a)   kdeltaR1R1_V,kR1R1off
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a)      kdeltaR1R1_P,kR1R1off
+
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a)   kdeltaR1R1_P,kR1R1off
+
+
+################################
+# E5. VEGF-VEGFR2 binds NRP1; VEGF-NRP1 binds VEGFR2
+################################
+
+# E5a. VN + R2   [VN+R; VNN+R; VRN+R (via VR & RR); VRNN+R (via VR & RR)]
+
+vegf165a(rbd,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) kN1vegfA_R2on_rab4,kN1vegfA_R2off  
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a)   kN1vegfA_R2on_rab4,kvegfA_R2off
+
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd!3,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).vegfr2(lbd!3,rbd,nbd,c~Rab4a5a)   kR2vegfA_R2on_rab4,kvegfA_R2off
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a)   kR2R2on_rab4,kR2R2off
+
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).vegfr2(lbd!3,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!3,rbd!4,nbd!1,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!3,rbd,nbd,c~Rab4a5a).vegfr2(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a)   kR2vegfA_R2on_rab4,kvegfA_R2off
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).vegfr2(lbd!3,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!3,rbd!4,nbd,c~Rab4a5a).vegfr2(lbd,rbd!4,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a)   kR2R2on_rab4,kR2R2off
+
+
+# E5b. VN + R2R2   [VN+RR; VNN+RR]
+
+vegf165a(rbd,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd,rbd!3,nbd!2,nbd,Mbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).vegfr2(lbd!3,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a)   kN1vegfA_R2on_rab4,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!4,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!4,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a)   kN1vegfA_R2on_rab4,kvegfA_R2off
+
+
+# E5c. VR2 + N    [VR+N; VRN+N; VRR+N; VRRN+N; RVR+N; RVRN+N; VRRdel+N; VRRdelN+N]
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) kR2vegfA_N1on_rab4,kR2vegfA_N1off  
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)   kR2vegfA_N1on_rab4,kR2vegfA_N1off
+
+
+# POTENTIAL GENERALIZATION (but not complete?):
+
+# vegf165a(rbd,rbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr2(lbd,nbd,c~Rab4a5a) <-> \
+# vegf165a(rbd!2,rbd,nbd!1,Mbd,c~Rab4a5a).vegfr2(lbd!2,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) kN1vegfA_R2on,kN1vegfA_R2off  
+
+# vegf165a(rbd!1,rbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+# vegf165a(rbd!1,rbd,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!1,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) kR2vegfA_N1on,kR2vegfA_N1off  
+
+# End generalization - needs more work before replacing above
+
+
+################################
+# E6. VR1-N1
+################################
+
+# E6a. VR1+N1 (via R-N interactions)   [VR+N; VRR+N; VRRN+N; RVR+N; RVRN+N; RVRdel+N; RVRdelN+N]
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd!5,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a).nrp1(lbd,rbd!5,nbd,c~Rab4a5a) kvegfAR1_N1on_rab4,kvegfAR1_N1off
+
+
+# E6b. VR1+N1 (via R-R interactions)   [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+# E6c. VR1+N1 (via V-R interactions) [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a)   kR1vegfA_R1on_rab4,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1vegfA_R1on_rab4,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1vegfA_R1on_rab4,kvegfA_R1off
+
+
+# E6d. PR1+N1 (via R-N interactions)   [PR+N; PRR+N; PRRN+N; RPR+N; RPRN+N; RPRdel+N; RPRdelN+N]
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!3,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) + nrp1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd!5,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a).nrp1(lbd,rbd!5,nbd,c~Rab4a5a) kplgfR1_N1on_rab4,kplgfR1_N1off
+
+# E6e. PR1+N1 (via R-R interactions)   [PRN+R; PRN+RN]
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1R1on_rab4,kR1R1off
+
+# E6f. PR1+N1 (via P-R interactions) [PRN+R; PR+RN; PRN+RN]
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1plgf_R1on_rab4,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1plgf_R1on_rab4,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) + vegfr1(lbd,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) <-> \
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1plgf_R1on_rab4,kplgf_R1off 
+
+
+
+##############################################################################
+# F. Ligand-receptor complexes coupling (Rab11)
+##############################################################################
+
+# F1. Ligand-Receptor complex binding to 2nd Receptor via Ligand
+################################
+
+# F1a. Ligand-NRP + NRP
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd,rbd,nbd!2,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) kN1vegfA_N1on_rab11,kN1vegfA_N1off  
+
+plgf2(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd,rbd,nbd!2,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) kN1plgf2_N1on_rab11,kN1plgf2_N1off  
+
+# F1b. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) kR2vegfA_R2on_rab11,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) kR2vegfA_R2on_rab11,kvegfA_R2off
+
+# F1c. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kR1vegfA_R1on_rab11,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kR1vegfA_R1on_rab11,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kR1plgf_R1on_rab11,kplgf_R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kR1plgf_R1on_rab11,kplgf_R1off
+
+
+# F2. Ligand-Receptor complex binding to 2nd Receptor via Receptor
+################################
+
+# F2a. Ligand-VEGFR2 + VEGFR2
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd!2,nbd,c~Rab11a).vegfr2(lbd,rbd!2,nbd,c~Rab11a) kR2R2on_rab11,kR2R2off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd!2,nbd,c~Rab11a).vegfr2(lbd,rbd!2,nbd,c~Rab11a) kR2R2on_rab11,kR2R2off
+
+# F2b. Ligand-VEGFR1 + VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) kR1R1on_rab11,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) kR1R1on_rab11,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) kR1R1on_rab11,kR1R1off 
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) kR1R1on_rab11,kR1R1off
+
+
+# F3. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via VR reaction - note absence of nbd terms in ligand
+################################
+
+# F3a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) kdeltaVEGFA_R,kvegfA_R2off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) kdeltaVEGFA_R,kvegfA_R2off
+
+# F3b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) kdeltaVEGFA_R,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,c~Rab11a).vegfr1(lbd,rbd!3,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,c~Rab11a).vegfr1(lbd!2,rbd!3,c~Rab11a) kdeltaVEGFA_R,kvegfA_R1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,c~Rab11a).vegfr1(lbd,rbd!3,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,c~Rab11a).vegfr1(lbd!2,rbd!3,c~Rab11a) kdeltaPLGF_R,kplgf_R1off
+
+plgf2(rbd!1,rbd,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) kdeltaPLGF_R,kplgf_R1off
+
+
+# F4. Completion of fully bound trimer (VEGFR-VEGF-VEGFR-delta) via RR reaction - note absence of nbd terms in ligand
+################################
+
+# F4a. VEGFR2-ligand-VEGFR2
+
+vegf165a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a)   kdeltaR2R2,kR2R2off
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a)   kdeltaR2R2,kR2R2off
+
+# F4b. VEGFR1-ligand-VEGFR1
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a)   kdeltaR1R1_V,kR1R1off
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,c~Rab11a).vegfr1(lbd!2,rbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,c~Rab11a).vegfr1(lbd!2,rbd!3,c~Rab11a)   kdeltaR1R1_V,kR1R1off
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a)      kdeltaR1R1_P,kR1R1off
+
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) <-> \
+plgf2(rbd!1,rbd!2,nbd,nbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a)   kdeltaR1R1_P,kR1R1off
+
+
+################################
+# F5. VEGF-VEGFR2 binds NRP1; VEGF-NRP1 binds VEGFR2
+################################
+
+# F5a. VN + R2   [VN+R; VNN+R; VRN+R (via VR & RR); VRNN+R (via VR & RR)]
+
+vegf165a(rbd,rbd,nbd!1,nbd,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) kN1vegfA_R2on_rab11,kN1vegfA_R2off  
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).vegfr2(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a)   kN1vegfA_R2on_rab11,kvegfA_R2off
+
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd!3,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a).vegfr2(lbd!3,rbd,nbd,c~Rab11a)   kR2vegfA_R2on_rab11,kvegfA_R2off
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a)   kR2R2on_rab11,kR2R2off
+
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a).vegfr2(lbd!3,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!3,rbd!4,nbd!1,nbd!2,Mbd,c~Rab11a).vegfr2(lbd!3,rbd,nbd,c~Rab11a).vegfr2(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a)   kR2vegfA_R2on_rab11,kvegfA_R2off
+
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a).vegfr2(lbd!3,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!3,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).vegfr2(lbd!3,rbd!4,nbd,c~Rab11a).vegfr2(lbd,rbd!4,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a)   kR2R2on_rab11,kR2R2off
+
+
+# F5b. VN + R2R2   [VN+RR; VNN+RR]
+
+vegf165a(rbd,rbd,nbd!2,nbd,Mbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a)  <-> \
+vegf165a(rbd,rbd!3,nbd!2,nbd,Mbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a).vegfr2(lbd!3,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a)   kN1vegfA_R2on_rab11,kvegfA_R2off
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) + vegfr2(lbd,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf165a(rbd!4,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).vegfr2(lbd!4,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a)   kN1vegfA_R2on_rab11,kvegfA_R2off
+
+
+# F5c. VR2 + N    [VR+N; VRN+N; VRR+N; VRRN+N; RVR+N; RVRN+N; VRRdel+N; VRRdelN+N]
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) kR2vegfA_N1on_rab11,kR2vegfA_N1off  
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!3,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a)  <-> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a)   kR2vegfA_N1on_rab11,kR2vegfA_N1off
+
+
+# POTENTIAL GENERALIZATION (but not complete?):
+
+# vegf165a(rbd,rbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) + vegfr2(lbd,nbd,c~Rab11a) <-> \
+# vegf165a(rbd!2,rbd,nbd!1,Mbd,c~Rab11a).vegfr2(lbd!2,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) kN1vegfA_R2on,kN1vegfA_R2off  
+
+# vegf165a(rbd!1,rbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+# vegf165a(rbd!1,rbd,nbd!2,Mbd,c~Rab11a).vegfr2(lbd!1,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) kR2vegfA_N1on,kR2vegfA_N1off  
+
+# Fnd generalization - needs more work before replacing above
+
+
+################################
+# F6. VR1-N1
+################################
+
+# F6a. VR1+N1 (via R-N interactions)   [VR+N; VRR+N; VRRN+N; RVR+N; RVRN+N; RVRdel+N; RVRdelN+N]
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!4,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd!4,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd!5,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a).nrp1(lbd,rbd!5,nbd,c~Rab11a) kvegfAR1_N1on_rab11,kvegfAR1_N1off
+
+
+# F6b. VR1+N1 (via R-R interactions)   [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+# F6c. VR1+N1 (via V-R interactions) [VRN+R; VR+RN; VRN+RN]
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!3,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!3,rbd,nbd,c~Rab11a)   kR1vegfA_R1on_rab11,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1vegfA_R1on_rab11,kvegfA_R1off
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1vegfA_R1on_rab11,kvegfA_R1off
+
+
+# F6d. PR1+N1 (via R-N interactions)   [PR+N; PRR+N; PRRN+N; RPR+N; RPRN+N; RPRdel+N; RPRdelN+N]
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!4,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd!3,c~Rab11a).vegfr1(lbd!2,rbd,nbd!4,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) + nrp1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!4,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd!5,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a).nrp1(lbd,rbd!5,nbd,c~Rab11a) kplgfR1_N1on_rab11,kplgfR1_N1off
+
+# F6e. PR1+N1 (via R-R interactions)   [PRN+R; PRN+RN]
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1R1on_rab11,kR1R1off
+
+# F6f. PR1+N1 (via P-R interactions) [PRN+R; PR+RN; PRN+RN]
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!3,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).vegfr1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1plgf_R1on_rab11,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1plgf_R1on_rab11,kplgf_R1off 
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) + vegfr1(lbd,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) <-> \
+plgf1(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1plgf_R1on_rab11,kplgf_R1off 
+
+
+
+
+
+
+#########################################################
+# G. TRAFFICKING
+#########################################################
+
+
+#########################################################
+#Internalization from cell surface to Rab4a/5a endosomes
+#########################################################
+#Unligated Receptor Trafficking
+vegfr1(lbd,rbd,nbd,c~s) -> vegfr1(lbd,rbd,nbd,c~Rab4a5a) kR1Rab5a
+vegfr2(lbd,rbd,nbd,c~s) -> vegfr2(lbd,rbd,nbd,c~Rab4a5a) kR2Rab5a
+nrp1(lbd,rbd,nbd,c~s) -> nrp1(lbd,rbd,nbd,c~Rab4a5a) kN1Rab5a
+
+vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) -> vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) kR1Rab5a
+vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) -> vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) kR2Rab5a
+
+vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) -> vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) kR1N1Rab5a
+
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) kR1N1Rab5a
+
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) ->\
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) kR1N1Rab5a
+
+# pinocytosis of ligands (if included)
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s) -> vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a)  kVegfRab5a
+plgf1(rbd,rbd,c~s) -> plgf1(rbd,rbd,c~Rab4a5a)  kPlgfRab5a
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~s) -> plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a)  kPlgfRab5a
+vegf121a(rbd,rbd,c~s) -> vegf121a(rbd,rbd,c~Rab4a5a)  kVegfRab5a
+
+##############################################################################
+#Internalization of VEGF-A165a-bound VEGFR2 complexes from cell surface to Rab4a/5a endosomes
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,c~s) -> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a) kVegfN1Rab5a
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,c~s).nrp1(lbd!2,rbd,c~s) -> \
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a).nrp1(lbd!2,rbd,c~Rab4a5a) kVegfN1Rab5a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) kR2Rab5a
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) kVegfR2Rab5a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!2,nbd,c~s).vegfr2(lbd,rbd!2,nbd,c~s) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a)  kR2Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) kVegfR2Rab5a
+
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s)  -> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)   kR2N1Rab5a
+
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) -> \  
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) kR2N1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s) -> \  
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a) kVegfR2N1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd!4,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd!4,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) kVegfR2N1Rab5a
+
+nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~s,lbd!3,nbd,rbd) -> \
+nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) kR2N1Rab5a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,nbd,rbd!3,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)  kR2N1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,nbd,rbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a)  kVegfR2N1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s)   -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a) kVegfR2N1Rab5a
+
+########################
+#VEGFR2 bound to VEGFA121a complex internalization to Rab4a/5a vesicles
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s)-> vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a) kR2Rab5a
+
+vegf121a(rbd!2,rbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s)-> \
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a)    kR2Rab5a
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) kVegfR2Rab5a
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) kVegfR2Rab5a
+
+##############################################################################
+#Internalization of VEGF-A165a-bound VEGFR1 complexes from cell surface to Rab4a/5a endosomes
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  kR1Rab5a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a) kR1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kVegfR1Rab5a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kVegfR1Rab5a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!1,c~s).nrp1(c~s,lbd,nbd,rbd!1)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!1,c~Rab4a5a).nrp1(c~Rab4a5a,lbd,nbd,rbd!1) kR1Rab5a
+
+########################
+#VEGFR1+VEGFA121a
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)  -> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)   kR1Rab5a
+
+vegf121a(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  -> \
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  kR1Rab5a
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kVegfR1Rab5a
+
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kVegfR1Rab5a
+
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) kR1N1Rab5a
+
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+vegf121a(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kVegfR1N1Rab5a
+
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kVegfR1N1Rab5a
+
+
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) -> \
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) -> \
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kVegfR1N1Rab5a
+
+vegf121a(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)  -> \
+vegf121a(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kVegfR1N1Rab5a
+
+##############################################################################
+#Internalization of PLGF1-bound VEGFR1 complexes from cell surface to Rab4a/5a endosomes
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)  -> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)   kR1Rab5a
+
+plgf1(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  -> \
+plgf1(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  kR1Rab5a
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) -> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kPlgfR1Rab5a
+
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) -> \
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kPlgfR1Rab5a
+
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) kR1N1Rab5a
+
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+plgf1(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+plgf1(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kPlgfR1N1Rab5a
+
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s) -> \
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)   kPlgfR1N1Rab5a
+
+
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s) -> \
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kR1N1Rab5a
+
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)  -> \
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kPlgfR1N1Rab5a
+
+plgf1(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)  -> \
+plgf1(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)   kPlgfR1N1Rab5a
+
+################################################
+#VEGFR1+PLGF2
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) -> \
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  kPlgfN1Rab5a
+
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s) -> \
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a)  kPlgfN1Rab5a
+
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) -> \
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  kR1Rab5a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s)-> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)    kR1Rab5a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) kPlgfR1Rab5a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) kPlgfR1Rab5a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!4,c~s).nrp1(lbd,rbd!4,nbd,c~s) -> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a)  kR1N1Rab5a
+
+################################################################
+##Recycling to the surface via Rab4a endosomes (the fast route)
+################################################################
+#Unligated Complexes Recycle
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~s) kR1Rab4a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~s) kR2Rab4a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~s) kN1Rab4a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) kR1Rab4a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2Rab4a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) kR1N1Rab4a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab4a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab4a
+
+# recycling of ligands (if included)
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s)  kVegfRab4a
+plgf1(rbd,rbd,c~Rab4a5a) -> plgf1(rbd,rbd,c~s)  kPlgfRab4a
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd,nbd,Mbd,c~s)  kPlgfRab4a
+vegf121a(rbd,rbd,c~Rab4a5a) -> vegf121a(rbd,rbd,c~s)  kVegfRab4a
+
+##############################################################################
+#Recycling of VEGF-A165a-bound VEGFR2 complexes from Rab4a/5a endosomes to surface 
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,c~s) kVegfN1Rab4a
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a).nrp1(lbd!2,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,c~s).nrp1(lbd!2,rbd,c~s) kVegfN1Rab4a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kR2Rab4a
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kVegfR2Rab4a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!2,nbd,c~s).vegfr2(lbd,rbd!2,nbd,c~s)  kR2Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kVegfR2Rab4a
+
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s)   kR2N1Rab4a
+
+
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s) kVegfR2N1Rab4a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) kR2N1Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) kVegfR2N1Rab4a
+
+nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) -> \
+nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~s,lbd!3,nbd,rbd) kR2N1Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,nbd,rbd,c~s).nrp1(lbd!3,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)  kVegfR2N1Rab4a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,nbd,rbd!3,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s)  kR2N1Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)   -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s) kVegfR2N1Rab4a
+
+################################################
+# VEGFR2+VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)-> vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kR2Rab4a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!2,rbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s) kR2Rab4a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kVegfR2Rab4a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kVegfR2Rab4a
+
+###################################################################################
+#Recycling of VEGF-A165a-bound VEGFR1 complexes from Rab4a/5a endosomes to surface
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kR1Rab4a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kR1Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kVegfR1Rab4a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kVegfR1Rab4a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!1,c~Rab4a5a).nrp1(c~Rab4a5a,lbd,nbd,rbd!1)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!1,c~s).nrp1(c~s,lbd,nbd,rbd!1) kR1Rab4a
+
+######################################
+# VEGFR1+VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)   kR1Rab4a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kR1Rab4a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kVegfR1Rab4a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kVegfR1Rab4a
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kR1N1Rab4a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab4a
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab4a
+
+vegf121a(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kVegfR1N1Rab4a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kVegfR1N1Rab4a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1N1Rab4a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kVegfR1N1Rab4a
+
+vegf121a(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kVegfR1N1Rab4a
+
+##############################################################################
+#Recycling of PLGF1-bound VEGFR1 complexes from Rab4a/5a endosomes to cell surface
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)   kR1Rab4a
+
+plgf1(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kR1Rab4a
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kPlgfR1Rab4a
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kPlgfR1Rab4a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kR1N1Rab4a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab4a
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab4a
+
+plgf1(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kPlgfR1N1Rab4a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kPlgfR1N1Rab4a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1N1Rab4a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kPlgfR1N1Rab4a
+
+plgf1(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kPlgfR1N1Rab4a
+ 
+############################################
+#VEGFR1+PLGF2
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) kPlgfN1Rab4a
+
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)  kPlgfN1Rab4a
+
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kR1Rab4a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kR1Rab4a
+ 
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kPlgfR1Rab4a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kPlgfR1Rab4a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) -> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!4,c~s).nrp1(lbd,rbd!4,nbd,c~s)  kR1N1Rab4a
+
+######################################################
+###Transfer from Rab4a to Rab11a Recycling Endosomes
+######################################################
+#single receptor transfer from Rab4a5a to Rab11a 
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~Rab11a) kR1Rab4at11a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~Rab11a) kR2Rab4at11a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~Rab11a) kN1Rab4at11a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) kR1Rab4at11a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) kR2Rab4at11a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(rbd!1,lbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~Rab11a).nrp1(rbd!1,lbd,c~Rab11a) kR1N1Rab4at11a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) kR1N1Rab4at11a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) kR1N1Rab4at11a
+
+# recycling of ligands (if included)
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab11a)  kVegfRab4at11a
+plgf1(rbd,rbd,c~Rab4a5a) -> plgf1(rbd,rbd,c~Rab11a)  kPlgfRab4at11a
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab11a)  kPlgfRab4at11a
+vegf121a(rbd,rbd,c~Rab4a5a) -> vegf121a(rbd,rbd,c~Rab11a)  kVegfRab4at11a
+
+###########################################################################################
+#Transfer of VEGF-A165a-bound VEGFR2 complexes from Rab4a/5a endosomes to Rab11a endosomes
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,c~Rab11a) kVegfN1Rab4at11a
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a).nrp1(lbd!2,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,c~Rab11a).nrp1(lbd!2,rbd,c~Rab11a) kVegfN1Rab4at11a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) kR2Rab4at11a
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,Mbd,nbd,nbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) kVegfR2Rab4at11a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!2,nbd,c~Rab11a).vegfr2(lbd,rbd!2,nbd,c~Rab11a)  kR2Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) kVegfR2Rab4at11a
+
+
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a)   kR2N1Rab4at11a
+
+
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd,nbd!2,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) kR2N1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a) kVegfR2N1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) kVegfR2N1Rab4at11a
+
+nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) -> \
+nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab11a,lbd!3,nbd,rbd) kR2N1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,nbd,rbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a)  kVegfR2N1Rab4at11a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,nbd,rbd!3,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a)  kR2N1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)   -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a) kVegfR2N1Rab4at11a
+
+######################################
+#VEGFR2+VEGFA121a
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)-> vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a) kR2Rab4at11a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr2(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr2(lbd!2,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) kR2Rab4at11a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) kVegfR2Rab4at11a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) kVegfR2Rab4at11a
+
+###########################################################################################
+#Transfer of VEGF-A165a-bound VEGFR1 complexes from Rab4a/5a endosomes to Rab11a endosomes
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) kR1Rab4at11a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) kR1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kVegfR1Rab4at11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a)  kVegfR1Rab4at11a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!1,c~Rab4a5a).nrp1(c~Rab4a5a,lbd,nbd,rbd!1)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!1,c~Rab11a).nrp1(c~Rab11a,lbd,nbd,rbd!1) kR1Rab4at11a
+
+###################################
+#VEGFR1 bound VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)   kR1Rab4at11a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kVegfR1Rab4at11a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) kVegfR1Rab4at11a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  kR1Rab4at11a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) kR1N1Rab4at11a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+vegf121a(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!3,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).vegfr1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kVegfR1N1Rab4at11a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd!4,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kVegfR1N1Rab4at11a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kVegfR1N1Rab4at11a
+
+vegf121a(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kVegfR1N1Rab4at11a
+
+####################################################################################################
+#Transfer of PLGF1-bound VEGFR1 complexes from Rab4a/5a endosomes to Rab11a endosomes
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)   kR1Rab4at11a
+
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kPlgfR1Rab4at11a
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) kPlgfR1Rab4at11a
+
+plgf1(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  kR1Rab4at11a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) kR1N1Rab4at11a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+plgf1(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!3,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).vegfr1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kPlgfR1N1Rab4at11a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd!4,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a)   kPlgfR1N1Rab4at11a
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kR1N1Rab4at11a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kPlgfR1N1Rab4at11a
+
+plgf1(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)   kPlgfR1N1Rab4at11a
+
+
+############################
+#VEGFR1+PLLGF2
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) kPlgfN1Rab4at11a
+
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a)  kPlgfN1Rab4at11a
+
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a) kR1Rab4at11a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a) kR1Rab4at11a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) kPlgfR1Rab4at11a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a)  kPlgfR1Rab4at11a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) -> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!4,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a)  kR1N1Rab4at11a
+
+###########################################################
+#Slow recycling route via Rab11a endosome to cell surface
+###########################################################
+vegfr1(lbd,rbd,nbd,c~Rab11a) -> vegfr1(lbd,rbd,nbd,c~s) kR1Rab11a
+vegfr2(lbd,rbd,nbd,c~Rab11a) -> vegfr2(lbd,rbd,nbd,c~s) kR2Rab11a
+nrp1(lbd,rbd,nbd,c~Rab11a) -> nrp1(lbd,rbd,nbd,c~s) kN1Rab11a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a) -> vegfr1(lbd,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s) kR1Rab11a
+vegfr2(lbd,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) -> vegfr2(lbd,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2Rab11a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab11a).nrp1(rbd!1,lbd,c~Rab11a) -> vegfr1(lbd,rbd,nbd!1,c~s).nrp1(rbd!1,lbd,c~s) kR1N1Rab11a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) ->\
+vegfr1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab11a
+
+nrp1(lbd,rbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!3,c~Rab11a).vegfr1(lbd,rbd!2,nbd!1,c~Rab11a).nrp1(lbd,rbd!1,c~Rab11a) ->\
+nrp1(lbd,rbd!3,c~s).vegfr1(lbd,rbd!2,nbd!3,c~s).vegfr1(lbd,rbd!2,nbd!1,c~s).nrp1(lbd,rbd!1,c~s) kR1N1Rab11a 
+
+# recycling of ligands (if included)
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab11a) -> vegf165a(rbd,rbd,nbd,nbd,Mbd,c~s)  kVegfRab11a
+plgf1(rbd,rbd,c~Rab11a) -> plgf1(rbd,rbd,c~s)  kPlgfRab11a
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab11a) -> plgf2(rbd,rbd,nbd,nbd,Mbd,c~s)  kPlgfRab11a
+vegf121a(rbd,rbd,c~Rab11a) -> vegf121a(rbd,rbd,c~s)  kVegfRab11a
+
+######################################################################################
+#Recycling of VEGF-A165a-bound VEGFR2 complexes from Rab11a endosomes to cell surface
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab11a).nrp1(lbd!1,rbd,c~Rab11a) -> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~s).nrp1(lbd!1,rbd,c~s) kVegfN1Rab11a
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,c~Rab11a).nrp1(lbd!2,rbd,c~Rab11a) -> \
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,c~s).nrp1(lbd!2,rbd,c~s) kVegfN1Rab11a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kR2Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kVegfR2Rab11a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!2,nbd,c~Rab11a).vegfr2(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!2,nbd,c~s).vegfr2(lbd,rbd!2,nbd,c~s)  kR2Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kVegfR2Rab11a
+
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a)  -> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!1,rbd,nbd,c~s)   kR2N1Rab11a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) -> \  
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) kR2N1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a) -> \  
+vegf165a(rbd!1,rbd!2,nbd!3,nbd,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s).nrp1(lbd!3,rbd,nbd,c~s) kVegfR2N1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd!4,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd!4,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s) kVegfR2N1Rab11a
+
+nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab11a,lbd!3,nbd,rbd) -> \
+nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~s,lbd!3,nbd,rbd) kR2N1Rab11a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd,nbd,rbd!3,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s)  kR2N1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a).nrp1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,nbd,rbd,c~s).nrp1(lbd!3,rbd,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s)  kVegfR2N1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a).nrp1(lbd!4,rbd,nbd,c~Rab11a).nrp1(lbd!5,rbd,nbd,c~Rab11a)   -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s).nrp1(lbd!4,rbd,nbd,c~s).nrp1(lbd!5,rbd,nbd,c~s) kVegfR2N1Rab11a
+
+####################
+#VEGFR2+VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a)  -> \
+vegf121a(rbd!1,rbd,c~s).vegfr2(lbd!1,rbd,nbd,c~s) kR2Rab11a
+
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr2(lbd!2,rbd!1,nbd,c~Rab11a).vegfr2(lbd,rbd!1,nbd,c~Rab11a) -> \
+vegf121a(rbd!2,rbd,c~s).vegfr2(lbd!2,rbd!1,nbd,c~s).vegfr2(lbd,rbd!1,nbd,c~s) kR2Rab11a
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd,nbd,c~Rab11a).vegfr2(lbd!2,rbd,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd,nbd,c~s).vegfr2(lbd!2,rbd,nbd,c~s) kVegfR2Rab11a
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr2(lbd!1,rbd!3,nbd,c~Rab11a).vegfr2(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr2(lbd!1,rbd!3,nbd,c~s).vegfr2(lbd!2,rbd!3,nbd,c~s) kVegfR2Rab11a
+
+#########################################################################################
+#Recycling of VEGF-A165a-bound VEGFR1 complexes from Rab11a endosomes to cell surface
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kR1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kVegfR1Rab11a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kVegfR1Rab11a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kR1Rab11a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!1,c~Rab11a).nrp1(c~Rab11a,lbd,nbd,rbd!1)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!1,c~s).nrp1(c~s,lbd,nbd,rbd!1) kR1Rab11a
+
+#######################################
+#VEGFR1+VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)  -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)   kR1Rab11a
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kVegfR1Rab11a
+
+vegf121a(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kVegfR1Rab11a
+
+vegf121a(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  -> \
+vegf121a(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kR1Rab11a
+
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kR1N1Rab11a
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab11a
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab11a
+
+vegf121a(rbd!1,rbd!3,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).vegfr1(lbd!3,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!3,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!3,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kVegfR1N1Rab11a
+
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd!4,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!4,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kVegfR1N1Rab11a
+
+
+vegf121a(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) -> \
+vegf121a(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1N1Rab11a
+
+vegf121a(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)  -> \
+vegf121a(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kVegfR1N1Rab11a
+
+vegf121a(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)  -> \
+vegf121a(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kVegfR1N1Rab11a
+
+#################################################################################
+#Recycling of PLGF1-bound VEGFR1 complexes from Rab11a endosomes to cell surface
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kPlgfR1Rab11a
+
+
+plgf1(rbd!1,rbd!2,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd!2,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kPlgfR1Rab11a
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)  -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s)   kR1Rab11a
+
+plgf1(rbd!2,rbd,c~Rab11a).vegfr1(lbd!2,rbd!1,nbd,c~Rab11a).vegfr1(lbd,rbd!1,nbd,c~Rab11a)  -> \
+plgf1(rbd!2,rbd,c~s).vegfr1(lbd!2,rbd!1,nbd,c~s).vegfr1(lbd,rbd!1,nbd,c~s)  kR1Rab11a
+
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s) kR1N1Rab11a
+
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab11a
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kR1N1Rab11a
+
+plgf1(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab11a).vegfr1(lbd!5,rbd!3,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!3,nbd!2,c~s).vegfr1(lbd!5,rbd!3,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kPlgfR1N1Rab11a
+
+plgf1(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).vegfr1(lbd!5,rbd,nbd,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).vegfr1(lbd!5,rbd,nbd,c~s).nrp1(lbd,rbd!2,nbd,c~s)   kPlgfR1N1Rab11a
+
+
+plgf1(rbd!1,rbd,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a) -> \
+plgf1(rbd!1,rbd,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kR1N1Rab11a
+
+plgf1(rbd!1,rbd!4,c~Rab11a).vegfr1(lbd!1,rbd,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!4,rbd,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)  -> \
+plgf1(rbd!1,rbd!4,c~s).vegfr1(lbd!1,rbd,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!4,rbd,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kPlgfR1N1Rab11a
+
+plgf1(rbd!1,rbd!5,c~Rab11a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab11a).nrp1(lbd,rbd!2,nbd,c~Rab11a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab11a).nrp1(lbd,rbd!3,nbd,c~Rab11a)  -> \
+plgf1(rbd!1,rbd!5,c~s).vegfr1(lbd!1,rbd!4,nbd!2,c~s).nrp1(lbd,rbd!2,nbd,c~s).vegfr1(lbd!5,rbd!4,nbd!3,c~s).nrp1(lbd,rbd!3,nbd,c~s)   kPlgfR1N1Rab11a
+
+######################
+#VEGFR1+PLGF2 trafficking from Rab11a to surface
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a) -> plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s) kPlgfN1Rab11a
+
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab11a).nrp1(lbd!1,rbd,nbd,c~Rab11a).nrp1(lbd!2,rbd,nbd,c~Rab11a) -> \
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~s).nrp1(lbd!1,rbd,nbd,c~s).nrp1(lbd!2,rbd,nbd,c~s)  kPlgfN1Rab11a
+
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a)-> plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s) kR1Rab11a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd,nbd,c~Rab11a).vegfr1(lbd!2,rbd,nbd,c~Rab11a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd,nbd,c~s).vegfr1(lbd!2,rbd,nbd,c~s) kPlgfR1Rab11a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!1,rbd!3,nbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~s).vegfr1(lbd!1,rbd!3,nbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s) kPlgfR1Rab11a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd,c~Rab11a)-> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd,c~s) kR1Rab11a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab11a).vegfr1(lbd!2,rbd!3,nbd,c~Rab11a).vegfr1(lbd,rbd!3,nbd!4,c~Rab11a).nrp1(lbd,rbd!4,nbd,c~Rab11a) -> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~s).vegfr1(lbd!2,rbd!3,nbd,c~s).vegfr1(lbd,rbd!3,nbd!4,c~s).nrp1(lbd,rbd!4,nbd,c~s)  kR1N1Rab11a
+
+####################################################################
+#Degradation via transfer from Rab4a5a endosomes to Rab7a endosomes
+####################################################################
+#Single receptor transfer from Rab4a5a to Rab7a 
+vegfr1(lbd,rbd,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd,c~Rab7a)     kR1Rab4at7a
+vegfr2(lbd,rbd,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd,nbd,c~Rab7a)     kR2Rab4at7a
+nrp1(lbd,rbd,nbd,c~Rab4a5a) -> nrp1(lbd,rbd,nbd,c~Rab7a)         kN1Rab4at7a
+
+vegfr1(lbd,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr1(lbd,rbd!1,nbd,c~Rab7a).vegfr1(lbd,rbd!1,nbd,c~Rab7a) kR1Rab4at7a
+vegfr2(lbd,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> vegfr2(lbd,rbd!1,nbd,c~Rab7a).vegfr2(lbd,rbd!1,nbd,c~Rab7a) kR2Rab4at7a
+
+vegfr1(lbd,rbd,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) -> vegfr1(lbd,rbd,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+vegfr1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+vegfr1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd,rbd!2,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+nrp1(lbd,rbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!3,c~Rab4a5a).vegfr1(lbd,rbd!2,nbd!1,c~Rab4a5a).nrp1(lbd,rbd!1,c~Rab4a5a) ->\
+nrp1(lbd,rbd!3,c~Rab7a).vegfr1(lbd,rbd!2,nbd!3,c~Rab7a).vegfr1(lbd,rbd!2,nbd!1,c~Rab7a).nrp1(lbd,rbd!1,c~Rab7a) kR1N1Rab4at7a
+
+# degradation of ligands
+vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> vegf165a(rbd,rbd,nbd,nbd,Mbd,c~Rab7a)  kVegfRab4at7a
+plgf1(rbd,rbd,c~Rab4a5a) -> plgf1(rbd,rbd,c~Rab7a)  kPlgfRab4at7a
+plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd,nbd,Mbd,c~Rab7a)  kPlgfRab4at7a
+vegf121a(rbd,rbd,c~Rab4a5a) -> vegf121a(rbd,rbd,c~Rab7a)  kVegfRab4at7a
+
+###############################################################################################
+#Transfer of VEGF-A165a-bound VEGFR2 complexes from Rab4a5a endosomes to Rab7a endosomes
+
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd,nbd!1,Mbd,c~Rab7a).nrp1(lbd!1,rbd,c~Rab7a) kVegfN1Rab4at7a
+
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,c~Rab4a5a).nrp1(lbd!2,rbd,c~Rab4a5a) -> \
+vegf165a(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab7a).nrp1(lbd!1,rbd,c~Rab7a).nrp1(lbd!2,rbd,c~Rab7a) kVegfN1Rab4at7a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a) kR2Rab4at7a
+
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a).vegfr2(lbd!2,rbd,nbd,c~Rab7a) kVegfR2Rab4at7a
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!2,nbd,c~Rab4a5a).vegfr2(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!2,nbd,c~Rab7a).vegfr2(lbd,rbd!2,nbd,c~Rab7a)  kR2Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd!2,rbd!3,nbd,c~Rab7a) kVegfR2Rab4at7a
+
+
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf165a(rbd!2,rbd,nbd!1,nbd,Mbd,c~Rab7a).vegfr2(lbd!2,rbd,nbd,c~Rab7a).nrp1(lbd!1,rbd,nbd,c~Rab7a)   kR2N1Rab4at7a
+
+
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd,nbd!4,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd,rbd!3,nbd,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a) kR2N1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \  
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a).vegfr2(lbd!2,rbd,nbd,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a) kVegfR2N1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd!2,rbd!3,nbd,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a) kVegfR2N1Rab4at7a
+
+# vegf165a(rbd!1,rbd,nbd!2,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a) -> \  
+# vegf165a(rbd!1,rbd,nbd!2,nbd!3,Mbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a).nrp1(lbd!2,rbd,nbd,c~Rab7a).nrp1(lbd!3,rbd,nbd,c~Rab7a) kVegfR2N1Rab4at7a
+
+nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) -> \
+nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab7a,lbd!3,nbd,rbd) kR2N1Rab4at7a
+
+vegf165a(rbd!1,rbd,nbd!4,nbd!2,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd,nbd!4,nbd!2,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd,nbd,rbd!3,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a).nrp1(lbd!2,rbd,nbd,c~Rab7a)  kR2N1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a).nrp1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!3,Mbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a).vegfr2(lbd!2,nbd,rbd,c~Rab7a).nrp1(lbd!3,rbd,nbd,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a)  kVegfR2N1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a).nrp1(lbd!4,rbd,nbd,c~Rab4a5a).nrp1(lbd!5,rbd,nbd,c~Rab4a5a)   -> \
+vegf165a(rbd!1,rbd!2,nbd!4,nbd!5,Mbd,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd!2,rbd!3,nbd,c~Rab7a).nrp1(lbd!4,rbd,nbd,c~Rab7a).nrp1(lbd!5,rbd,nbd,c~Rab7a) kVegfR2N1Rab4at7a
+
+###################
+#VEGFR2+VEGFA121a
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a) kR2Rab4at7a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr2(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr2(lbd,rbd!1,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!2,rbd,c~Rab7a).vegfr2(lbd!2,rbd!1,nbd,c~Rab7a).vegfr2(lbd,rbd!1,nbd,c~Rab7a) kR2Rab4at7a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab7a).vegfr2(lbd!1,rbd,nbd,c~Rab7a).vegfr2(lbd!2,rbd,nbd,c~Rab7a) kVegfR2Rab4at7a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr2(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr2(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab7a).vegfr2(lbd!1,rbd!3,nbd,c~Rab7a).vegfr2(lbd!2,rbd!3,nbd,c~Rab7a) kVegfR2Rab4at7a
+
+###############################################################################################
+#Transfer of VEGF-A165a-bound VEGFR1 complexes from Rab4a5a endosomes to Rab7a endosomes
+
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!1,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a) kR1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a).vegfr1(lbd!2,rbd,nbd,c~Rab7a) kVegfR1Rab4at7a
+
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf165a(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a)  kVegfR1Rab4at7a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd,c~Rab7a) kR1Rab4at7a
+
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!1,c~Rab4a5a).nrp1(c~Rab4a5a,lbd,nbd,rbd!1)-> \
+vegf165a(rbd!2,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd!1,c~Rab7a).nrp1(c~Rab7a,lbd,nbd,rbd!1) kR1Rab4at7a
+
+##########################
+#VEGFR1+VEGF121a
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a)   kR1Rab4at7a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a).vegfr1(lbd!2,rbd,nbd,c~Rab7a) kVegfR1Rab4at7a
+
+vegf121a(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!2,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a) kVegfR1Rab4at7a
+
+vegf121a(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!2,rbd,c~Rab7a).vegfr1(lbd!2,rbd!1,nbd,c~Rab7a).vegfr1(lbd,rbd!1,nbd,c~Rab7a)  kR1Rab4at7a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a) kR1N1Rab4at7a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab7a).vegfr1(lbd,rbd!3,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+vegf121a(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!3,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).vegfr1(lbd!3,rbd,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kVegfR1N1Rab4at7a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+vegf121a(rbd!1,rbd!4,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab7a).vegfr1(lbd!4,rbd!3,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kVegfR1N1Rab4at7a
+
+
+vegf121a(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd,rbd!4,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+vegf121a(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!4,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd!4,rbd,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kVegfR1N1Rab4at7a
+
+vegf121a(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+vegf121a(rbd!1,rbd!5,c~Rab7a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kVegfR1N1Rab4at7a
+
+###############################################################################################
+#Degradation of PLGF1-bound VEGFR1 complexes from Rab4a5a endosomes to Rab7a endosomes
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a)   kR1Rab4at7a
+
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a).vegfr1(lbd!2,rbd,nbd,c~Rab7a) kPlgfR1Rab4at7a
+
+plgf1(rbd!1,rbd!2,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!2,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a) kPlgfR1Rab4at7a
+
+plgf1(rbd!2,rbd,c~Rab4a5a).vegfr1(lbd!2,rbd!1,nbd,c~Rab4a5a).vegfr1(lbd,rbd!1,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!2,rbd,c~Rab7a).vegfr1(lbd!2,rbd!1,nbd,c~Rab7a).vegfr1(lbd,rbd!1,nbd,c~Rab7a)  kR1Rab4at7a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a) kR1N1Rab4at7a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab7a).vegfr1(lbd,rbd!3,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+plgf1(rbd!1,rbd!3,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).vegfr1(lbd!3,rbd,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!3,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).vegfr1(lbd!3,rbd,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kPlgfR1N1Rab4at7a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab4a5a).vegfr1(lbd!4,rbd!3,nbd,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a) -> \
+plgf1(rbd!1,rbd!4,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd!2,c~Rab7a).vegfr1(lbd!4,rbd!3,nbd,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a)   kPlgfR1N1Rab4at7a
+
+
+plgf1(rbd!1,rbd,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd,c~Rab7a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd,rbd!4,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kR1N1Rab4at7a
+
+plgf1(rbd!1,rbd!4,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!4,rbd,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!4,c~Rab7a).vegfr1(lbd!1,rbd,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd!4,rbd,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kPlgfR1N1Rab4at7a
+
+plgf1(rbd!1,rbd!5,c~Rab4a5a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab4a5a).nrp1(lbd,rbd!2,nbd,c~Rab4a5a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab4a5a).nrp1(lbd,rbd!3,nbd,c~Rab4a5a)  -> \
+plgf1(rbd!1,rbd!5,c~Rab7a).vegfr1(lbd!1,rbd!4,nbd!2,c~Rab7a).nrp1(lbd,rbd!2,nbd,c~Rab7a).vegfr1(lbd!5,rbd!4,nbd!3,c~Rab7a).nrp1(lbd,rbd!3,nbd,c~Rab7a)   kPlgfR1N1Rab4at7a
+
+#########################3
+# VEGFR1+PLGF2
+plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a) -> plgf2(rbd,rbd,nbd!1,nbd,Mbd,c~Rab7a).nrp1(lbd!1,rbd,nbd,c~Rab7a) kPlgfN1Rab4at7a
+
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab4a5a).nrp1(lbd!1,rbd,nbd,c~Rab4a5a).nrp1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd,rbd,nbd!1,nbd!2,Mbd,c~Rab7a).nrp1(lbd!1,rbd,nbd,c~Rab7a).nrp1(lbd!2,rbd,nbd,c~Rab7a)  kPlgfN1Rab4at7a
+
+plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a)-> plgf2(rbd!1,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a) kR1Rab4at7a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd,nbd,c~Rab7a).vegfr1(lbd!2,rbd,nbd,c~Rab7a) kPlgfR1Rab4at7a
+
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!1,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a) -> \
+plgf2(rbd!1,rbd!2,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!1,rbd!3,nbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a)  kPlgfR1Rab4at7a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd,c~Rab4a5a)-> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd,c~Rab7a) kR1Rab4at7a
+
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab4a5a).vegfr1(lbd!2,rbd!3,nbd,c~Rab4a5a).vegfr1(lbd,rbd!3,nbd!4,c~Rab4a5a).nrp1(lbd,rbd!4,nbd,c~Rab4a5a) -> \
+plgf2(rbd!2,rbd,nbd,nbd,Mbd,c~Rab7a).vegfr1(lbd!2,rbd!3,nbd,c~Rab7a).vegfr1(lbd,rbd!3,nbd!4,c~Rab7a).nrp1(lbd,rbd!4,nbd,c~Rab7a)  kR1N1Rab4at7a
+
+##############################################
+# H. Production of Receptors in the cell
+##############################################
+0-> vegfr1(lbd,rbd,nbd,c~s)             kR1prod
+0-> vegfr2(lbd,rbd,nbd,c~s)             kR2prod
+0-> nrp1(lbd,rbd,nbd,c~s)               kN1prod
+
+end reaction rules 
+
+#########
+#Actions
+#########
+generate_network({overwrite=>1,max_iter=>60,max_agg=>5,max_stoich=>{vegfr1=>2,vegfr2=>2,nrp1=>2,vegf165a=>1,vegf121a=>1,M=>1,plgf1=>1,plgf2=>1}})
+writeMEXfile({atol=>1e-8,rtol=>1e-8,t_start=>0,t_end=>1800,n_steps=>10000,max_num_steps=>50000,sparse=>1,stiff=>1});
+writeMfile({atol=>1e-8,rtol=>1e-8,t_start=>0,t_end=>1800,n_steps=>10000,max_num_steps=>50000,sparse=>1,stiff=>1});

@@ -1,0 +1,1711 @@
+# Created by BioNetGen 2.7.1
+begin parameters
+    1 VEGF165a_0                  0  # Constant
+    2 VEGF121a_0                  0  # Constant
+    3 PLGF1_0                     0  # Constant
+    4 PLGF2_0                     0  # Constant
+    5 VEGFR1_0                    1800  # Constant
+    6 VEGFR2_0                    4900  # Constant
+    7 NRP1_0                      68000  # Constant
+    8 M_0                         0.0  # Constant
+    9 kR1R1on_surf                8.0E-7  # Constant
+   10 kR1R1on_rab4                8.42E-7  # Constant
+   11 kR1R1on_rab11               24.6E-7  # Constant
+   12 kR1R1off                    0.01  # Constant
+   13 kR2R2on_surf                2E-6  # Constant
+   14 kR2R2on_rab4                2.11E-6  # Constant
+   15 kR2R2on_rab11               6.15E-6  # Constant
+   16 kR2R2off                    0.01  # Constant
+   17 kN1R1on_surf                8.0E-7  # Constant
+   18 kN1R1on_rab4                8.42E-7  # Constant
+   19 kN1R1on_rab11               24.6E-7  # Constant
+   20 kN1R1off                    0.01  # Constant
+   21 kplgfR1_N1on_surf           8.0E-7  # Constant
+   22 kplgfR1_N1on_rab4           8.42E-7  # Constant
+   23 kplgfR1_N1on_rab11          24.6E-7  # Constant
+   24 kplgfR1_N1off               0.01  # Constant
+   25 kvegfAR1_N1on_surf          8.0E-7  # Constant
+   26 kvegfAR1_N1on_rab4          8.42E-7  # Constant
+   27 kvegfAR1_N1on_rab11         24.6E-7  # Constant
+   28 kvegfAR1_N1off              0.01  # Constant
+   29 kvegfA_R1on_surf            1.245E-9  # Constant
+   30 kvegfA_R1on_rab4            1.107E-3  # Constant
+   31 kvegfA_R1on_rab11           3.321E-3  # Constant
+   32 kvegfA_R1off                0.0224  # Constant
+   33 kN1R1_vegfAon_surf          1.245E-9  # Constant
+   34 kN1R1_vegfAon_rab4          1.107E-3  # Constant
+   35 kN1R1_vegfAon_rab11         3.321E-3  # Constant
+   36 kN1R1_vegfAoff              0.0224  # Constant
+   37 kplgf_R1on_surf             6.227E-11  # Constant
+   38 kplgf_R1on_rab4             5.535E-5  # Constant
+   39 kplgf_R1on_rab11            1.661E-4  # Constant
+   40 kplgf_R1off                 0.0132  # Constant
+   41 kN1R1_plgfon_surf           6.227E-11  # Constant
+   42 kN1R1_plgfon_rab4           5.535E-5  # Constant
+   43 kN1R1_plgfon_rab11          1.661E-4  # Constant
+   44 kN1R1_plgfoff               0.0132  # Constant
+   45 kvegfA_R2on_surf            4.151E-10  # Constant
+   46 kvegfA_R2on_rab4            3.690E-4  # Constant
+   47 kvegfA_R2on_rab11           1.107E-3  # Constant
+   48 kvegfA_R2off                0.0224  # Constant
+   49 kvegfA_N1on_surf            2.076E-11  # Constant
+   50 kvegfA_N1on_rab4            1.845E-5  # Constant
+   51 kvegfA_N1on_rab11           5.535E-5  # Constant
+   52 kvegfA_N1off                0.0173  # Constant
+   53 kplgf_N1on_surf             4.151E-13  # Constant
+   54 kplgf_N1on_rab4             3.690E-7  # Constant
+   55 kplgf_N1on_rab11            1.107E-6  # Constant
+   56 kplgf_N1off                 0.0224  # Constant
+   57 kR1vegfA_R1on_surf          5.307E-4  # Constant
+   58 kR1vegfA_R1on_rab4          5.586E-4  # Constant
+   59 kR1vegfA_R1on_rab11         1.633E-3  # Constant
+   60 kR1plgf_R1on_surf           5.409E-4  # Constant
+   61 kR1plgf_R1on_rab4           5.693E-4  # Constant
+   62 kR1plgf_R1on_rab11          1.664E-3  # Constant
+   63 kR2vegfA_R2on_surf          1.911E-4  # Constant
+   64 kR2vegfA_R2on_rab4          2.011E-4  # Constant
+   65 kR2vegfA_R2on_rab11         5.879E-4  # Constant
+   66 kN1vegfA_R2on_surf          2.500E-6  # Constant
+   67 kN1vegfA_R2on_rab4          2.632E-6  # Constant
+   68 kN1vegfA_R2on_rab11         7.692E-6  # Constant
+   69 kN1vegfA_R2off              0.0224  # Constant
+   70 kR2vegfA_N1on_surf          2.500E-6  # Constant
+   71 kR2vegfA_N1on_rab4          2.632E-6  # Constant
+   72 kR2vegfA_N1on_rab11         7.692E-6  # Constant
+   73 kR2vegfA_N1off              0.0173  # Constant
+   74 kN1vegfA_N1on_surf          1.420E-5  # Constant
+   75 kN1vegfA_N1on_rab4          1.494E-5  # Constant
+   76 kN1vegfA_N1on_rab11         4.368E-5  # Constant
+   77 kN1vegfA_N1off              0.0173  # Constant
+   78 kN1plgf2_N1on_surf          1.405E-5  # Constant
+   79 kN1plgf2_N1on_rab4          1.479E-5  # Constant
+   80 kN1plgf2_N1on_rab11         4.323E-5  # Constant
+   81 kN1plgf2_N1off              0.0173  # Constant
+   82 kdeltaR1R1_V                1.44E-3  # Constant
+   83 kdeltaR1R1_P                1.44E-3  # Constant
+   84 kdeltaR2R2                  1.00E-2  # Constant
+   85 kdeltaVEGFA_R               9.55279E-1  # Constant
+   86 kdeltaPLGF_R                9.73542E-1  # Constant
+   87 kvegfAMon                   2.658E-08  # Constant
+   88 kvegfAMoff                  0.01  # Constant
+   89 kplgfMon                    3.65E-08  # Constant
+   90 kplgfMoff                   0.001  # Constant
+   91 kMplgf_R1on                 3.987E-07  # Constant
+   92 kMplgf_R1off                3.5E-4  # Constant
+   93 kMvegfA_R1on                4.98E-6  # Constant
+   94 kMvegfA_R1off               0.001  # Constant
+   95 kMvegfA_R2on                1.66E-6  # Constant
+   96 kMvegfA_R2off               0.001  # Constant
+   97 kR1vegfA_Mon                2.658E-08  # Constant
+   98 kR1vegfA_Moff               0.01  # Constant
+   99 kR1plgf_Mon                 3.65E-08  # Constant
+  100 kR1plgf_Moff                0.001  # Constant
+  101 kR2vegfA_Mon                2.658E-08  # Constant
+  102 kR2vegfA_Moff               0.01  # Constant
+  103 kR1Rab5a                    1.347E-2  # Constant
+  104 kR2Rab5a                    2.304E-4  # Constant
+  105 kN1Rab5a                    2.685E-4  # Constant
+  106 kR1N1Rab5a                  1.347E-2  # Constant
+  107 kR2N1Rab5a                  2.304E-4  # Constant
+  108 kVegfR1Rab5a                1.347e-2  # Constant
+  109 kVegfR1N1Rab5a              1.347e-2  # Constant
+  110 kPlgfR1Rab5a                1.347e-2  # Constant
+  111 kPlgfR1N1Rab5a              1.347e-2  # Constant
+  112 kVegfR2Rab5a                6.912e-4  # Constant
+  113 kVegfR2N1Rab5a              6.912e-4  # Constant
+  114 kVegfN1Rab5a                2.685e-4  # Constant
+  115 kPlgfN1Rab5a                2.685e-4  # Constant
+  116 kVegfRab5a                  0.0E-6  # Constant
+  117 kPlgfRab5a                  0.0E-6  # Constant
+  118 kR1Rab4a                    5.367E-4  # Constant
+  119 kR2Rab4a                    1.195E-6  # Constant
+  120 kN1Rab4a                    2.127E-2  # Constant
+  121 kR1N1Rab4a                  5.367E-4  # Constant
+  122 kR2N1Rab4a                  1.195E-6  # Constant
+  123 kVegfR1Rab4a                5.367E-4  # Constant
+  124 kVegfR1N1Rab4a              5.367E-4  # Constant
+  125 kPlgfR1Rab4a                5.367E-4  # Constant
+  126 kPlgfR1N1Rab4a              5.367E-4  # Constant
+  127 kVegfR2Rab4a                1.195E-6  # Constant
+  128 kVegfR2N1Rab4a              1.195E-6  # Constant
+  129 kVegfN1Rab4a                2.127E-2  # Constant
+  130 kPlgfN1Rab4a                2.127E-2  # Constant
+  131 kVegfRab4a                  0.0E-6  # Constant
+  132 kPlgfRab4a                  0.0E-6  # Constant
+  133 kR1Rab4at11a                5.909E-4  # Constant
+  134 kR2Rab4at11a                1.494E-6  # Constant
+  135 kN1Rab4at11a                7.02E-2  # Constant
+  136 kR1N1Rab4at11a              5.909E-4  # Constant
+  137 kR2N1Rab4at11a              1.494E-6  # Constant
+  138 kVegfR1Rab4at11a            5.909E-4  # Constant
+  139 kVegfR1N1Rab4at11a          5.909E-4  # Constant
+  140 kPlgfR1Rab4at11a            5.909E-4  # Constant
+  141 kPlgfR1N1Rab4at11a          5.909E-4  # Constant
+  142 kVegfR2Rab4at11a            1.494E-6  # Constant
+  143 kVegfR2N1Rab4at11a          1.494E-6  # Constant
+  144 kVegfN1Rab4at11a            7.02E-2  # Constant
+  145 kPlgfN1Rab4at11a            7.02E-2  # Constant
+  146 kVegfRab4at11a              0.0E-6  # Constant
+  147 kPlgfRab4at11a              0.0E-6  # Constant
+  148 kR1Rab11a                   9.999E-2  # Constant
+  149 kR2Rab11a                   8.933E-2  # Constant
+  150 kN1Rab11a                   7.856E-4  # Constant
+  151 kR1N1Rab11a                 9.999E-2  # Constant
+  152 kR2N1Rab11a                 8.933E-2  # Constant
+  153 kVegfR1Rab11a               9.999E-2  # Constant
+  154 kVegfR1N1Rab11a             9.999E-2  # Constant
+  155 kPlgfR1Rab11a               9.999E-2  # Constant
+  156 kPlgfR1N1Rab11a             9.999E-2  # Constant
+  157 kVegfR2Rab11a               8.933E-2  # Constant
+  158 kVegfR2N1Rab11a             8.933E-2  # Constant
+  159 kVegfN1Rab11a               7.856E-4  # Constant
+  160 kPlgfN1Rab11a               7.856E-4  # Constant
+  161 kVegfRab11a                 0.0E-6  # Constant
+  162 kPlgfRab11a                 0.0E-6  # Constant
+  163 kR1Rab4at7a                 2.293E-4  # Constant
+  164 kR2Rab4at7a                 2.337E-4  # Constant
+  165 kN1Rab4at7a                 1.228E-6  # Constant
+  166 kR1N1Rab4at7a               2.293E-4  # Constant
+  167 kR2N1Rab4at7a               2.337E-4  # Constant
+  168 kVegfR1Rab4at7a             2.293E-4  # Constant
+  169 kVegfR1N1Rab4at7a           2.293E-4  # Constant
+  170 kPlgfR1Rab4at7a             2.293E-4  # Constant
+  171 kPlgfR1N1Rab4at7a           2.293E-4  # Constant
+  172 kVegfR2Rab4at7a             2.337E-4  # Constant
+  173 kVegfR2N1Rab4at7a           2.337E-4  # Constant
+  174 kVegfN1Rab4at7a             1.228E-6  # Constant
+  175 kPlgfN1Rab4at7a             1.228E-6  # Constant
+  176 kVegfRab4at7a               0.0E-6  # Constant
+  177 kPlgfRab4at7a               0.0E-6  # Constant
+  178 kR1prod                     4.1007  # Constant
+  179 kR2prod                     1.1142  # Constant
+  180 kN1prod                     0.4587  # Constant
+end parameters
+begin species
+    1 vegf165a(Mbd,c~s,nbd,nbd,rbd,rbd) VEGF165a_0
+    2 vegf121a(c~s,rbd,rbd) VEGF121a_0
+    3 plgf1(c~s,rbd,rbd) PLGF1_0
+    4 plgf2(Mbd,c~s,nbd,nbd,rbd,rbd) PLGF2_0
+    5 vegfr1(c~s,lbd,nbd,rbd) VEGFR1_0
+    6 vegfr2(c~s,lbd,nbd,rbd) VEGFR2_0
+    7 nrp1(c~s,lbd,nbd,rbd) NRP1_0
+    8 M(c~s,lbd,rbd) M_0
+    9 vegfr1(c~s,lbd,nbd,rbd!1).vegfr1(c~s,lbd,nbd,rbd!1) 0
+   10 vegfr2(c~s,lbd,nbd,rbd!1).vegfr2(c~s,lbd,nbd,rbd!1) 0
+   11 nrp1(c~s,lbd,nbd,rbd!1).vegfr1(c~s,lbd,nbd!1,rbd) 0
+   12 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd,rbd) 0
+   13 M(c~s,lbd!1,rbd).plgf2(Mbd!1,c~s,nbd,nbd,rbd,rbd) 0
+   14 nrp1(c~s,lbd!1,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd,rbd,rbd) 0
+   15 nrp1(c~s,lbd!1,nbd,rbd).plgf2(Mbd,c~s,nbd!1,nbd,rbd,rbd) 0
+   16 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr2(c~s,lbd!1,nbd,rbd) 0
+   17 vegf121a(c~s,rbd!1,rbd).vegfr2(c~s,lbd!1,nbd,rbd) 0
+   18 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd) 0
+   19 vegf121a(c~s,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd) 0
+   20 plgf1(c~s,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd) 0
+   21 plgf2(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd) 0
+   22 vegfr1(c~Rab4a5a,lbd,nbd,rbd) 0
+   23 vegfr2(c~Rab4a5a,lbd,nbd,rbd) 0
+   24 nrp1(c~Rab4a5a,lbd,nbd,rbd) 0
+   25 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd,rbd) 0
+   26 plgf1(c~Rab4a5a,rbd,rbd) 0
+   27 plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd,rbd) 0
+   28 vegf121a(c~Rab4a5a,rbd,rbd) 0
+   29 nrp1(c~s,lbd,nbd,rbd!1).vegfr1(c~s,lbd,nbd!1,rbd!2).vegfr1(c~s,lbd,nbd,rbd!2) 0
+   30 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).vegfr1(c~s,lbd,nbd!1,rbd!3).vegfr1(c~s,lbd,nbd!2,rbd!3) 0
+   31 vegfr1(c~Rab4a5a,lbd,nbd,rbd!1).vegfr1(c~Rab4a5a,lbd,nbd,rbd!1) 0
+   32 vegfr2(c~Rab4a5a,lbd,nbd,rbd!1).vegfr2(c~Rab4a5a,lbd,nbd,rbd!1) 0
+   33 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd) 0
+   34 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   35 M(c~s,lbd!1,rbd).plgf2(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   36 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr2(c~s,lbd!2,nbd,rbd) 0
+   37 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd,rbd!3) 0
+   38 M(c~s,lbd!1,rbd).plgf2(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd,rbd!3) 0
+   39 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd).vegfr2(c~s,lbd!2,nbd,rbd!3).vegfr2(c~s,lbd,nbd,rbd!3) 0
+   40 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr2(c~s,lbd!1,nbd,rbd!2).vegfr2(c~s,lbd,nbd,rbd!2) 0
+   41 vegf121a(c~s,rbd!1,rbd).vegfr2(c~s,lbd!1,nbd,rbd!2).vegfr2(c~s,lbd,nbd,rbd!2) 0
+   42 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd!2).vegfr1(c~s,lbd,nbd,rbd!2) 0
+   43 vegf121a(c~s,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd!2).vegfr1(c~s,lbd,nbd,rbd!2) 0
+   44 plgf1(c~s,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd!2).vegfr1(c~s,lbd,nbd,rbd!2) 0
+   45 plgf2(Mbd,c~s,nbd,nbd,rbd!1,rbd).vegfr1(c~s,lbd!1,nbd,rbd!2).vegfr1(c~s,lbd,nbd,rbd!2) 0
+   46 nrp1(c~s,lbd,nbd,rbd!1).vegf121a(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd!1,rbd) 0
+   47 nrp1(c~s,lbd,nbd,rbd!1).plgf1(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd!1,rbd) 0
+   48 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd,rbd,rbd) 0
+   49 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).plgf2(Mbd,c~Rab4a5a,nbd!1,nbd,rbd,rbd) 0
+   50 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   51 vegf121a(c~Rab4a5a,rbd!1,rbd).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   52 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   53 vegf121a(c~Rab4a5a,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   54 plgf1(c~Rab4a5a,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   55 plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd) 0
+   56 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd,rbd) 0
+   57 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).plgf2(Mbd,c~s,nbd!1,nbd!2,rbd,rbd) 0
+   58 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr2(c~s,lbd!1,nbd,rbd).vegfr2(c~s,lbd!2,nbd,rbd) 0
+   59 vegf121a(c~s,rbd!1,rbd!2).vegfr2(c~s,lbd!1,nbd,rbd).vegfr2(c~s,lbd!2,nbd,rbd) 0
+   60 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   61 vegf121a(c~s,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   62 plgf1(c~s,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   63 plgf2(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   64 nrp1(c~s,lbd!1,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd,rbd!2,rbd).vegfr2(c~s,lbd!2,nbd,rbd) 0
+   65 nrp1(c~s,lbd!1,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd,rbd!2,rbd).vegfr2(c~s,lbd!2,nbd,rbd!3).vegfr2(c~s,lbd,nbd,rbd!3) 0
+   66 nrp1(c~s,lbd,nbd,rbd!1).vegf121a(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd!1,rbd!3) 0
+   67 nrp1(c~s,lbd,nbd,rbd!1).vegf121a(c~s,rbd!2,rbd!3).vegfr1(c~s,lbd!3,nbd!1,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   68 nrp1(c~s,lbd,nbd,rbd!1).plgf1(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd!1,rbd!3) 0
+   69 nrp1(c~s,lbd,nbd,rbd!1).plgf1(c~s,rbd!2,rbd!3).vegfr1(c~s,lbd!3,nbd!1,rbd).vegfr1(c~s,lbd!2,nbd,rbd) 0
+   70 vegfr1(c~Rab11a,lbd,nbd,rbd) 0
+   71 vegfr2(c~Rab11a,lbd,nbd,rbd) 0
+   72 nrp1(c~Rab11a,lbd,nbd,rbd) 0
+   73 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd,rbd) 0
+   74 plgf1(c~Rab11a,rbd,rbd) 0
+   75 plgf2(Mbd,c~Rab11a,nbd,nbd,rbd,rbd) 0
+   76 vegf121a(c~Rab11a,rbd,rbd) 0
+   77 vegfr1(c~Rab7a,lbd,nbd,rbd) 0
+   78 vegfr2(c~Rab7a,lbd,nbd,rbd) 0
+   79 nrp1(c~Rab7a,lbd,nbd,rbd) 0
+   80 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd,rbd) 0
+   81 plgf1(c~Rab7a,rbd,rbd) 0
+   82 plgf2(Mbd,c~Rab7a,nbd,nbd,rbd,rbd) 0
+   83 vegf121a(c~Rab7a,rbd,rbd) 0
+   84 M(c~s,lbd!1,rbd).nrp1(c~s,lbd,nbd,rbd!2).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!3,rbd).vegfr1(c~s,lbd!3,nbd,rbd!4).vegfr1(c~s,lbd,nbd!2,rbd!4) 0
+   85 M(c~s,lbd!1,rbd).nrp1(c~s,lbd,nbd,rbd!2).plgf2(Mbd!1,c~s,nbd,nbd,rbd!3,rbd).vegfr1(c~s,lbd!3,nbd,rbd!4).vegfr1(c~s,lbd,nbd!2,rbd!4) 0
+   86 nrp1(c~s,lbd,nbd,rbd!1).vegf165a(Mbd,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd!1,rbd!3) 0
+   87 nrp1(c~s,lbd,nbd,rbd!1).plgf2(Mbd,c~s,nbd,nbd,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd,rbd!3).vegfr1(c~s,lbd,nbd!1,rbd!3) 0
+   88 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd,rbd!2) 0
+   89 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd!2,rbd!3) 0
+   90 vegfr1(c~Rab11a,lbd,nbd,rbd!1).vegfr1(c~Rab11a,lbd,nbd,rbd!1) 0
+   91 vegfr2(c~Rab11a,lbd,nbd,rbd!1).vegfr2(c~Rab11a,lbd,nbd,rbd!1) 0
+   92 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegfr1(c~Rab11a,lbd,nbd!1,rbd) 0
+   93 nrp1(c~s,lbd,nbd,rbd!1).vegf121a(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd!1,rbd!3).vegfr1(c~s,lbd,nbd,rbd!3) 0
+   94 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).vegf121a(c~s,rbd!3,rbd).vegfr1(c~s,lbd!3,nbd!1,rbd!4).vegfr1(c~s,lbd,nbd!2,rbd!4) 0
+   95 nrp1(c~s,lbd,nbd,rbd!1).plgf1(c~s,rbd!2,rbd).vegfr1(c~s,lbd!2,nbd!1,rbd!3).vegfr1(c~s,lbd,nbd,rbd!3) 0
+   96 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).plgf1(c~s,rbd!3,rbd).vegfr1(c~s,lbd!3,nbd!1,rbd!4).vegfr1(c~s,lbd,nbd!2,rbd!4) 0
+   97 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr2(c~Rab4a5a,lbd,nbd,rbd!2) 0
+   98 vegf121a(c~Rab4a5a,rbd!1,rbd).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr2(c~Rab4a5a,lbd,nbd,rbd!2) 0
+   99 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd,rbd!2) 0
+  100 vegf121a(c~Rab4a5a,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd,rbd!2) 0
+  101 plgf1(c~Rab4a5a,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd,rbd!2) 0
+  102 plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!2).vegfr1(c~Rab4a5a,lbd,nbd,rbd!2) 0
+  103 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf121a(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd!1,rbd) 0
+  104 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf1(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd!1,rbd) 0
+  105 nrp1(c~Rab11a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd,rbd,rbd) 0
+  106 nrp1(c~Rab11a,lbd!1,nbd,rbd).plgf2(Mbd,c~Rab11a,nbd!1,nbd,rbd,rbd) 0
+  107 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab11a,lbd!1,nbd,rbd) 0
+  108 vegf121a(c~Rab11a,rbd!1,rbd).vegfr2(c~Rab11a,lbd!1,nbd,rbd) 0
+  109 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd) 0
+  110 vegf121a(c~Rab11a,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd) 0
+  111 plgf1(c~Rab11a,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd) 0
+  112 plgf2(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd) 0
+  113 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd).vegfr2(c~s,lbd!3,nbd,rbd) 0
+  114 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd).vegfr1(c~s,lbd!3,nbd,rbd) 0
+  115 M(c~s,lbd!1,rbd).plgf2(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd).vegfr1(c~s,lbd!3,nbd,rbd) 0
+  116 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd!4).vegfr2(c~s,lbd!3,nbd,rbd!4) 0
+  117 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr2(c~s,lbd!1,nbd,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd!3) 0
+  118 nrp1(c~s,lbd!1,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd!4).vegfr2(c~s,lbd!3,nbd,rbd!4) 0
+  119 vegf121a(c~s,rbd!1,rbd!2).vegfr2(c~s,lbd!1,nbd,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd!3) 0
+  120 M(c~s,lbd!1,rbd).vegf165a(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!4).vegfr1(c~s,lbd!3,nbd,rbd!4) 0
+  121 vegf165a(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!3) 0
+  122 vegf121a(c~s,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!3) 0
+  123 nrp1(c~s,lbd,nbd,rbd!1).vegf121a(c~s,rbd!2,rbd!3).vegfr1(c~s,lbd!3,nbd!1,rbd!4).vegfr1(c~s,lbd!2,nbd,rbd!4) 0
+  124 plgf1(c~s,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!3) 0
+  125 nrp1(c~s,lbd,nbd,rbd!1).plgf1(c~s,rbd!2,rbd!3).vegfr1(c~s,lbd!3,nbd!1,rbd!4).vegfr1(c~s,lbd!2,nbd,rbd!4) 0
+  126 M(c~s,lbd!1,rbd).plgf2(Mbd!1,c~s,nbd,nbd,rbd!2,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!4).vegfr1(c~s,lbd!3,nbd,rbd!4) 0
+  127 plgf2(Mbd,c~s,nbd,nbd,rbd!1,rbd!2).vegfr1(c~s,lbd!1,nbd,rbd!3).vegfr1(c~s,lbd!2,nbd,rbd!3) 0
+  128 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~s,lbd!3,nbd,rbd) 0
+  129 nrp1(c~s,lbd!1,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~s,lbd!2,nbd,rbd).vegfr2(c~s,lbd!3,nbd,rbd) 0
+  130 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~s,lbd!3,nbd,rbd!4).vegfr2(c~s,lbd,nbd,rbd!4) 0
+  131 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).vegf121a(c~s,rbd!3,rbd!4).vegfr1(c~s,lbd!4,nbd!1,rbd).vegfr1(c~s,lbd!3,nbd!2,rbd) 0
+  132 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).plgf1(c~s,rbd!3,rbd!4).vegfr1(c~s,lbd!4,nbd!1,rbd).vegfr1(c~s,lbd!3,nbd!2,rbd) 0
+  133 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd,rbd) 0
+  134 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).plgf2(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd,rbd) 0
+  135 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  136 vegf121a(c~Rab4a5a,rbd!1,rbd!2).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  137 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  138 vegf121a(c~Rab4a5a,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  139 plgf1(c~Rab4a5a,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  140 plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  141 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  142 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd!3).vegfr2(c~Rab4a5a,lbd,nbd,rbd!3) 0
+  143 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf121a(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!3) 0
+  144 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf121a(c~Rab4a5a,rbd!2,rbd!3).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  145 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf1(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!3) 0
+  146 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf1(c~Rab4a5a,rbd!2,rbd!3).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd) 0
+  147 vegfr1(c~Rab7a,lbd,nbd,rbd!1).vegfr1(c~Rab7a,lbd,nbd,rbd!1) 0
+  148 vegfr2(c~Rab7a,lbd,nbd,rbd!1).vegfr2(c~Rab7a,lbd,nbd,rbd!1) 0
+  149 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegfr1(c~Rab7a,lbd,nbd!1,rbd) 0
+  150 nrp1(c~Rab7a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd,rbd,rbd) 0
+  151 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab7a,lbd!1,nbd,rbd) 0
+  152 vegf121a(c~Rab7a,rbd!1,rbd).vegfr2(c~Rab7a,lbd!1,nbd,rbd) 0
+  153 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd) 0
+  154 vegf121a(c~Rab7a,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd) 0
+  155 plgf1(c~Rab7a,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd) 0
+  156 nrp1(c~Rab7a,lbd!1,nbd,rbd).plgf2(Mbd,c~Rab7a,nbd!1,nbd,rbd,rbd) 0
+  157 plgf2(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd) 0
+  158 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!3) 0
+  159 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd!1,rbd!3) 0
+  160 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegfr1(c~Rab11a,lbd,nbd!1,rbd!2).vegfr1(c~Rab11a,lbd,nbd,rbd!2) 0
+  161 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).vegfr1(c~Rab11a,lbd,nbd!1,rbd!3).vegfr1(c~Rab11a,lbd,nbd!2,rbd!3) 0
+  162 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf121a(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd,rbd!3) 0
+  163 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).vegf121a(c~Rab4a5a,rbd!3,rbd).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab4a5a,lbd,nbd!2,rbd!4) 0
+  164 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf1(c~Rab4a5a,rbd!2,rbd).vegfr1(c~Rab4a5a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab4a5a,lbd,nbd,rbd!3) 0
+  165 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).plgf1(c~Rab4a5a,rbd!3,rbd).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab4a5a,lbd,nbd!2,rbd!4) 0
+  166 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab11a,lbd!1,nbd,rbd!2).vegfr2(c~Rab11a,lbd,nbd,rbd!2) 0
+  167 vegf121a(c~Rab11a,rbd!1,rbd).vegfr2(c~Rab11a,lbd!1,nbd,rbd!2).vegfr2(c~Rab11a,lbd,nbd,rbd!2) 0
+  168 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd!2).vegfr1(c~Rab11a,lbd,nbd,rbd!2) 0
+  169 vegf121a(c~Rab11a,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd!2).vegfr1(c~Rab11a,lbd,nbd,rbd!2) 0
+  170 plgf1(c~Rab11a,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd!2).vegfr1(c~Rab11a,lbd,nbd,rbd!2) 0
+  171 plgf2(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab11a,lbd!1,nbd,rbd!2).vegfr1(c~Rab11a,lbd,nbd,rbd!2) 0
+  172 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf121a(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd!1,rbd) 0
+  173 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf1(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd!1,rbd) 0
+  174 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~s,lbd!3,nbd,rbd!5).vegfr2(c~s,lbd!4,nbd,rbd!5) 0
+  175 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).vegf121a(c~s,rbd!3,rbd!4).vegfr1(c~s,lbd!3,nbd!1,rbd!5).vegfr1(c~s,lbd!4,nbd!2,rbd!5) 0
+  176 nrp1(c~s,lbd,nbd,rbd!1).nrp1(c~s,lbd,nbd,rbd!2).plgf1(c~s,rbd!3,rbd!4).vegfr1(c~s,lbd!3,nbd!1,rbd!5).vegfr1(c~s,lbd!4,nbd!2,rbd!5) 0
+  177 nrp1(c~s,lbd!1,nbd,rbd).nrp1(c~s,lbd!2,nbd,rbd).vegf165a(Mbd,c~s,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~s,lbd!3,nbd,rbd).vegfr2(c~s,lbd!4,nbd,rbd) 0
+  178 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  179 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd!4).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd!4) 0
+  180 vegf121a(c~Rab4a5a,rbd!1,rbd!2).vegfr2(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  181 vegf165a(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  182 vegf121a(c~Rab4a5a,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  183 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).vegf121a(c~Rab4a5a,rbd!2,rbd!3).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!4) 0
+  184 plgf1(c~Rab4a5a,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  185 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).plgf1(c~Rab4a5a,rbd!2,rbd!3).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!4) 0
+  186 plgf2(Mbd,c~Rab4a5a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab4a5a,lbd!1,nbd,rbd!3).vegfr1(c~Rab4a5a,lbd!2,nbd,rbd!3) 0
+  187 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) 0
+  188 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab4a5a,lbd!2,nbd,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd) 0
+  189 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd!4).vegfr2(c~Rab4a5a,lbd,nbd,rbd!4) 0
+  190 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).vegf121a(c~Rab4a5a,rbd!3,rbd!4).vegfr1(c~Rab4a5a,lbd!4,nbd!1,rbd).vegfr1(c~Rab4a5a,lbd!3,nbd!2,rbd) 0
+  191 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).plgf1(c~Rab4a5a,rbd!3,rbd!4).vegfr1(c~Rab4a5a,lbd!4,nbd!1,rbd).vegfr1(c~Rab4a5a,lbd!3,nbd!2,rbd) 0
+  192 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd,rbd) 0
+  193 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).plgf2(Mbd,c~Rab11a,nbd!1,nbd!2,rbd,rbd) 0
+  194 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab11a,lbd!1,nbd,rbd).vegfr2(c~Rab11a,lbd!2,nbd,rbd) 0
+  195 vegf121a(c~Rab11a,rbd!1,rbd!2).vegfr2(c~Rab11a,lbd!1,nbd,rbd).vegfr2(c~Rab11a,lbd!2,nbd,rbd) 0
+  196 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  197 vegf121a(c~Rab11a,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  198 plgf1(c~Rab11a,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  199 plgf2(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  200 nrp1(c~Rab11a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab11a,lbd!2,nbd,rbd) 0
+  201 nrp1(c~Rab11a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab11a,lbd!2,nbd,rbd!3).vegfr2(c~Rab11a,lbd,nbd,rbd!3) 0
+  202 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf121a(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3).vegfr1(c~Rab11a,lbd,nbd!1,rbd!3) 0
+  203 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf121a(c~Rab11a,rbd!2,rbd!3).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  204 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf1(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3).vegfr1(c~Rab11a,lbd,nbd!1,rbd!3) 0
+  205 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf1(c~Rab11a,rbd!2,rbd!3).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd) 0
+  206 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegfr1(c~Rab7a,lbd,nbd!1,rbd!2).vegfr1(c~Rab7a,lbd,nbd,rbd!2) 0
+  207 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).vegfr1(c~Rab7a,lbd,nbd!1,rbd!3).vegfr1(c~Rab7a,lbd,nbd!2,rbd!3) 0
+  208 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd,rbd) 0
+  209 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab7a,lbd!1,nbd,rbd).vegfr2(c~Rab7a,lbd!2,nbd,rbd) 0
+  210 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr2(c~Rab7a,lbd!1,nbd,rbd!2).vegfr2(c~Rab7a,lbd,nbd,rbd!2) 0
+  211 nrp1(c~Rab7a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab7a,lbd!2,nbd,rbd) 0
+  212 nrp1(c~Rab7a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd,rbd!2,rbd).vegfr2(c~Rab7a,lbd!2,nbd,rbd!3).vegfr2(c~Rab7a,lbd,nbd,rbd!3) 0
+  213 vegf121a(c~Rab7a,rbd!1,rbd).vegfr2(c~Rab7a,lbd!1,nbd,rbd!2).vegfr2(c~Rab7a,lbd,nbd,rbd!2) 0
+  214 vegf121a(c~Rab7a,rbd!1,rbd!2).vegfr2(c~Rab7a,lbd!1,nbd,rbd).vegfr2(c~Rab7a,lbd!2,nbd,rbd) 0
+  215 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  216 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd!2).vegfr1(c~Rab7a,lbd,nbd,rbd!2) 0
+  217 vegf121a(c~Rab7a,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  218 vegf121a(c~Rab7a,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd!2).vegfr1(c~Rab7a,lbd,nbd,rbd!2) 0
+  219 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf121a(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd!1,rbd) 0
+  220 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf121a(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3).vegfr1(c~Rab7a,lbd,nbd!1,rbd!3) 0
+  221 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf121a(c~Rab7a,rbd!2,rbd!3).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  222 plgf1(c~Rab7a,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  223 plgf1(c~Rab7a,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd!2).vegfr1(c~Rab7a,lbd,nbd,rbd!2) 0
+  224 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf1(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd!1,rbd) 0
+  225 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf1(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3).vegfr1(c~Rab7a,lbd,nbd!1,rbd!3) 0
+  226 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf1(c~Rab7a,rbd!2,rbd!3).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  227 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).plgf2(Mbd,c~Rab7a,nbd!1,nbd!2,rbd,rbd) 0
+  228 plgf2(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd) 0
+  229 plgf2(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd).vegfr1(c~Rab7a,lbd!1,nbd,rbd!2).vegfr1(c~Rab7a,lbd,nbd,rbd!2) 0
+  230 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3).vegfr1(c~Rab11a,lbd,nbd!1,rbd!3) 0
+  231 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf2(Mbd,c~Rab11a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3).vegfr1(c~Rab11a,lbd,nbd!1,rbd!3) 0
+  232 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf121a(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab11a,lbd,nbd,rbd!3) 0
+  233 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).vegf121a(c~Rab11a,rbd!3,rbd).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab11a,lbd,nbd!2,rbd!4) 0
+  234 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf1(c~Rab11a,rbd!2,rbd).vegfr1(c~Rab11a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab11a,lbd,nbd,rbd!3) 0
+  235 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).plgf1(c~Rab11a,rbd!3,rbd).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab11a,lbd,nbd!2,rbd!4) 0
+  236 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd!5).vegfr2(c~Rab4a5a,lbd!4,nbd,rbd!5) 0
+  237 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).vegf121a(c~Rab4a5a,rbd!3,rbd!4).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab4a5a,lbd!4,nbd!2,rbd!5) 0
+  238 nrp1(c~Rab4a5a,lbd,nbd,rbd!1).nrp1(c~Rab4a5a,lbd,nbd,rbd!2).plgf1(c~Rab4a5a,rbd!3,rbd!4).vegfr1(c~Rab4a5a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab4a5a,lbd!4,nbd!2,rbd!5) 0
+  239 nrp1(c~Rab4a5a,lbd!1,nbd,rbd).nrp1(c~Rab4a5a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab4a5a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab4a5a,lbd!3,nbd,rbd).vegfr2(c~Rab4a5a,lbd!4,nbd,rbd) 0
+  240 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab11a,lbd!1,nbd,rbd!3).vegfr2(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  241 nrp1(c~Rab11a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab11a,lbd!2,nbd,rbd!4).vegfr2(c~Rab11a,lbd!3,nbd,rbd!4) 0
+  242 vegf121a(c~Rab11a,rbd!1,rbd!2).vegfr2(c~Rab11a,lbd!1,nbd,rbd!3).vegfr2(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  243 vegf165a(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd!3).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  244 vegf121a(c~Rab11a,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd!3).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  245 nrp1(c~Rab11a,lbd,nbd,rbd!1).vegf121a(c~Rab11a,rbd!2,rbd!3).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab11a,lbd!2,nbd,rbd!4) 0
+  246 plgf1(c~Rab11a,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd!3).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  247 nrp1(c~Rab11a,lbd,nbd,rbd!1).plgf1(c~Rab11a,rbd!2,rbd!3).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab11a,lbd!2,nbd,rbd!4) 0
+  248 plgf2(Mbd,c~Rab11a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab11a,lbd!1,nbd,rbd!3).vegfr1(c~Rab11a,lbd!2,nbd,rbd!3) 0
+  249 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab11a,lbd!3,nbd,rbd) 0
+  250 nrp1(c~Rab11a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab11a,lbd!2,nbd,rbd).vegfr2(c~Rab11a,lbd!3,nbd,rbd) 0
+  251 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab11a,lbd!3,nbd,rbd!4).vegfr2(c~Rab11a,lbd,nbd,rbd!4) 0
+  252 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).vegf121a(c~Rab11a,rbd!3,rbd!4).vegfr1(c~Rab11a,lbd!4,nbd!1,rbd).vegfr1(c~Rab11a,lbd!3,nbd!2,rbd) 0
+  253 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).plgf1(c~Rab11a,rbd!3,rbd!4).vegfr1(c~Rab11a,lbd!4,nbd!1,rbd).vegfr1(c~Rab11a,lbd!3,nbd!2,rbd) 0
+  254 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr2(c~Rab7a,lbd!1,nbd,rbd!3).vegfr2(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  255 nrp1(c~Rab7a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab7a,lbd!2,nbd,rbd).vegfr2(c~Rab7a,lbd!3,nbd,rbd) 0
+  256 nrp1(c~Rab7a,lbd!1,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd,rbd!2,rbd!3).vegfr2(c~Rab7a,lbd!2,nbd,rbd!4).vegfr2(c~Rab7a,lbd!3,nbd,rbd!4) 0
+  257 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab7a,lbd!3,nbd,rbd) 0
+  258 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd!3,rbd).vegfr2(c~Rab7a,lbd!3,nbd,rbd!4).vegfr2(c~Rab7a,lbd,nbd,rbd!4) 0
+  259 vegf121a(c~Rab7a,rbd!1,rbd!2).vegfr2(c~Rab7a,lbd!1,nbd,rbd!3).vegfr2(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  260 vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd!3).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  261 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf165a(Mbd,c~Rab7a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3).vegfr1(c~Rab7a,lbd,nbd!1,rbd!3) 0
+  262 vegf121a(c~Rab7a,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd!3).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  263 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf121a(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab7a,lbd,nbd,rbd!3) 0
+  264 nrp1(c~Rab7a,lbd,nbd,rbd!1).vegf121a(c~Rab7a,rbd!2,rbd!3).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab7a,lbd!2,nbd,rbd!4) 0
+  265 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).vegf121a(c~Rab7a,rbd!3,rbd).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab7a,lbd,nbd!2,rbd!4) 0
+  266 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).vegf121a(c~Rab7a,rbd!3,rbd!4).vegfr1(c~Rab7a,lbd!4,nbd!1,rbd).vegfr1(c~Rab7a,lbd!3,nbd!2,rbd) 0
+  267 plgf1(c~Rab7a,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd!3).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  268 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf1(c~Rab7a,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd!1,rbd!3).vegfr1(c~Rab7a,lbd,nbd,rbd!3) 0
+  269 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf1(c~Rab7a,rbd!2,rbd!3).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab7a,lbd!2,nbd,rbd!4) 0
+  270 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).plgf1(c~Rab7a,rbd!3,rbd).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!4).vegfr1(c~Rab7a,lbd,nbd!2,rbd!4) 0
+  271 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).plgf1(c~Rab7a,rbd!3,rbd!4).vegfr1(c~Rab7a,lbd!4,nbd!1,rbd).vegfr1(c~Rab7a,lbd!3,nbd!2,rbd) 0
+  272 plgf2(Mbd,c~Rab7a,nbd,nbd,rbd!1,rbd!2).vegfr1(c~Rab7a,lbd!1,nbd,rbd!3).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3) 0
+  273 nrp1(c~Rab7a,lbd,nbd,rbd!1).plgf2(Mbd,c~Rab7a,nbd,nbd,rbd!2,rbd).vegfr1(c~Rab7a,lbd!2,nbd,rbd!3).vegfr1(c~Rab7a,lbd,nbd!1,rbd!3) 0
+  274 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab11a,lbd!3,nbd,rbd!5).vegfr2(c~Rab11a,lbd!4,nbd,rbd!5) 0
+  275 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).vegf121a(c~Rab11a,rbd!3,rbd!4).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab11a,lbd!4,nbd!2,rbd!5) 0
+  276 nrp1(c~Rab11a,lbd,nbd,rbd!1).nrp1(c~Rab11a,lbd,nbd,rbd!2).plgf1(c~Rab11a,rbd!3,rbd!4).vegfr1(c~Rab11a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab11a,lbd!4,nbd!2,rbd!5) 0
+  277 nrp1(c~Rab11a,lbd!1,nbd,rbd).nrp1(c~Rab11a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab11a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab11a,lbd!3,nbd,rbd).vegfr2(c~Rab11a,lbd!4,nbd,rbd) 0
+  278 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab7a,lbd!3,nbd,rbd).vegfr2(c~Rab7a,lbd!4,nbd,rbd) 0
+  279 nrp1(c~Rab7a,lbd!1,nbd,rbd).nrp1(c~Rab7a,lbd!2,nbd,rbd).vegf165a(Mbd,c~Rab7a,nbd!1,nbd!2,rbd!3,rbd!4).vegfr2(c~Rab7a,lbd!3,nbd,rbd!5).vegfr2(c~Rab7a,lbd!4,nbd,rbd!5) 0
+  280 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).vegf121a(c~Rab7a,rbd!3,rbd!4).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab7a,lbd!4,nbd!2,rbd!5) 0
+  281 nrp1(c~Rab7a,lbd,nbd,rbd!1).nrp1(c~Rab7a,lbd,nbd,rbd!2).plgf1(c~Rab7a,rbd!3,rbd!4).vegfr1(c~Rab7a,lbd!3,nbd!1,rbd!5).vegfr1(c~Rab7a,lbd!4,nbd!2,rbd!5) 0
+end species
+begin reactions
+    1 5,5 9 0.5*kR1R1on_surf #_R1
+    2 6,6 10 0.5*kR2R2on_surf #_R2
+    3 5,7 11 kN1R1on_surf #_R3
+    4 1,8 12 kvegfAMon #_R10
+    5 4,8 13 kplgfMon #_R11
+    6 1,7 14 2*kvegfA_N1on_surf #_R30
+    7 4,7 15 2*kplgf_N1on_surf #_R31
+    8 1,6 16 2*kvegfA_R2on_surf #_R32
+    9 2,6 17 2*kvegfA_R2on_surf #_R34
+   10 1,5 18 2*kvegfA_R1on_surf #_R36
+   11 2,5 19 2*kvegfA_R1on_surf #_R38
+   12 3,5 20 2*kplgf_R1on_surf #_R40
+   13 4,5 21 2*kplgf_R1on_surf #_R42
+   14 5 22 kR1Rab5a #_R294
+   15 6 23 kR2Rab5a #_R295
+   16 7 24 kN1Rab5a #_R296
+   17 1 25 kVegfRab5a #_R302
+   18 3 26 kPlgfRab5a #_R303
+   19 4 27 kPlgfRab5a #_R304
+   20 2 28 kVegfRab5a #_R305
+   21 0 5 kR1prod #_R624
+   22 0 6 kR2prod #_R625
+   23 0 7 kN1prod #_R626
+   24 5,11 29 kR1R1on_surf #_R1
+   25 11,11 30 0.5*kR1R1on_surf #_R1
+   26 9 5,5 kR1R1off #_reverse__R1
+   27 10 6,6 kR2R2off #_reverse__R2
+   28 7,9 29 2*kN1R1on_surf #_R3
+   29 11 5,7 kN1R1off #_reverse__R3
+   30 22,22 31 0.5*kR1R1on_rab4 #_R4
+   31 23,23 32 0.5*kR2R2on_rab4 #_R5
+   32 22,24 33 kN1R1on_rab4 #_R6
+   33 12 1,8 kvegfAMoff #_reverse__R10
+   34 13 4,8 kplgfMoff #_reverse__R11
+   35 8,18 34 kR1vegfA_Mon #_R12
+   36 8,21 35 kR1plgf_Mon #_R16
+   37 8,16 36 kR2vegfA_Mon #_R20
+   38 5,12 34 2*kMvegfA_R1on #_R24
+   39 9,12 37 4*kMvegfA_R1on #_R25
+   40 5,13 35 2*kMplgf_R1on #_R26
+   41 9,13 38 4*kMplgf_R1on #_R27
+   42 6,12 36 2*kMvegfA_R2on #_R28
+   43 10,12 39 4*kMvegfA_R2on #_R29
+   44 14 1,7 kvegfA_N1off #_reverse__R30
+   45 15 4,7 kplgf_N1off #_reverse__R31
+   46 6,12 36 2*kvegfA_R2on_surf #_R32
+   47 16 1,6 kvegfA_R2off #_reverse__R32
+   48 1,10 40 4*kvegfA_R2on_surf #_R33
+   49 10,12 39 4*kvegfA_R2on_surf #_R33
+   50 17 2,6 kvegfA_R2off #_reverse__R34
+   51 2,10 41 4*kvegfA_R2on_surf #_R35
+   52 5,12 34 2*kvegfA_R1on_surf #_R36
+   53 18 1,5 kvegfA_R1off #_reverse__R36
+   54 1,9 42 4*kvegfA_R1on_surf #_R37
+   55 9,12 37 4*kvegfA_R1on_surf #_R37
+   56 19 2,5 kvegfA_R1off #_reverse__R38
+   57 2,9 43 4*kvegfA_R1on_surf #_R39
+   58 20 3,5 kplgf_R1off #_reverse__R40
+   59 3,9 44 4*kplgf_R1on_surf #_R41
+   60 5,13 35 2*kplgf_R1on_surf #_R42
+   61 21 4,5 kplgf_R1off #_reverse__R42
+   62 4,9 45 4*kplgf_R1on_surf #_R43
+   63 9,13 38 4*kplgf_R1on_surf #_R43
+   64 2,11 46 2*kN1R1_vegfAon_surf #_R44
+   65 3,11 47 2*kN1R1_plgfon_surf #_R47
+   66 24,25 48 2*kvegfA_N1on_rab4 #_R50
+   67 24,27 49 2*kplgf_N1on_rab4 #_R51
+   68 23,25 50 2*kvegfA_R2on_rab4 #_R52
+   69 23,28 51 2*kvegfA_R2on_rab4 #_R54
+   70 22,25 52 2*kvegfA_R1on_rab4 #_R56
+   71 22,28 53 2*kvegfA_R1on_rab4 #_R58
+   72 22,26 54 2*kplgf_R1on_rab4 #_R60
+   73 22,27 55 2*kplgf_R1on_rab4 #_R62
+   74 7,14 56 kN1vegfA_N1on_surf #_R90
+   75 7,15 57 kN1plgf2_N1on_surf #_R91
+   76 6,16 58 kR2vegfA_R2on_surf #_R92
+   77 6,17 59 kR2vegfA_R2on_surf #_R93
+   78 5,18 60 kR1vegfA_R1on_surf #_R94
+   79 5,19 61 kR1vegfA_R1on_surf #_R95
+   80 5,20 62 kR1plgf_R1on_surf #_R96
+   81 5,21 63 kR1plgf_R1on_surf #_R97
+   82 6,16 40 kR2R2on_surf #_R98
+   83 6,17 41 kR2R2on_surf #_R99
+   84 5,18 42 kR1R1on_surf #_R100
+   85 5,19 43 kR1R1on_surf #_R101
+   86 5,20 44 kR1R1on_surf #_R102
+   87 5,21 45 kR1R1on_surf #_R103
+   88 6,14 64 2*kN1vegfA_R2on_surf #_R116
+   89 10,14 65 4*kN1vegfA_R2on_surf #_R122
+   90 7,16 64 2*kR2vegfA_N1on_surf #_R124
+   91 7,19 46 kvegfAR1_N1on_surf #_R132
+   92 11,19 66 kR1R1on_surf #_R140
+   93 11,19 67 kR1vegfA_R1on_surf #_R143
+   94 7,20 47 kplgfR1_N1on_surf #_R145
+   95 11,20 68 kR1R1on_surf #_R153
+   96 11,20 69 kR1plgf_R1on_surf #_R156
+   97 9 31 kR1Rab5a #_R297
+   98 10 32 kR2Rab5a #_R298
+   99 11 33 kR1N1Rab5a #_R299
+  100 14 48 kVegfN1Rab5a #_R306
+  101 16 50 kR2Rab5a #_R308
+  102 17 51 kR2Rab5a #_R320
+  103 18 52 kR1Rab5a #_R324
+  104 19 53 kR1Rab5a #_R329
+  105 20 54 kR1Rab5a #_R341
+  106 15 49 kPlgfN1Rab5a #_R353
+  107 21 55 kR1Rab5a #_R355
+  108 22 5 kR1Rab4a #_R360
+  109 23 6 kR2Rab4a #_R361
+  110 24 7 kN1Rab4a #_R362
+  111 25 1 kVegfRab4a #_R368
+  112 26 3 kPlgfRab4a #_R369
+  113 27 4 kPlgfRab4a #_R370
+  114 28 2 kVegfRab4a #_R371
+  115 22 70 kR1Rab4at11a #_R426
+  116 23 71 kR2Rab4at11a #_R427
+  117 24 72 kN1Rab4at11a #_R428
+  118 25 73 kVegfRab4at11a #_R434
+  119 26 74 kPlgfRab4at11a #_R435
+  120 27 75 kPlgfRab4at11a #_R436
+  121 28 76 kVegfRab4at11a #_R437
+  122 22 77 kR1Rab4at7a #_R558
+  123 23 78 kR2Rab4at7a #_R559
+  124 24 79 kN1Rab4at7a #_R560
+  125 25 80 kVegfRab4at7a #_R566
+  126 26 81 kPlgfRab4at7a #_R567
+  127 27 82 kPlgfRab4at7a #_R568
+  128 28 83 kVegfRab4at7a #_R569
+  129 29 5,11 kR1R1off #_reverse__R1
+  130 30 11,11 kR1R1off #_reverse__R1
+  131 7,29 30 kN1R1on_surf #_R3
+  132 7,37 84 kN1R1on_surf #_R3
+  133 7,38 85 kN1R1on_surf #_R3
+  134 7,42 86 kN1R1on_surf #_R3
+  135 7,43 66 kN1R1on_surf #_R3
+  136 7,44 68 kN1R1on_surf #_R3
+  137 7,45 87 kN1R1on_surf #_R3
+  138 29 7,9 kN1R1off #_reverse__R3
+  139 30 7,29 2*kN1R1off #_reverse__R3
+  140 66 7,43 kN1R1off #_reverse__R3
+  141 68 7,44 kN1R1off #_reverse__R3
+  142 22,33 88 kR1R1on_rab4 #_R4
+  143 33,33 89 0.5*kR1R1on_rab4 #_R4
+  144 31 22,22 kR1R1off #_reverse__R4
+  145 32 23,23 kR2R2off #_reverse__R5
+  146 24,31 88 2*kN1R1on_rab4 #_R6
+  147 33 22,24 kN1R1off #_reverse__R6
+  148 70,70 90 0.5*kR1R1on_rab11 #_R7
+  149 71,71 91 0.5*kR2R2on_rab11 #_R8
+  150 70,72 92 kN1R1on_rab11 #_R9
+  151 34 8,18 kR1vegfA_Moff #_reverse__R12
+  152 8,42 37 kR1vegfA_Mon #_R14
+  153 37 8,42 kR1vegfA_Moff #_reverse__R14
+  154 35 8,21 kR1plgf_Moff #_reverse__R16
+  155 8,45 38 kR1plgf_Mon #_R18
+  156 38 8,45 kR1plgf_Moff #_reverse__R18
+  157 36 8,16 kR2vegfA_Moff #_reverse__R20
+  158 8,40 39 kR2vegfA_Mon #_R22
+  159 39 8,40 kR2vegfA_Moff #_reverse__R22
+  160 34 5,12 kMvegfA_R1off #_reverse__R24
+  161 37 9,12 kMvegfA_R1off #_reverse__R25
+  162 35 5,13 kMplgf_R1off #_reverse__R26
+  163 38 9,13 kMplgf_R1off #_reverse__R27
+  164 36 6,12 kMvegfA_R2off #_reverse__R28
+  165 39 10,12 kMvegfA_R2off #_reverse__R29
+  166 36 6,12 kvegfA_R2off #_reverse__R32
+  167 39 10,12 kvegfA_R2off #_reverse__R33
+  168 40 1,10 kvegfA_R2off #_reverse__R33
+  169 41 2,10 kvegfA_R2off #_reverse__R35
+  170 34 5,12 kvegfA_R1off #_reverse__R36
+  171 37 9,12 kvegfA_R1off #_reverse__R37
+  172 42 1,9 kvegfA_R1off #_reverse__R37
+  173 43 2,9 kvegfA_R1off #_reverse__R39
+  174 44 3,9 kplgf_R1off #_reverse__R41
+  175 35 5,13 kplgf_R1off #_reverse__R42
+  176 38 9,13 kplgf_R1off #_reverse__R43
+  177 45 4,9 kplgf_R1off #_reverse__R43
+  178 46 2,11 kN1R1_vegfAoff #_reverse__R44
+  179 2,29 93 2*kN1R1_vegfAon_surf #_R45
+  180 2,30 94 4*kN1R1_vegfAon_surf #_R46
+  181 47 3,11 kN1R1_plgfoff #_reverse__R47
+  182 3,29 95 2*kN1R1_plgfon_surf #_R48
+  183 3,30 96 4*kN1R1_plgfon_surf #_R49
+  184 48 24,25 kvegfA_N1off #_reverse__R50
+  185 49 24,27 kplgf_N1off #_reverse__R51
+  186 50 23,25 kvegfA_R2off #_reverse__R52
+  187 25,32 97 4*kvegfA_R2on_rab4 #_R53
+  188 51 23,28 kvegfA_R2off #_reverse__R54
+  189 28,32 98 4*kvegfA_R2on_rab4 #_R55
+  190 52 22,25 kvegfA_R1off #_reverse__R56
+  191 25,31 99 4*kvegfA_R1on_rab4 #_R57
+  192 53 22,28 kvegfA_R1off #_reverse__R58
+  193 28,31 100 4*kvegfA_R1on_rab4 #_R59
+  194 54 22,26 kplgf_R1off #_reverse__R60
+  195 26,31 101 4*kplgf_R1on_rab4 #_R61
+  196 55 22,27 kplgf_R1off #_reverse__R62
+  197 27,31 102 4*kplgf_R1on_rab4 #_R63
+  198 28,33 103 2*kN1R1_vegfAon_rab4 #_R64
+  199 26,33 104 2*kN1R1_plgfon_rab4 #_R67
+  200 72,73 105 2*kvegfA_N1on_rab11 #_R70
+  201 72,75 106 2*kplgf_N1on_rab11 #_R71
+  202 71,73 107 2*kvegfA_R2on_rab11 #_R72
+  203 71,76 108 2*kvegfA_R2on_rab11 #_R74
+  204 70,73 109 2*kvegfA_R1on_rab11 #_R76
+  205 70,76 110 2*kvegfA_R1on_rab11 #_R78
+  206 70,74 111 2*kplgf_R1on_rab11 #_R80
+  207 70,75 112 2*kplgf_R1on_rab11 #_R82
+  208 56 7,14 2*kN1vegfA_N1off #_reverse__R90
+  209 57 7,15 2*kN1plgf2_N1off #_reverse__R91
+  210 6,36 113 kR2vegfA_R2on_surf #_R92
+  211 58 6,16 2*kvegfA_R2off #_reverse__R92
+  212 59 6,17 2*kvegfA_R2off #_reverse__R93
+  213 5,34 114 kR1vegfA_R1on_surf #_R94
+  214 60 5,18 2*kvegfA_R1off #_reverse__R94
+  215 61 5,19 2*kvegfA_R1off #_reverse__R95
+  216 62 5,20 2*kplgf_R1off #_reverse__R96
+  217 5,35 115 kR1plgf_R1on_surf #_R97
+  218 63 5,21 2*kplgf_R1off #_reverse__R97
+  219 6,36 39 kR2R2on_surf #_R98
+  220 39 6,36 kR2R2off #_reverse__R98
+  221 40 6,16 kR2R2off #_reverse__R98
+  222 41 6,17 kR2R2off #_reverse__R99
+  223 5,34 37 kR1R1on_surf #_R100
+  224 37 5,34 kR1R1off #_reverse__R100
+  225 42 5,18 kR1R1off #_reverse__R100
+  226 43 5,19 kR1R1off #_reverse__R101
+  227 44 5,20 kR1R1off #_reverse__R102
+  228 5,35 38 kR1R1on_surf #_R103
+  229 38 5,35 kR1R1off #_reverse__R103
+  230 45 5,21 kR1R1off #_reverse__R103
+  231 39 116 kdeltaVEGFA_R #_R104
+  232 40 117 kdeltaVEGFA_R #_R104
+  233 65 118 kdeltaVEGFA_R #_R104
+  234 41 119 kdeltaVEGFA_R #_R105
+  235 37 120 kdeltaVEGFA_R #_R106
+  236 42 121 kdeltaVEGFA_R #_R106
+  237 43 122 kdeltaVEGFA_R #_R107
+  238 66 123 kdeltaVEGFA_R #_R107
+  239 44 124 kdeltaPLGF_R #_R108
+  240 68 125 kdeltaPLGF_R #_R108
+  241 38 126 kdeltaPLGF_R #_R109
+  242 45 127 kdeltaPLGF_R #_R109
+  243 58 117 kdeltaR2R2 #_R110
+  244 59 119 kdeltaR2R2 #_R111
+  245 60 121 kdeltaR1R1_V #_R112
+  246 61 122 kdeltaR1R1_V #_R113
+  247 67 123 kdeltaR1R1_V #_R113
+  248 62 124 kdeltaR1R1_P #_R114
+  249 63 127 kdeltaR1R1_P #_R115
+  250 64 6,14 kN1vegfA_R2off #_reverse__R116
+  251 6,56 128 2*kN1vegfA_R2on_surf #_R117
+  252 6,64 129 kR2vegfA_R2on_surf #_R118
+  253 6,64 65 kR2R2on_surf #_R119
+  254 65 6,64 kR2R2off #_reverse__R119
+  255 65 10,14 kvegfA_R2off #_reverse__R122
+  256 10,56 130 4*kN1vegfA_R2on_surf #_R123
+  257 64 7,16 kR2vegfA_N1off #_reverse__R124
+  258 7,64 128 kR2vegfA_N1on_surf #_R125
+  259 7,40 65 2*kR2vegfA_N1on_surf #_R126
+  260 65 7,40 kR2vegfA_N1off #_reverse__R126
+  261 7,65 130 kR2vegfA_N1on_surf #_R127
+  262 7,58 129 2*kR2vegfA_N1on_surf #_R128
+  263 46 7,19 kvegfAR1_N1off #_reverse__R132
+  264 7,43 93 kvegfAR1_N1on_surf #_R133
+  265 7,61 67 2*kvegfAR1_N1on_surf #_R135
+  266 67 7,61 kvegfAR1_N1off #_reverse__R135
+  267 7,67 131 kvegfAR1_N1on_surf #_R136
+  268 5,46 93 kR1R1on_surf #_R139
+  269 66 11,19 kR1R1off #_reverse__R140
+  270 11,46 94 kR1R1on_surf #_R141
+  271 5,46 67 kR1vegfA_R1on_surf #_R142
+  272 67 5,46 kvegfA_R1off #_reverse__R142
+  273 67 11,19 kvegfA_R1off #_reverse__R143
+  274 11,46 131 kR1vegfA_R1on_surf #_R144
+  275 47 7,20 kplgfR1_N1off #_reverse__R145
+  276 7,44 95 kplgfR1_N1on_surf #_R146
+  277 7,62 69 2*kplgfR1_N1on_surf #_R148
+  278 69 7,62 kplgfR1_N1off #_reverse__R148
+  279 7,69 132 kplgfR1_N1on_surf #_R149
+  280 5,47 95 kR1R1on_surf #_R152
+  281 68 11,20 kR1R1off #_reverse__R153
+  282 11,47 96 kR1R1on_surf #_R154
+  283 5,47 69 kR1plgf_R1on_surf #_R155
+  284 69 5,47 kplgf_R1off #_reverse__R155
+  285 69 11,20 kplgf_R1off #_reverse__R156
+  286 11,47 132 kR1plgf_R1on_surf #_R157
+  287 24,48 133 kN1vegfA_N1on_rab4 #_R158
+  288 24,49 134 kN1plgf2_N1on_rab4 #_R159
+  289 23,50 135 kR2vegfA_R2on_rab4 #_R160
+  290 23,51 136 kR2vegfA_R2on_rab4 #_R161
+  291 22,52 137 kR1vegfA_R1on_rab4 #_R162
+  292 22,53 138 kR1vegfA_R1on_rab4 #_R163
+  293 22,54 139 kR1plgf_R1on_rab4 #_R164
+  294 22,55 140 kR1plgf_R1on_rab4 #_R165
+  295 23,50 97 kR2R2on_rab4 #_R166
+  296 23,51 98 kR2R2on_rab4 #_R167
+  297 22,52 99 kR1R1on_rab4 #_R168
+  298 22,53 100 kR1R1on_rab4 #_R169
+  299 22,54 101 kR1R1on_rab4 #_R170
+  300 22,55 102 kR1R1on_rab4 #_R171
+  301 23,48 141 2*kN1vegfA_R2on_rab4 #_R184
+  302 32,48 142 4*kN1vegfA_R2on_rab4 #_R190
+  303 24,50 141 2*kR2vegfA_N1on_rab4 #_R192
+  304 24,53 103 kvegfAR1_N1on_rab4 #_R200
+  305 33,53 143 kR1R1on_rab4 #_R208
+  306 33,53 144 kR1vegfA_R1on_rab4 #_R211
+  307 24,54 104 kplgfR1_N1on_rab4 #_R213
+  308 33,54 145 kR1R1on_rab4 #_R221
+  309 33,54 146 kR1plgf_R1on_rab4 #_R224
+  310 29 88 kR1N1Rab5a #_R300
+  311 30 89 kR1N1Rab5a #_R301
+  312 56 133 kVegfN1Rab5a #_R307
+  313 58 135 kVegfR2Rab5a #_R309
+  314 40 97 kR2Rab5a #_R310
+  315 64 141 kR2N1Rab5a #_R312
+  316 65 142 kR2N1Rab5a #_R313
+  317 41 98 kR2Rab5a #_R321
+  318 59 136 kVegfR2Rab5a #_R322
+  319 42 99 kR1Rab5a #_R325
+  320 60 137 kVegfR1Rab5a #_R326
+  321 43 100 kR1Rab5a #_R330
+  322 61 138 kVegfR1Rab5a #_R331
+  323 46 103 kR1N1Rab5a #_R333
+  324 66 143 kR1N1Rab5a #_R335
+  325 67 144 kVegfR1N1Rab5a #_R336
+  326 44 101 kR1Rab5a #_R342
+  327 62 139 kPlgfR1Rab5a #_R343
+  328 47 104 kR1N1Rab5a #_R345
+  329 68 145 kR1N1Rab5a #_R347
+  330 69 146 kPlgfR1N1Rab5a #_R348
+  331 57 134 kPlgfN1Rab5a #_R354
+  332 45 102 kR1Rab5a #_R356
+  333 63 140 kPlgfR1Rab5a #_R357
+  334 31 9 kR1Rab4a #_R363
+  335 32 10 kR2Rab4a #_R364
+  336 33 11 kR1N1Rab4a #_R365
+  337 48 14 kVegfN1Rab4a #_R372
+  338 50 16 kR2Rab4a #_R374
+  339 51 17 kR2Rab4a #_R386
+  340 52 18 kR1Rab4a #_R390
+  341 53 19 kR1Rab4a #_R395
+  342 54 20 kR1Rab4a #_R407
+  343 49 15 kPlgfN1Rab4a #_R419
+  344 55 21 kR1Rab4a #_R421
+  345 31 90 kR1Rab4at11a #_R429
+  346 32 91 kR2Rab4at11a #_R430
+  347 33 92 kR1N1Rab4at11a #_R431
+  348 48 105 kVegfN1Rab4at11a #_R438
+  349 50 107 kR2Rab4at11a #_R440
+  350 51 108 kR2Rab4at11a #_R452
+  351 52 109 kR1Rab4at11a #_R456
+  352 53 110 kR1Rab4at11a #_R461
+  353 54 111 kR1Rab4at11a #_R473
+  354 49 106 kPlgfN1Rab4at11a #_R485
+  355 55 112 kR1Rab4at11a #_R487
+  356 70 5 kR1Rab11a #_R492
+  357 71 6 kR2Rab11a #_R493
+  358 72 7 kN1Rab11a #_R494
+  359 73 1 kVegfRab11a #_R500
+  360 74 3 kPlgfRab11a #_R501
+  361 75 4 kPlgfRab11a #_R502
+  362 76 2 kVegfRab11a #_R503
+  363 31 147 kR1Rab4at7a #_R561
+  364 32 148 kR2Rab4at7a #_R562
+  365 33 149 kR1N1Rab4at7a #_R563
+  366 48 150 kVegfN1Rab4at7a #_R570
+  367 50 151 kR2Rab4at7a #_R572
+  368 51 152 kR2Rab4at7a #_R584
+  369 52 153 kR1Rab4at7a #_R588
+  370 53 154 kR1Rab4at7a #_R593
+  371 54 155 kR1Rab4at7a #_R605
+  372 49 156 kPlgfN1Rab4at7a #_R617
+  373 55 157 kR1Rab4at7a #_R619
+  374 7,93 94 kN1R1on_surf #_R3
+  375 7,95 96 kN1R1on_surf #_R3
+  376 84 7,37 kN1R1off #_reverse__R3
+  377 85 7,38 kN1R1off #_reverse__R3
+  378 86 7,42 kN1R1off #_reverse__R3
+  379 87 7,45 kN1R1off #_reverse__R3
+  380 94 7,93 kN1R1off #_reverse__R3
+  381 96 7,95 kN1R1off #_reverse__R3
+  382 88 22,33 kR1R1off #_reverse__R4
+  383 89 33,33 kR1R1off #_reverse__R4
+  384 24,88 89 kN1R1on_rab4 #_R6
+  385 24,99 158 kN1R1on_rab4 #_R6
+  386 24,100 143 kN1R1on_rab4 #_R6
+  387 24,101 145 kN1R1on_rab4 #_R6
+  388 24,102 159 kN1R1on_rab4 #_R6
+  389 88 24,31 kN1R1off #_reverse__R6
+  390 89 24,88 2*kN1R1off #_reverse__R6
+  391 143 24,100 kN1R1off #_reverse__R6
+  392 145 24,101 kN1R1off #_reverse__R6
+  393 70,92 160 kR1R1on_rab11 #_R7
+  394 92,92 161 0.5*kR1R1on_rab11 #_R7
+  395 90 70,70 kR1R1off #_reverse__R7
+  396 91 71,71 kR2R2off #_reverse__R8
+  397 72,90 160 2*kN1R1on_rab11 #_R9
+  398 92 70,72 kN1R1off #_reverse__R9
+  399 8,121 120 kR1vegfA_Mon #_R15
+  400 120 8,121 kR1vegfA_Moff #_reverse__R15
+  401 8,127 126 kR1plgf_Mon #_R19
+  402 126 8,127 kR1plgf_Moff #_reverse__R19
+  403 8,117 116 kR2vegfA_Mon #_R23
+  404 116 8,117 kR2vegfA_Moff #_reverse__R23
+  405 93 2,29 kN1R1_vegfAoff #_reverse__R45
+  406 94 2,30 kN1R1_vegfAoff #_reverse__R46
+  407 95 3,29 kN1R1_plgfoff #_reverse__R48
+  408 96 3,30 kN1R1_plgfoff #_reverse__R49
+  409 97 25,32 kvegfA_R2off #_reverse__R53
+  410 98 28,32 kvegfA_R2off #_reverse__R55
+  411 99 25,31 kvegfA_R1off #_reverse__R57
+  412 100 28,31 kvegfA_R1off #_reverse__R59
+  413 101 26,31 kplgf_R1off #_reverse__R61
+  414 102 27,31 kplgf_R1off #_reverse__R63
+  415 103 28,33 kN1R1_vegfAoff #_reverse__R64
+  416 28,88 162 2*kN1R1_vegfAon_rab4 #_R65
+  417 28,89 163 4*kN1R1_vegfAon_rab4 #_R66
+  418 104 26,33 kN1R1_plgfoff #_reverse__R67
+  419 26,88 164 2*kN1R1_plgfon_rab4 #_R68
+  420 26,89 165 4*kN1R1_plgfon_rab4 #_R69
+  421 105 72,73 kvegfA_N1off #_reverse__R70
+  422 106 72,75 kplgf_N1off #_reverse__R71
+  423 107 71,73 kvegfA_R2off #_reverse__R72
+  424 73,91 166 4*kvegfA_R2on_rab11 #_R73
+  425 108 71,76 kvegfA_R2off #_reverse__R74
+  426 76,91 167 4*kvegfA_R2on_rab11 #_R75
+  427 109 70,73 kvegfA_R1off #_reverse__R76
+  428 73,90 168 4*kvegfA_R1on_rab11 #_R77
+  429 110 70,76 kvegfA_R1off #_reverse__R78
+  430 76,90 169 4*kvegfA_R1on_rab11 #_R79
+  431 111 70,74 kplgf_R1off #_reverse__R80
+  432 74,90 170 4*kplgf_R1on_rab11 #_R81
+  433 112 70,75 kplgf_R1off #_reverse__R82
+  434 75,90 171 4*kplgf_R1on_rab11 #_R83
+  435 76,92 172 2*kN1R1_vegfAon_rab11 #_R84
+  436 74,92 173 2*kN1R1_plgfon_rab11 #_R87
+  437 113 6,36 2*kvegfA_R2off #_reverse__R92
+  438 114 5,34 2*kvegfA_R1off #_reverse__R94
+  439 115 5,35 2*kplgf_R1off #_reverse__R97
+  440 130 174 kdeltaVEGFA_R #_R104
+  441 116 39 2*kvegfA_R2off #_reverse__R104
+  442 117 40 2*kvegfA_R2off #_reverse__R104
+  443 118 65 2*kvegfA_R2off #_reverse__R104
+  444 119 41 2*kvegfA_R2off #_reverse__R105
+  445 120 37 2*kvegfA_R1off #_reverse__R106
+  446 121 42 2*kvegfA_R1off #_reverse__R106
+  447 93 123 kdeltaVEGFA_R #_R107
+  448 94 175 kdeltaVEGFA_R #_R107
+  449 122 43 2*kvegfA_R1off #_reverse__R107
+  450 123 66 kvegfA_R1off #_reverse__R107
+  451 123 93 kvegfA_R1off #_reverse__R107
+  452 95 125 kdeltaPLGF_R #_R108
+  453 96 176 kdeltaPLGF_R #_R108
+  454 124 44 2*kplgf_R1off #_reverse__R108
+  455 125 68 kplgf_R1off #_reverse__R108
+  456 125 95 kplgf_R1off #_reverse__R108
+  457 126 38 2*kplgf_R1off #_reverse__R109
+  458 127 45 2*kplgf_R1off #_reverse__R109
+  459 113 116 kdeltaR2R2 #_R110
+  460 129 118 kdeltaR2R2 #_R110
+  461 116 113 kR2R2off #_reverse__R110
+  462 117 58 kR2R2off #_reverse__R110
+  463 118 129 kR2R2off #_reverse__R110
+  464 119 59 kR2R2off #_reverse__R111
+  465 114 120 kdeltaR1R1_V #_R112
+  466 120 114 kR1R1off #_reverse__R112
+  467 121 60 kR1R1off #_reverse__R112
+  468 131 175 kdeltaR1R1_V #_R113
+  469 122 61 kR1R1off #_reverse__R113
+  470 123 67 kR1R1off #_reverse__R113
+  471 124 62 kR1R1off #_reverse__R114
+  472 115 126 kdeltaR1R1_P #_R115
+  473 126 115 kR1R1off #_reverse__R115
+  474 127 63 kR1R1off #_reverse__R115
+  475 128 6,56 kvegfA_R2off #_reverse__R117
+  476 129 6,64 2*kvegfA_R2off #_reverse__R118
+  477 6,128 177 kR2vegfA_R2on_surf #_R120
+  478 6,128 130 kR2R2on_surf #_R121
+  479 130 6,128 kR2R2off #_reverse__R121
+  480 130 10,56 kvegfA_R2off #_reverse__R123
+  481 128 7,64 2*kR2vegfA_N1off #_reverse__R125
+  482 130 7,65 2*kR2vegfA_N1off #_reverse__R127
+  483 129 7,58 kR2vegfA_N1off #_reverse__R128
+  484 7,129 177 kR2vegfA_N1on_surf #_R129
+  485 7,117 118 2*kR2vegfA_N1on_surf #_R130
+  486 118 7,117 kR2vegfA_N1off #_reverse__R130
+  487 7,118 174 kR2vegfA_N1on_surf #_R131
+  488 93 7,43 kvegfAR1_N1off #_reverse__R133
+  489 7,93 94 kvegfAR1_N1on_surf #_R134
+  490 94 7,93 kvegfAR1_N1off #_reverse__R134
+  491 131 7,67 2*kvegfAR1_N1off #_reverse__R136
+  492 7,122 123 2*kvegfAR1_N1on_surf #_R137
+  493 123 7,122 kvegfAR1_N1off #_reverse__R137
+  494 7,123 175 kvegfAR1_N1on_surf #_R138
+  495 93 5,46 kR1R1off #_reverse__R139
+  496 94 11,46 kR1R1off #_reverse__R141
+  497 131 11,46 2*kvegfA_R1off #_reverse__R144
+  498 95 7,44 kplgfR1_N1off #_reverse__R146
+  499 7,95 96 kplgfR1_N1on_surf #_R147
+  500 96 7,95 kplgfR1_N1off #_reverse__R147
+  501 132 7,69 2*kplgfR1_N1off #_reverse__R149
+  502 7,124 125 2*kplgfR1_N1on_surf #_R150
+  503 125 7,124 kplgfR1_N1off #_reverse__R150
+  504 7,125 176 kplgfR1_N1on_surf #_R151
+  505 95 5,47 kR1R1off #_reverse__R152
+  506 96 11,47 kR1R1off #_reverse__R154
+  507 132 11,47 2*kplgf_R1off #_reverse__R157
+  508 133 24,48 2*kN1vegfA_N1off #_reverse__R158
+  509 134 24,49 2*kN1plgf2_N1off #_reverse__R159
+  510 135 23,50 2*kvegfA_R2off #_reverse__R160
+  511 136 23,51 2*kvegfA_R2off #_reverse__R161
+  512 137 22,52 2*kvegfA_R1off #_reverse__R162
+  513 138 22,53 2*kvegfA_R1off #_reverse__R163
+  514 139 22,54 2*kplgf_R1off #_reverse__R164
+  515 140 22,55 2*kplgf_R1off #_reverse__R165
+  516 97 23,50 kR2R2off #_reverse__R166
+  517 98 23,51 kR2R2off #_reverse__R167
+  518 99 22,52 kR1R1off #_reverse__R168
+  519 100 22,53 kR1R1off #_reverse__R169
+  520 101 22,54 kR1R1off #_reverse__R170
+  521 102 22,55 kR1R1off #_reverse__R171
+  522 97 178 kdeltaVEGFA_R #_R172
+  523 142 179 kdeltaVEGFA_R #_R172
+  524 98 180 kdeltaVEGFA_R #_R173
+  525 99 181 kdeltaVEGFA_R #_R174
+  526 100 182 kdeltaVEGFA_R #_R175
+  527 143 183 kdeltaVEGFA_R #_R175
+  528 101 184 kdeltaPLGF_R #_R176
+  529 145 185 kdeltaPLGF_R #_R176
+  530 102 186 kdeltaPLGF_R #_R177
+  531 135 178 kdeltaR2R2 #_R178
+  532 136 180 kdeltaR2R2 #_R179
+  533 137 181 kdeltaR1R1_V #_R180
+  534 138 182 kdeltaR1R1_V #_R181
+  535 144 183 kdeltaR1R1_V #_R181
+  536 139 184 kdeltaR1R1_P #_R182
+  537 140 186 kdeltaR1R1_P #_R183
+  538 141 23,48 kN1vegfA_R2off #_reverse__R184
+  539 23,133 187 2*kN1vegfA_R2on_rab4 #_R185
+  540 23,141 188 kR2vegfA_R2on_rab4 #_R186
+  541 23,141 142 kR2R2on_rab4 #_R187
+  542 142 23,141 kR2R2off #_reverse__R187
+  543 142 32,48 kvegfA_R2off #_reverse__R190
+  544 32,133 189 4*kN1vegfA_R2on_rab4 #_R191
+  545 141 24,50 kR2vegfA_N1off #_reverse__R192
+  546 24,141 187 kR2vegfA_N1on_rab4 #_R193
+  547 24,97 142 2*kR2vegfA_N1on_rab4 #_R194
+  548 142 24,97 kR2vegfA_N1off #_reverse__R194
+  549 24,142 189 kR2vegfA_N1on_rab4 #_R195
+  550 24,135 188 2*kR2vegfA_N1on_rab4 #_R196
+  551 103 24,53 kvegfAR1_N1off #_reverse__R200
+  552 24,100 162 kvegfAR1_N1on_rab4 #_R201
+  553 24,138 144 2*kvegfAR1_N1on_rab4 #_R203
+  554 144 24,138 kvegfAR1_N1off #_reverse__R203
+  555 24,144 190 kvegfAR1_N1on_rab4 #_R204
+  556 22,103 162 kR1R1on_rab4 #_R207
+  557 143 33,53 kR1R1off #_reverse__R208
+  558 33,103 163 kR1R1on_rab4 #_R209
+  559 22,103 144 kR1vegfA_R1on_rab4 #_R210
+  560 144 22,103 kvegfA_R1off #_reverse__R210
+  561 144 33,53 kvegfA_R1off #_reverse__R211
+  562 33,103 190 kR1vegfA_R1on_rab4 #_R212
+  563 104 24,54 kplgfR1_N1off #_reverse__R213
+  564 24,101 164 kplgfR1_N1on_rab4 #_R214
+  565 24,139 146 2*kplgfR1_N1on_rab4 #_R216
+  566 146 24,139 kplgfR1_N1off #_reverse__R216
+  567 24,146 191 kplgfR1_N1on_rab4 #_R217
+  568 22,104 164 kR1R1on_rab4 #_R220
+  569 145 33,54 kR1R1off #_reverse__R221
+  570 33,104 165 kR1R1on_rab4 #_R222
+  571 22,104 146 kR1plgf_R1on_rab4 #_R223
+  572 146 22,104 kplgf_R1off #_reverse__R223
+  573 146 33,54 kplgf_R1off #_reverse__R224
+  574 33,104 191 kR1plgf_R1on_rab4 #_R225
+  575 72,105 192 kN1vegfA_N1on_rab11 #_R226
+  576 72,106 193 kN1plgf2_N1on_rab11 #_R227
+  577 71,107 194 kR2vegfA_R2on_rab11 #_R228
+  578 71,108 195 kR2vegfA_R2on_rab11 #_R229
+  579 70,109 196 kR1vegfA_R1on_rab11 #_R230
+  580 70,110 197 kR1vegfA_R1on_rab11 #_R231
+  581 70,111 198 kR1plgf_R1on_rab11 #_R232
+  582 70,112 199 kR1plgf_R1on_rab11 #_R233
+  583 71,107 166 kR2R2on_rab11 #_R234
+  584 71,108 167 kR2R2on_rab11 #_R235
+  585 70,109 168 kR1R1on_rab11 #_R236
+  586 70,110 169 kR1R1on_rab11 #_R237
+  587 70,111 170 kR1R1on_rab11 #_R238
+  588 70,112 171 kR1R1on_rab11 #_R239
+  589 71,105 200 2*kN1vegfA_R2on_rab11 #_R252
+  590 91,105 201 4*kN1vegfA_R2on_rab11 #_R258
+  591 72,107 200 2*kR2vegfA_N1on_rab11 #_R260
+  592 72,110 172 kvegfAR1_N1on_rab11 #_R268
+  593 92,110 202 kR1R1on_rab11 #_R276
+  594 92,110 203 kR1vegfA_R1on_rab11 #_R279
+  595 72,111 173 kplgfR1_N1on_rab11 #_R281
+  596 92,111 204 kR1R1on_rab11 #_R289
+  597 92,111 205 kR1plgf_R1on_rab11 #_R292
+  598 117 178 kVegfR2Rab5a #_R311
+  599 129 188 kVegfR2N1Rab5a #_R314
+  600 118 179 kVegfR2N1Rab5a #_R315
+  601 128 187 kR2N1Rab5a #_R316
+  602 130 189 kR2N1Rab5a #_R317
+  603 119 180 kVegfR2Rab5a #_R323
+  604 121 181 kVegfR1Rab5a #_R327
+  605 86 158 kR1Rab5a #_R328
+  606 122 182 kVegfR1Rab5a #_R332
+  607 93 162 kR1N1Rab5a #_R334
+  608 123 183 kVegfR1N1Rab5a #_R337
+  609 94 163 kR1N1Rab5a #_R338
+  610 131 190 kVegfR1N1Rab5a #_R339
+  611 124 184 kPlgfR1Rab5a #_R344
+  612 95 164 kR1N1Rab5a #_R346
+  613 125 185 kPlgfR1N1Rab5a #_R349
+  614 96 165 kR1N1Rab5a #_R350
+  615 132 191 kPlgfR1N1Rab5a #_R351
+  616 127 186 kPlgfR1Rab5a #_R358
+  617 87 159 kR1N1Rab5a #_R359
+  618 88 29 kR1N1Rab4a #_R366
+  619 89 30 kR1N1Rab4a #_R367
+  620 133 56 kVegfN1Rab4a #_R373
+  621 135 58 kVegfR2Rab4a #_R375
+  622 97 40 kR2Rab4a #_R376
+  623 141 64 kR2N1Rab4a #_R378
+  624 142 65 kR2N1Rab4a #_R380
+  625 98 41 kR2Rab4a #_R387
+  626 136 59 kVegfR2Rab4a #_R389
+  627 99 42 kR1Rab4a #_R391
+  628 137 60 kVegfR1Rab4a #_R392
+  629 100 43 kR1Rab4a #_R396
+  630 138 61 kVegfR1Rab4a #_R397
+  631 103 46 kR1N1Rab4a #_R399
+  632 143 66 kR1N1Rab4a #_R401
+  633 144 67 kVegfR1N1Rab4a #_R402
+  634 101 44 kR1Rab4a #_R408
+  635 139 62 kPlgfR1Rab4a #_R409
+  636 104 47 kR1N1Rab4a #_R411
+  637 145 68 kR1N1Rab4a #_R413
+  638 146 69 kPlgfR1N1Rab4a #_R414
+  639 134 57 kPlgfN1Rab4a #_R420
+  640 102 45 kR1Rab4a #_R422
+  641 140 63 kPlgfR1Rab4a #_R423
+  642 88 160 kR1N1Rab4at11a #_R432
+  643 89 161 kR1N1Rab4at11a #_R433
+  644 133 192 kVegfN1Rab4at11a #_R439
+  645 135 194 kVegfR2Rab4at11a #_R441
+  646 97 166 kR2Rab4at11a #_R442
+  647 141 200 kR2N1Rab4at11a #_R444
+  648 142 201 kR2N1Rab4at11a #_R445
+  649 98 167 kR2Rab4at11a #_R453
+  650 136 195 kVegfR2Rab4at11a #_R454
+  651 99 168 kR1Rab4at11a #_R457
+  652 137 196 kVegfR1Rab4at11a #_R458
+  653 138 197 kVegfR1Rab4at11a #_R462
+  654 100 169 kR1Rab4at11a #_R464
+  655 103 172 kR1N1Rab4at11a #_R465
+  656 143 202 kR1N1Rab4at11a #_R467
+  657 144 203 kVegfR1N1Rab4at11a #_R468
+  658 139 198 kPlgfR1Rab4at11a #_R474
+  659 101 170 kR1Rab4at11a #_R476
+  660 104 173 kR1N1Rab4at11a #_R477
+  661 145 204 kR1N1Rab4at11a #_R479
+  662 146 205 kPlgfR1N1Rab4at11a #_R480
+  663 134 193 kPlgfN1Rab4at11a #_R486
+  664 102 171 kR1Rab4at11a #_R488
+  665 140 199 kPlgfR1Rab4at11a #_R489
+  666 90 9 kR1Rab11a #_R495
+  667 91 10 kR2Rab11a #_R496
+  668 92 11 kR1N1Rab11a #_R497
+  669 105 14 kVegfN1Rab11a #_R504
+  670 107 16 kR2Rab11a #_R506
+  671 108 17 kR2Rab11a #_R518
+  672 109 18 kR1Rab11a #_R522
+  673 110 19 kR1Rab11a #_R527
+  674 111 20 kR1Rab11a #_R541
+  675 106 15 kPlgfN1Rab11a #_R551
+  676 112 21 kR1Rab11a #_R553
+  677 88 206 kR1N1Rab4at7a #_R564
+  678 89 207 kR1N1Rab4at7a #_R565
+  679 133 208 kVegfN1Rab4at7a #_R571
+  680 135 209 kVegfR2Rab4at7a #_R573
+  681 97 210 kR2Rab4at7a #_R574
+  682 141 211 kR2N1Rab4at7a #_R576
+  683 142 212 kR2N1Rab4at7a #_R577
+  684 98 213 kR2Rab4at7a #_R585
+  685 136 214 kVegfR2Rab4at7a #_R586
+  686 137 215 kVegfR1Rab4at7a #_R589
+  687 99 216 kR1Rab4at7a #_R591
+  688 138 217 kVegfR1Rab4at7a #_R594
+  689 100 218 kR1Rab4at7a #_R596
+  690 103 219 kR1N1Rab4at7a #_R597
+  691 143 220 kR1N1Rab4at7a #_R599
+  692 144 221 kVegfR1N1Rab4at7a #_R600
+  693 139 222 kPlgfR1Rab4at7a #_R606
+  694 101 223 kR1Rab4at7a #_R608
+  695 104 224 kR1N1Rab4at7a #_R609
+  696 145 225 kR1N1Rab4at7a #_R611
+  697 146 226 kPlgfR1N1Rab4at7a #_R612
+  698 134 227 kPlgfN1Rab4at7a #_R618
+  699 140 228 kPlgfR1Rab4at7a #_R620
+  700 102 229 kR1Rab4at7a #_R622
+  701 24,162 163 kN1R1on_rab4 #_R6
+  702 24,164 165 kN1R1on_rab4 #_R6
+  703 158 24,99 kN1R1off #_reverse__R6
+  704 159 24,102 kN1R1off #_reverse__R6
+  705 163 24,162 kN1R1off #_reverse__R6
+  706 165 24,164 kN1R1off #_reverse__R6
+  707 160 70,92 kR1R1off #_reverse__R7
+  708 161 92,92 kR1R1off #_reverse__R7
+  709 72,160 161 kN1R1on_rab11 #_R9
+  710 72,168 230 kN1R1on_rab11 #_R9
+  711 72,169 202 kN1R1on_rab11 #_R9
+  712 72,170 204 kN1R1on_rab11 #_R9
+  713 72,171 231 kN1R1on_rab11 #_R9
+  714 160 72,90 kN1R1off #_reverse__R9
+  715 161 72,160 2*kN1R1off #_reverse__R9
+  716 202 72,169 kN1R1off #_reverse__R9
+  717 204 72,170 kN1R1off #_reverse__R9
+  718 162 28,88 kN1R1_vegfAoff #_reverse__R65
+  719 163 28,89 kN1R1_vegfAoff #_reverse__R66
+  720 164 26,88 kN1R1_plgfoff #_reverse__R68
+  721 165 26,89 kN1R1_plgfoff #_reverse__R69
+  722 166 73,91 kvegfA_R2off #_reverse__R73
+  723 167 76,91 kvegfA_R2off #_reverse__R75
+  724 168 73,90 kvegfA_R1off #_reverse__R77
+  725 169 76,90 kvegfA_R1off #_reverse__R79
+  726 170 74,90 kplgf_R1off #_reverse__R81
+  727 171 75,90 kplgf_R1off #_reverse__R83
+  728 172 76,92 kN1R1_vegfAoff #_reverse__R84
+  729 76,160 232 2*kN1R1_vegfAon_rab11 #_R85
+  730 76,161 233 4*kN1R1_vegfAon_rab11 #_R86
+  731 173 74,92 kN1R1_plgfoff #_reverse__R87
+  732 74,160 234 2*kN1R1_plgfon_rab11 #_R88
+  733 74,161 235 4*kN1R1_plgfon_rab11 #_R89
+  734 174 130 2*kvegfA_R2off #_reverse__R104
+  735 175 94 2*kvegfA_R1off #_reverse__R107
+  736 176 96 2*kplgf_R1off #_reverse__R108
+  737 177 174 kdeltaR2R2 #_R110
+  738 174 177 kR2R2off #_reverse__R110
+  739 175 131 kR1R1off #_reverse__R113
+  740 177 6,128 2*kvegfA_R2off #_reverse__R120
+  741 177 7,129 2*kR2vegfA_N1off #_reverse__R129
+  742 174 7,118 2*kR2vegfA_N1off #_reverse__R131
+  743 175 7,123 2*kvegfAR1_N1off #_reverse__R138
+  744 176 7,125 2*kplgfR1_N1off #_reverse__R151
+  745 189 236 kdeltaVEGFA_R #_R172
+  746 178 97 2*kvegfA_R2off #_reverse__R172
+  747 179 142 2*kvegfA_R2off #_reverse__R172
+  748 180 98 2*kvegfA_R2off #_reverse__R173
+  749 181 99 2*kvegfA_R1off #_reverse__R174
+  750 162 183 kdeltaVEGFA_R #_R175
+  751 163 237 kdeltaVEGFA_R #_R175
+  752 182 100 2*kvegfA_R1off #_reverse__R175
+  753 183 143 kvegfA_R1off #_reverse__R175
+  754 183 162 kvegfA_R1off #_reverse__R175
+  755 164 185 kdeltaPLGF_R #_R176
+  756 165 238 kdeltaPLGF_R #_R176
+  757 184 101 2*kplgf_R1off #_reverse__R176
+  758 185 145 kplgf_R1off #_reverse__R176
+  759 185 164 kplgf_R1off #_reverse__R176
+  760 186 102 2*kplgf_R1off #_reverse__R177
+  761 188 179 kdeltaR2R2 #_R178
+  762 178 135 kR2R2off #_reverse__R178
+  763 179 188 kR2R2off #_reverse__R178
+  764 180 136 kR2R2off #_reverse__R179
+  765 181 137 kR1R1off #_reverse__R180
+  766 190 237 kdeltaR1R1_V #_R181
+  767 182 138 kR1R1off #_reverse__R181
+  768 183 144 kR1R1off #_reverse__R181
+  769 184 139 kR1R1off #_reverse__R182
+  770 186 140 kR1R1off #_reverse__R183
+  771 187 23,133 kvegfA_R2off #_reverse__R185
+  772 188 23,141 2*kvegfA_R2off #_reverse__R186
+  773 23,187 239 kR2vegfA_R2on_rab4 #_R188
+  774 23,187 189 kR2R2on_rab4 #_R189
+  775 189 23,187 kR2R2off #_reverse__R189
+  776 189 32,133 kvegfA_R2off #_reverse__R191
+  777 187 24,141 2*kR2vegfA_N1off #_reverse__R193
+  778 189 24,142 2*kR2vegfA_N1off #_reverse__R195
+  779 188 24,135 kR2vegfA_N1off #_reverse__R196
+  780 24,188 239 kR2vegfA_N1on_rab4 #_R197
+  781 24,178 179 2*kR2vegfA_N1on_rab4 #_R198
+  782 179 24,178 kR2vegfA_N1off #_reverse__R198
+  783 24,179 236 kR2vegfA_N1on_rab4 #_R199
+  784 162 24,100 kvegfAR1_N1off #_reverse__R201
+  785 24,162 163 kvegfAR1_N1on_rab4 #_R202
+  786 163 24,162 kvegfAR1_N1off #_reverse__R202
+  787 190 24,144 2*kvegfAR1_N1off #_reverse__R204
+  788 24,182 183 2*kvegfAR1_N1on_rab4 #_R205
+  789 183 24,182 kvegfAR1_N1off #_reverse__R205
+  790 24,183 237 kvegfAR1_N1on_rab4 #_R206
+  791 162 22,103 kR1R1off #_reverse__R207
+  792 163 33,103 kR1R1off #_reverse__R209
+  793 190 33,103 2*kvegfA_R1off #_reverse__R212
+  794 164 24,101 kplgfR1_N1off #_reverse__R214
+  795 24,164 165 kplgfR1_N1on_rab4 #_R215
+  796 165 24,164 kplgfR1_N1off #_reverse__R215
+  797 191 24,146 2*kplgfR1_N1off #_reverse__R217
+  798 24,184 185 2*kplgfR1_N1on_rab4 #_R218
+  799 185 24,184 kplgfR1_N1off #_reverse__R218
+  800 24,185 238 kplgfR1_N1on_rab4 #_R219
+  801 164 22,104 kR1R1off #_reverse__R220
+  802 165 33,104 kR1R1off #_reverse__R222
+  803 191 33,104 2*kplgf_R1off #_reverse__R225
+  804 192 72,105 2*kN1vegfA_N1off #_reverse__R226
+  805 193 72,106 2*kN1plgf2_N1off #_reverse__R227
+  806 194 71,107 2*kvegfA_R2off #_reverse__R228
+  807 195 71,108 2*kvegfA_R2off #_reverse__R229
+  808 196 70,109 2*kvegfA_R1off #_reverse__R230
+  809 197 70,110 2*kvegfA_R1off #_reverse__R231
+  810 198 70,111 2*kplgf_R1off #_reverse__R232
+  811 199 70,112 2*kplgf_R1off #_reverse__R233
+  812 166 71,107 kR2R2off #_reverse__R234
+  813 167 71,108 kR2R2off #_reverse__R235
+  814 168 70,109 kR1R1off #_reverse__R236
+  815 169 70,110 kR1R1off #_reverse__R237
+  816 170 70,111 kR1R1off #_reverse__R238
+  817 171 70,112 kR1R1off #_reverse__R239
+  818 166 240 kdeltaVEGFA_R #_R240
+  819 201 241 kdeltaVEGFA_R #_R240
+  820 167 242 kdeltaVEGFA_R #_R241
+  821 168 243 kdeltaVEGFA_R #_R242
+  822 169 244 kdeltaVEGFA_R #_R243
+  823 202 245 kdeltaVEGFA_R #_R243
+  824 170 246 kdeltaPLGF_R #_R244
+  825 204 247 kdeltaPLGF_R #_R244
+  826 171 248 kdeltaPLGF_R #_R245
+  827 194 240 kdeltaR2R2 #_R246
+  828 195 242 kdeltaR2R2 #_R247
+  829 196 243 kdeltaR1R1_V #_R248
+  830 197 244 kdeltaR1R1_V #_R249
+  831 203 245 kdeltaR1R1_V #_R249
+  832 198 246 kdeltaR1R1_P #_R250
+  833 199 248 kdeltaR1R1_P #_R251
+  834 200 71,105 kN1vegfA_R2off #_reverse__R252
+  835 71,192 249 2*kN1vegfA_R2on_rab11 #_R253
+  836 71,200 250 kR2vegfA_R2on_rab11 #_R254
+  837 71,200 201 kR2R2on_rab11 #_R255
+  838 201 71,200 kR2R2off #_reverse__R255
+  839 201 91,105 kvegfA_R2off #_reverse__R258
+  840 91,192 251 4*kN1vegfA_R2on_rab11 #_R259
+  841 200 72,107 kR2vegfA_N1off #_reverse__R260
+  842 72,200 249 kR2vegfA_N1on_rab11 #_R261
+  843 72,166 201 2*kR2vegfA_N1on_rab11 #_R262
+  844 201 72,166 kR2vegfA_N1off #_reverse__R262
+  845 72,201 251 kR2vegfA_N1on_rab11 #_R263
+  846 72,194 250 2*kR2vegfA_N1on_rab11 #_R264
+  847 172 72,110 kvegfAR1_N1off #_reverse__R268
+  848 72,169 232 kvegfAR1_N1on_rab11 #_R269
+  849 72,197 203 2*kvegfAR1_N1on_rab11 #_R271
+  850 203 72,197 kvegfAR1_N1off #_reverse__R271
+  851 72,203 252 kvegfAR1_N1on_rab11 #_R272
+  852 70,172 232 kR1R1on_rab11 #_R275
+  853 202 92,110 kR1R1off #_reverse__R276
+  854 92,172 233 kR1R1on_rab11 #_R277
+  855 70,172 203 kR1vegfA_R1on_rab11 #_R278
+  856 203 70,172 kvegfA_R1off #_reverse__R278
+  857 203 92,110 kvegfA_R1off #_reverse__R279
+  858 92,172 252 kR1vegfA_R1on_rab11 #_R280
+  859 173 72,111 kplgfR1_N1off #_reverse__R281
+  860 72,170 234 kplgfR1_N1on_rab11 #_R282
+  861 72,198 205 2*kplgfR1_N1on_rab11 #_R284
+  862 205 72,198 kplgfR1_N1off #_reverse__R284
+  863 72,205 253 kplgfR1_N1on_rab11 #_R285
+  864 70,173 234 kR1R1on_rab11 #_R288
+  865 204 92,111 kR1R1off #_reverse__R289
+  866 92,173 235 kR1R1on_rab11 #_R290
+  867 70,173 205 kR1plgf_R1on_rab11 #_R291
+  868 205 70,173 kplgf_R1off #_reverse__R291
+  869 205 92,111 kplgf_R1off #_reverse__R292
+  870 92,173 253 kR1plgf_R1on_rab11 #_R293
+  871 177 239 kVegfR2N1Rab5a #_R318
+  872 174 236 kVegfR2N1Rab5a #_R319
+  873 175 237 kVegfR1N1Rab5a #_R340
+  874 176 238 kPlgfR1N1Rab5a #_R352
+  875 178 117 kVegfR2Rab4a #_R377
+  876 188 129 kVegfR2N1Rab4a #_R379
+  877 179 118 kVegfR2N1Rab4a #_R381
+  878 187 128 kR2N1Rab4a #_R382
+  879 189 130 kR2N1Rab4a #_R384
+  880 180 119 kVegfR2Rab4a #_R388
+  881 181 121 kVegfR1Rab4a #_R393
+  882 158 86 kR1Rab4a #_R394
+  883 182 122 kVegfR1Rab4a #_R398
+  884 162 93 kR1N1Rab4a #_R400
+  885 183 123 kVegfR1N1Rab4a #_R403
+  886 163 94 kR1N1Rab4a #_R404
+  887 190 131 kVegfR1N1Rab4a #_R405
+  888 184 124 kPlgfR1Rab4a #_R410
+  889 164 95 kR1N1Rab4a #_R412
+  890 185 125 kPlgfR1N1Rab4a #_R415
+  891 165 96 kR1N1Rab4a #_R416
+  892 191 132 kPlgfR1N1Rab4a #_R417
+  893 186 127 kPlgfR1Rab4a #_R424
+  894 159 87 kR1N1Rab4a #_R425
+  895 178 240 kVegfR2Rab4at11a #_R443
+  896 188 250 kVegfR2N1Rab4at11a #_R446
+  897 179 241 kVegfR2N1Rab4at11a #_R447
+  898 187 249 kR2N1Rab4at11a #_R448
+  899 189 251 kR2N1Rab4at11a #_R450
+  900 180 242 kVegfR2Rab4at11a #_R455
+  901 181 243 kVegfR1Rab4at11a #_R459
+  902 158 230 kR1Rab4at11a #_R460
+  903 182 244 kVegfR1Rab4at11a #_R463
+  904 162 232 kR1N1Rab4at11a #_R466
+  905 183 245 kVegfR1N1Rab4at11a #_R469
+  906 163 233 kR1N1Rab4at11a #_R470
+  907 190 252 kVegfR1N1Rab4at11a #_R471
+  908 184 246 kPlgfR1Rab4at11a #_R475
+  909 164 234 kR1N1Rab4at11a #_R478
+  910 185 247 kPlgfR1N1Rab4at11a #_R481
+  911 165 235 kR1N1Rab4at11a #_R482
+  912 191 253 kPlgfR1N1Rab4at11a #_R483
+  913 186 248 kPlgfR1Rab4at11a #_R490
+  914 159 231 kR1N1Rab4at11a #_R491
+  915 160 29 kR1N1Rab11a #_R498
+  916 161 30 kR1N1Rab11a #_R499
+  917 192 56 kVegfN1Rab11a #_R505
+  918 194 58 kVegfR2Rab11a #_R507
+  919 166 40 kR2Rab11a #_R508
+  920 200 64 kR2N1Rab11a #_R510
+  921 201 65 kR2N1Rab11a #_R511
+  922 167 41 kR2Rab11a #_R519
+  923 195 59 kVegfR2Rab11a #_R520
+  924 196 60 kVegfR1Rab11a #_R523
+  925 168 42 kR1Rab11a #_R525
+  926 197 61 kVegfR1Rab11a #_R528
+  927 169 43 kR1Rab11a #_R530
+  928 172 46 kR1N1Rab11a #_R531
+  929 202 66 kR1N1Rab11a #_R533
+  930 203 67 kVegfR1N1Rab11a #_R534
+  931 198 62 kPlgfR1Rab11a #_R539
+  932 170 44 kR1Rab11a #_R542
+  933 173 47 kR1N1Rab11a #_R543
+  934 204 68 kR1N1Rab11a #_R545
+  935 205 69 kPlgfR1N1Rab11a #_R547
+  936 193 57 kPlgfN1Rab11a #_R552
+  937 199 63 kPlgfR1Rab11a #_R554
+  938 171 45 kR1Rab11a #_R556
+  939 178 254 kVegfR2Rab4at7a #_R575
+  940 188 255 kVegfR2N1Rab4at7a #_R578
+  941 179 256 kVegfR2N1Rab4at7a #_R579
+  942 187 257 kR2N1Rab4at7a #_R580
+  943 189 258 kR2N1Rab4at7a #_R581
+  944 180 259 kVegfR2Rab4at7a #_R587
+  945 181 260 kVegfR1Rab4at7a #_R590
+  946 158 261 kR1Rab4at7a #_R592
+  947 182 262 kVegfR1Rab4at7a #_R595
+  948 162 263 kR1N1Rab4at7a #_R598
+  949 183 264 kVegfR1N1Rab4at7a #_R601
+  950 163 265 kR1N1Rab4at7a #_R602
+  951 190 266 kVegfR1N1Rab4at7a #_R603
+  952 184 267 kPlgfR1Rab4at7a #_R607
+  953 164 268 kR1N1Rab4at7a #_R610
+  954 185 269 kPlgfR1N1Rab4at7a #_R613
+  955 165 270 kR1N1Rab4at7a #_R614
+  956 191 271 kPlgfR1N1Rab4at7a #_R615
+  957 186 272 kPlgfR1Rab4at7a #_R621
+  958 159 273 kR1N1Rab4at7a #_R623
+  959 72,232 233 kN1R1on_rab11 #_R9
+  960 72,234 235 kN1R1on_rab11 #_R9
+  961 230 72,168 kN1R1off #_reverse__R9
+  962 231 72,171 kN1R1off #_reverse__R9
+  963 233 72,232 kN1R1off #_reverse__R9
+  964 235 72,234 kN1R1off #_reverse__R9
+  965 232 76,160 kN1R1_vegfAoff #_reverse__R85
+  966 233 76,161 kN1R1_vegfAoff #_reverse__R86
+  967 234 74,160 kN1R1_plgfoff #_reverse__R88
+  968 235 74,161 kN1R1_plgfoff #_reverse__R89
+  969 236 189 2*kvegfA_R2off #_reverse__R172
+  970 237 163 2*kvegfA_R1off #_reverse__R175
+  971 238 165 2*kplgf_R1off #_reverse__R176
+  972 239 236 kdeltaR2R2 #_R178
+  973 236 239 kR2R2off #_reverse__R178
+  974 237 190 kR1R1off #_reverse__R181
+  975 239 23,187 2*kvegfA_R2off #_reverse__R188
+  976 239 24,188 2*kR2vegfA_N1off #_reverse__R197
+  977 236 24,179 2*kR2vegfA_N1off #_reverse__R199
+  978 237 24,183 2*kvegfAR1_N1off #_reverse__R206
+  979 238 24,185 2*kplgfR1_N1off #_reverse__R219
+  980 251 274 kdeltaVEGFA_R #_R240
+  981 240 166 2*kvegfA_R2off #_reverse__R240
+  982 241 201 2*kvegfA_R2off #_reverse__R240
+  983 242 167 2*kvegfA_R2off #_reverse__R241
+  984 243 168 2*kvegfA_R1off #_reverse__R242
+  985 232 245 kdeltaVEGFA_R #_R243
+  986 233 275 kdeltaVEGFA_R #_R243
+  987 244 169 2*kvegfA_R1off #_reverse__R243
+  988 245 202 kvegfA_R1off #_reverse__R243
+  989 245 232 kvegfA_R1off #_reverse__R243
+  990 234 247 kdeltaPLGF_R #_R244
+  991 235 276 kdeltaPLGF_R #_R244
+  992 246 170 2*kplgf_R1off #_reverse__R244
+  993 247 204 kplgf_R1off #_reverse__R244
+  994 247 234 kplgf_R1off #_reverse__R244
+  995 248 171 2*kplgf_R1off #_reverse__R245
+  996 250 241 kdeltaR2R2 #_R246
+  997 240 194 kR2R2off #_reverse__R246
+  998 241 250 kR2R2off #_reverse__R246
+  999 242 195 kR2R2off #_reverse__R247
+ 1000 243 196 kR1R1off #_reverse__R248
+ 1001 252 275 kdeltaR1R1_V #_R249
+ 1002 244 197 kR1R1off #_reverse__R249
+ 1003 245 203 kR1R1off #_reverse__R249
+ 1004 246 198 kR1R1off #_reverse__R250
+ 1005 248 199 kR1R1off #_reverse__R251
+ 1006 249 71,192 kvegfA_R2off #_reverse__R253
+ 1007 250 71,200 2*kvegfA_R2off #_reverse__R254
+ 1008 71,249 277 kR2vegfA_R2on_rab11 #_R256
+ 1009 71,249 251 kR2R2on_rab11 #_R257
+ 1010 251 71,249 kR2R2off #_reverse__R257
+ 1011 251 91,192 kvegfA_R2off #_reverse__R259
+ 1012 249 72,200 2*kR2vegfA_N1off #_reverse__R261
+ 1013 251 72,201 2*kR2vegfA_N1off #_reverse__R263
+ 1014 250 72,194 kR2vegfA_N1off #_reverse__R264
+ 1015 72,250 277 kR2vegfA_N1on_rab11 #_R265
+ 1016 72,240 241 2*kR2vegfA_N1on_rab11 #_R266
+ 1017 241 72,240 kR2vegfA_N1off #_reverse__R266
+ 1018 72,241 274 kR2vegfA_N1on_rab11 #_R267
+ 1019 232 72,169 kvegfAR1_N1off #_reverse__R269
+ 1020 72,232 233 kvegfAR1_N1on_rab11 #_R270
+ 1021 233 72,232 kvegfAR1_N1off #_reverse__R270
+ 1022 252 72,203 2*kvegfAR1_N1off #_reverse__R272
+ 1023 72,244 245 2*kvegfAR1_N1on_rab11 #_R273
+ 1024 245 72,244 kvegfAR1_N1off #_reverse__R273
+ 1025 72,245 275 kvegfAR1_N1on_rab11 #_R274
+ 1026 232 70,172 kR1R1off #_reverse__R275
+ 1027 233 92,172 kR1R1off #_reverse__R277
+ 1028 252 92,172 2*kvegfA_R1off #_reverse__R280
+ 1029 234 72,170 kplgfR1_N1off #_reverse__R282
+ 1030 72,234 235 kplgfR1_N1on_rab11 #_R283
+ 1031 235 72,234 kplgfR1_N1off #_reverse__R283
+ 1032 253 72,205 2*kplgfR1_N1off #_reverse__R285
+ 1033 72,246 247 2*kplgfR1_N1on_rab11 #_R286
+ 1034 247 72,246 kplgfR1_N1off #_reverse__R286
+ 1035 72,247 276 kplgfR1_N1on_rab11 #_R287
+ 1036 234 70,173 kR1R1off #_reverse__R288
+ 1037 235 92,173 kR1R1off #_reverse__R290
+ 1038 253 92,173 2*kplgf_R1off #_reverse__R293
+ 1039 239 177 kVegfR2N1Rab4a #_R383
+ 1040 236 174 kVegfR2N1Rab4a #_R385
+ 1041 237 175 kVegfR1N1Rab4a #_R406
+ 1042 238 176 kPlgfR1N1Rab4a #_R418
+ 1043 239 277 kVegfR2N1Rab4at11a #_R449
+ 1044 236 274 kVegfR2N1Rab4at11a #_R451
+ 1045 237 275 kVegfR1N1Rab4at11a #_R472
+ 1046 238 276 kPlgfR1N1Rab4at11a #_R484
+ 1047 240 117 kVegfR2Rab11a #_R509
+ 1048 250 129 kVegfR2N1Rab11a #_R512
+ 1049 241 118 kVegfR2N1Rab11a #_R513
+ 1050 249 128 kR2N1Rab11a #_R514
+ 1051 251 130 kR2N1Rab11a #_R515
+ 1052 242 119 kVegfR2Rab11a #_R521
+ 1053 243 121 kVegfR1Rab11a #_R524
+ 1054 230 86 kR1Rab11a #_R526
+ 1055 244 122 kVegfR1Rab11a #_R529
+ 1056 232 93 kR1N1Rab11a #_R532
+ 1057 245 123 kVegfR1N1Rab11a #_R535
+ 1058 233 94 kR1N1Rab11a #_R536
+ 1059 252 131 kVegfR1N1Rab11a #_R537
+ 1060 246 124 kPlgfR1Rab11a #_R540
+ 1061 234 95 kR1N1Rab11a #_R544
+ 1062 247 125 kPlgfR1N1Rab11a #_R546
+ 1063 235 96 kR1N1Rab11a #_R548
+ 1064 253 132 kPlgfR1N1Rab11a #_R549
+ 1065 248 127 kPlgfR1Rab11a #_R555
+ 1066 231 87 kR1N1Rab11a #_R557
+ 1067 239 278 kVegfR2N1Rab4at7a #_R582
+ 1068 236 279 kVegfR2N1Rab4at7a #_R583
+ 1069 237 280 kVegfR1N1Rab4at7a #_R604
+ 1070 238 281 kPlgfR1N1Rab4at7a #_R616
+ 1071 274 251 2*kvegfA_R2off #_reverse__R240
+ 1072 275 233 2*kvegfA_R1off #_reverse__R243
+ 1073 276 235 2*kplgf_R1off #_reverse__R244
+ 1074 277 274 kdeltaR2R2 #_R246
+ 1075 274 277 kR2R2off #_reverse__R246
+ 1076 275 252 kR1R1off #_reverse__R249
+ 1077 277 71,249 2*kvegfA_R2off #_reverse__R256
+ 1078 277 72,250 2*kR2vegfA_N1off #_reverse__R265
+ 1079 274 72,241 2*kR2vegfA_N1off #_reverse__R267
+ 1080 275 72,245 2*kvegfAR1_N1off #_reverse__R274
+ 1081 276 72,247 2*kplgfR1_N1off #_reverse__R287
+ 1082 277 177 kVegfR2N1Rab11a #_R516
+ 1083 274 174 kVegfR2N1Rab11a #_R517
+ 1084 275 175 kVegfR1N1Rab11a #_R538
+ 1085 276 176 kPlgfR1N1Rab11a #_R550
+end reactions
+begin groups
+    1 R1_surf              5,2*9,11,18,19,20,21,2*29,2*30,34,35,2*37,2*38,2*42,2*43,2*44,2*45,46,47,2*60,2*61,2*62,2*63,2*66,2*67,2*68,2*69,2*84,2*85,2*86,2*87,2*93,2*94,2*95,2*96,2*114,2*115,2*120,2*121,2*122,2*123,2*124,2*125,2*126,2*127,2*131,2*132,2*175,2*176
+    2 R2_surf              6,2*10,16,17,36,2*39,2*40,2*41,2*58,2*59,64,2*65,2*113,2*116,2*117,2*118,2*119,128,2*129,2*130,2*174,2*177
+    3 N1_surf              7,11,14,15,29,2*30,46,47,2*56,2*57,64,65,66,67,68,69,84,85,86,87,93,2*94,95,2*96,118,123,125,2*128,129,2*130,2*131,2*132,2*174,2*175,2*176,2*177
+    4 R1_Rab4a5a           22,2*31,33,52,53,54,55,2*88,2*89,2*99,2*100,2*101,2*102,103,104,2*137,2*138,2*139,2*140,2*143,2*144,2*145,2*146,2*158,2*159,2*162,2*163,2*164,2*165,2*181,2*182,2*183,2*184,2*185,2*186,2*190,2*191,2*237,2*238
+    5 R2_Rab4a5a           23,2*32,50,51,2*97,2*98,2*135,2*136,141,2*142,2*178,2*179,2*180,187,2*188,2*189,2*236,2*239
+    6 N1_Rab4a5a           24,33,48,49,88,2*89,103,104,2*133,2*134,141,142,143,144,145,146,158,159,162,2*163,164,2*165,179,183,185,2*187,188,2*189,2*190,2*191,2*236,2*237,2*238,2*239
+    7 R1_Rab11a            70,2*90,92,109,110,111,112,2*160,2*161,2*168,2*169,2*170,2*171,172,173,2*196,2*197,2*198,2*199,2*202,2*203,2*204,2*205,2*230,2*231,2*232,2*233,2*234,2*235,2*243,2*244,2*245,2*246,2*247,2*248,2*252,2*253,2*275,2*276
+    8 R2_Rab11a            71,2*91,107,108,2*166,2*167,2*194,2*195,200,2*201,2*240,2*241,2*242,249,2*250,2*251,2*274,2*277
+    9 N1_Rab11a            72,92,105,106,160,2*161,172,173,2*192,2*193,200,201,202,203,204,205,230,231,232,2*233,234,2*235,241,245,247,2*249,250,2*251,2*252,2*253,2*274,2*275,2*276,2*277
+   10 R1R1_surf            2*9,2*29,2*30,2*37,2*38,2*42,2*43,2*44,2*45,2*60,2*61,2*62,2*63,2*66,2*67,2*68,2*69,2*84,2*85,2*86,2*87,2*93,2*94,2*95,2*96,2*114,2*115,2*120,2*121,2*122,2*123,2*124,2*125,2*126,2*127,2*131,2*132,2*175,2*176
+   11 R2R2_surf            2*10,2*39,2*40,2*41,2*58,2*59,2*65,2*113,2*116,2*117,2*118,2*119,2*129,2*130,2*174,2*177
+   12 R1N1_surf            11,2*29,4*30,46,47,2*66,2*67,2*68,2*69,2*84,2*85,2*86,2*87,2*93,4*94,2*95,4*96,2*123,2*125,4*131,4*132,4*175,4*176
+   13 R1R1N1_surf          2*29,4*30,2*66,2*67,2*68,2*69,2*84,2*85,2*86,2*87,2*93,4*94,2*95,4*96,2*123,2*125,4*131,4*132,4*175,4*176
+   14 N1R1R1N1_surf        4*30,4*94,4*96,4*131,4*132,4*175,4*176
+   15 R1R1_Rab4a5a         2*31,2*88,2*89,2*99,2*100,2*101,2*102,2*137,2*138,2*139,2*140,2*143,2*144,2*145,2*146,2*158,2*159,2*162,2*163,2*164,2*165,2*181,2*182,2*183,2*184,2*185,2*186,2*190,2*191,2*237,2*238
+   16 R2R2_Rab4a5a         2*32,2*97,2*98,2*135,2*136,2*142,2*178,2*179,2*180,2*188,2*189,2*236,2*239
+   17 R1N1_Rab4a5a         33,2*88,4*89,103,104,2*143,2*144,2*145,2*146,2*158,2*159,2*162,4*163,2*164,4*165,2*183,2*185,4*190,4*191,4*237,4*238
+   18 R1R1N1_Rab4a5a       2*88,4*89,2*143,2*144,2*145,2*146,2*158,2*159,2*162,4*163,2*164,4*165,2*183,2*185,4*190,4*191,4*237,4*238
+   19 N1R1R1N1_Rab4a5a     4*89,4*163,4*165,4*190,4*191,4*237,4*238
+   20 R1R1_Rab11a          2*90,2*160,2*161,2*168,2*169,2*170,2*171,2*196,2*197,2*198,2*199,2*202,2*203,2*204,2*205,2*230,2*231,2*232,2*233,2*234,2*235,2*243,2*244,2*245,2*246,2*247,2*248,2*252,2*253,2*275,2*276
+   21 R2R2_Rab11a          2*91,2*166,2*167,2*194,2*195,2*201,2*240,2*241,2*242,2*250,2*251,2*274,2*277
+   22 R1N1_Rab11a          92,2*160,4*161,172,173,2*202,2*203,2*204,2*205,2*230,2*231,2*232,4*233,2*234,4*235,2*245,2*247,4*252,4*253,4*275,4*276
+   23 R1R1N1_Rab11a        2*160,4*161,2*202,2*203,2*204,2*205,2*230,2*231,2*232,4*233,2*234,4*235,2*245,2*247,4*252,4*253,4*275,4*276
+   24 N1R1R1N1_Rab11a      4*161,4*233,4*235,4*252,4*253,4*275,4*276
+   25 R2R2_121a_surf       2*41,2*59,2*119
+   26 R2R2_165a_surf       2*39,2*40,2*58,2*65,2*113,2*116,2*117,2*118,2*129,2*130,2*174,2*177
+   27 R1R1_121a_surf       2*43,2*61,2*66,2*67,2*93,2*94,2*122,2*123,2*131,2*175
+   28 R1R1_165a_surf       2*37,2*42,2*60,2*84,2*86,2*114,2*120,2*121
+   29 R1R1_plgf1_surf      2*44,2*62,2*68,2*69,2*95,2*96,2*124,2*125,2*132,2*176
+   30 R1R1_plgf2_surf      2*38,2*45,2*63,2*85,2*87,2*115,2*126,2*127
+   31 R2R2N1_165a_surf     2*65,2*118,2*129,4*130,4*174,4*177
+   32 N1R2R2N1_165a_surf   4*130,4*174,4*177
+   33 R1R1N1_121a_surf     2*66,2*67,2*93,4*94,2*123,4*131,4*175
+   34 N1R1R1N1_121a_surf   4*94,4*131,4*175
+   35 R1R1N1_plgf1_surf    2*68,2*69,2*95,4*96,2*125,4*132,4*176
+   36 N1R1R1N1_plgf1_surf  4*96,4*132,4*176
+   37 R2R2_121a_Rab4a5a    2*98,2*136,2*180
+   38 R2R2_165a_Rab4a5a    2*97,2*135,2*142,2*178,2*179,2*188,2*189,2*236,2*239
+   39 R1R1_121a_Rab4a5a    2*100,2*138,2*143,2*144,2*162,2*163,2*182,2*183,2*190,2*237
+   40 R1R1_165a_Rab4a5a    2*99,2*137,2*158,2*181
+   41 R1R1_plgf1_Rab4a5a   2*101,2*139,2*145,2*146,2*164,2*165,2*184,2*185,2*191,2*238
+   42 R1R1_plgf2_Rab4a5a   2*102,2*140,2*159,2*186
+   43 R2R2N1_165a_Rab4a5a  2*142,2*179,2*188,4*189,4*236,4*239
+   44 N1R2R2N1_165a_Rab4a5a 4*189,4*236,4*239
+   45 R1R1N1_121a_Rab4a5a  2*143,2*144,2*162,4*163,2*183,4*190,4*237
+   46 N1R1R1N1_121a_Rab4a5a 4*163,4*190,4*237
+   47 R1R1N1_plgf1_Rab4a5a 2*145,2*146,2*164,4*165,2*185,4*191,4*238
+   48 N1R1R1N1_plgf1_Rab4a5a 4*165,4*191,4*238
+   49 R2R2_121a_Rab11a     2*167,2*195,2*242
+   50 R2R2_165a_Rab11a     2*166,2*194,2*201,2*240,2*241,2*250,2*251,2*274,2*277
+   51 R1R1_121a_Rab11a     2*169,2*197,2*202,2*203,2*232,2*233,2*244,2*245,2*252,2*275
+   52 R1R1_165a_Rab11a     2*168,2*196,2*230,2*243
+   53 R1R1_plgf1_Rab11a    2*170,2*198,2*204,2*205,2*234,2*235,2*246,2*247,2*253,2*276
+   54 R1R1_plgf2_Rab11a    2*171,2*199,2*231,2*248
+   55 R2R2N1_165a_Rab11a   2*201,2*241,2*250,4*251,4*274,4*277
+   56 N1R2R2N1_165a_Rab11a 4*251,4*274,4*277
+   57 R1R1N1_121a_Rab11a   2*202,2*203,2*232,4*233,2*245,4*252,4*275
+   58 N1R1R1N1_121a_Rab11a 4*233,4*252,4*275
+   59 R1R1N1_plgf1_Rab11a  2*204,2*205,2*234,4*235,2*247,4*253,4*276
+   60 N1R1R1N1_plgf1_Rab11a 4*235,4*253,4*276
+   61 Freev165a_surf       4*1
+   62 Freev121a_surf       2*2
+   63 Freeplgf1_surf       2*3
+   64 Freeplgf2_surf       4*4
+   65 Freev165a_Rab4a      4*25
+   66 Freev121a_Rab4a      2*28
+   67 Freeplgf1_Rab4a      2*26
+   68 Freeplgf2_Rab4a      4*27
+   69 Freev165a_Rab11a     4*73
+   70 Freev121a_Rab11a     2*76
+   71 Freeplgf1_Rab11a     2*74
+   72 Freeplgf2_Rab11a     4*75
+   73 noN1R2R2_surf_121a   2*41,2*59,2*119
+   74 noN1R2R2_surf_165a   4*39,4*40,4*58,4*113,4*116,4*117
+   75 noN1R1R1_surf_121a   2*43,2*61,2*122
+   76 noN1R1R1_surf_165a   4*37,4*42,4*60,4*114,4*120,4*121
+   77 noN1R1R1_surf_plgf1  2*44,2*62,2*124
+   78 noN1R1R1_surf_plgf2  4*38,4*45,4*63,4*115,4*126,4*127
+   79 noN1R2R2_Rab4a5a_121a 2*98,2*136,2*180
+   80 noN1R2R2_Rab4a5a_165a 4*97,4*135,4*178
+   81 noN1R1R1_Rab4a5a_121a 2*100,2*138,2*182
+   82 noN1R1R1_Rab4a5a_165a 4*99,4*137,4*181
+   83 noN1R1R1_Rab4a5a_plgf1 2*101,2*139,2*184
+   84 noN1R1R1_Rab4a5a_plgf2 4*102,4*140,4*186
+   85 noN1R2R2_Rab11a_121a 2*167,2*195,2*242
+   86 noN1R2R2_Rab11a_165a 4*166,4*194,4*240
+   87 noN1R1R1_Rab11a_121a 2*169,2*197,2*244
+   88 noN1R1R1_Rab11a_165a 4*168,4*196,4*243
+   89 noN1R1R1_Rab11a_plgf1 2*170,2*198,2*246
+   90 noN1R1R1_Rab11a_plgf2 4*171,4*199,4*248
+   91 R2R2_121a_surf_act   2*59,2*119
+   92 R2R2_165a_surf_act   2*58,2*113,2*116,2*117,2*118,2*129,2*174,2*177
+   93 R1R1_121a_surf_act   2*61,2*67,2*122,2*123,2*131,2*175
+   94 R1R1_165a_surf_act   2*60,2*114,2*120,2*121
+   95 R1R1_plgf1_surf_act  2*62,2*69,2*124,2*125,2*132,2*176
+   96 R1R1_plgf2_surf_act  2*63,2*115,2*126,2*127
+   97 R2R2N1_165a_surf_act 2*118,2*129,4*174,4*177
+   98 N1R2R2N1_165a_surf_act 4*174,4*177
+   99 R1R1N1_121a_surf_act 2*67,2*123,4*131,4*175
+  100 N1R1R1N1_121a_surf_act 4*131,4*175
+  101 R1R1N1_plgf1_surf_act 2*69,2*125,4*132,4*176
+  102 N1R1R1N1_plgf1_surf_act 4*132,4*176
+  103 R2R2_121a_Rab4a5a_act 2*136,2*180
+  104 R2R2_165a_Rab4a5a_act 2*135,2*178,2*179,2*188,2*236,2*239
+  105 R1R1_121a_Rab4a5a_act 2*138,2*144,2*182,2*183,2*190,2*237
+  106 R1R1_165a_Rab4a5a_act 2*137,2*181
+  107 R1R1_plgf1_Rab4a5a_act 2*139,2*146,2*184,2*185,2*191,2*238
+  108 R1R1_plgf2_Rab4a5a_act 2*140,2*186
+  109 R2R2N1_165a_Rab4a5a_act 2*179,2*188,4*236,4*239
+  110 N1R2R2N1_165a_Rab4a5a_act 4*236,4*239
+  111 R1R1N1_121a_Rab4a5a_act 2*144,2*183,4*190,4*237
+  112 N1R1R1N1_121a_Rab4a5a_act 4*190,4*237
+  113 R1R1N1_plgf1_Rab4a5a_act 2*146,2*185,4*191,4*238
+  114 N1R1R1N1_plgf1_Rab4a5a_act 4*191,4*238
+  115 R2R2_121a_Rab11a_act 2*195,2*242
+  116 R2R2_165a_Rab11a_act 2*194,2*240,2*241,2*250,2*274,2*277
+  117 R1R1_121a_Rab11a_act 2*197,2*203,2*244,2*245,2*252,2*275
+  118 R1R1_165a_Rab11a_act 2*196,2*243
+  119 R1R1_plgf1_Rab11a_act 2*198,2*205,2*246,2*247,2*253,2*276
+  120 R1R1_plgf2_Rab11a_act 2*199,2*248
+  121 R2R2N1_165a_Rab11a_act 2*241,2*250,4*274,4*277
+  122 N1R2R2N1_165a_Rab11a_act 4*274,4*277
+  123 R1R1N1_121a_Rab11a_act 2*203,2*245,4*252,4*275
+  124 N1R1R1N1_121a_Rab11a_act 4*252,4*275
+  125 R1R1N1_plgf1_Rab11a_act 2*205,2*247,4*253,4*276
+  126 N1R1R1N1_plgf1_Rab11a_act 4*253,4*276
+  127 R1_empty_surf        5,2*9,11,2*29,2*30,37,38,42,43,44,45,66,68,84,85,86,87,93,94,95,96
+  128 R2_empty_surf        6,2*10,39,40,41,65,130
+  129 N1_empty_surf        7,11,29,2*30,46,47,66,67,68,69,84,85,86,87,93,2*94,95,2*96,123,125,2*131,2*132,2*175,2*176
+  130 R1_empty_Rab4a5a     22,2*31,33,2*88,2*89,99,100,101,102,143,145,158,159,162,163,164,165
+  131 R2_empty_Rab4a5a     23,2*32,97,98,142,189
+  132 N1_empty_Rab4a5a     24,33,88,2*89,103,104,143,144,145,146,158,159,162,2*163,164,2*165,183,185,2*190,2*191,2*237,2*238
+  133 R1_empty_Rab11a      70,2*90,92,2*160,2*161,168,169,170,171,202,204,230,231,232,233,234,235
+  134 R2_empty_Rab11a      71,2*91,166,167,201,251
+  135 N1_empty_Rab11a      72,92,160,2*161,172,173,202,203,204,205,230,231,232,2*233,234,2*235,245,247,2*252,2*253,2*275,2*276
+  136 Totv165a_surf        1,12,14,16,18,34,36,37,39,40,42,56,58,60,64,65,84,86,113,114,116,117,118,120,121,128,129,130,174,177
+  137 Totv121a_surf        2,17,19,41,43,46,59,61,66,67,93,94,119,122,123,131,175
+  138 Totplgf1_surf        3,20,44,47,62,68,69,95,96,124,125,132,176
+  139 Totplgf2_surf        4,13,15,21,35,38,45,57,63,85,87,115,126,127
+  140 Totv165a_Rab4a       25,48,50,52,97,99,133,135,137,141,142,158,178,179,181,187,188,189,236,239
+  141 Totv121a_Rab4a       28,51,53,98,100,103,136,138,143,144,162,163,180,182,183,190,237
+  142 Totplgf1_Rab4a       26,54,101,104,139,145,146,164,165,184,185,191,238
+  143 Totplgf2_Rab4a       27,49,55,102,134,140,159,186
+  144 Totv165a_Rab11a      73,105,107,109,166,168,192,194,196,200,201,230,240,241,243,249,250,251,274,277
+  145 Totv121a_Rab11a      76,108,110,167,169,172,195,197,202,203,232,233,242,244,245,252,275
+  146 Totplgf1_Rab11a      74,111,170,173,198,204,205,234,235,246,247,253,276
+  147 Totplgf2_Rab11a      75,106,112,171,193,199,231,248
+  148 N1N1_surf            2*30,2*56,2*57,2*94,2*96,2*128,2*130,2*131,2*132,2*174,2*175,2*176,2*177
+  149 N1N1_Rab4a5a         2*89,2*133,2*134,2*163,2*165,2*187,2*189,2*190,2*191,2*236,2*237,2*238,2*239
+  150 N1N1_Rab11a          2*161,2*192,2*193,2*233,2*235,2*249,2*251,2*252,2*253,2*274,2*275,2*276,2*277
+  151 R2N1_165a_surf       64,2*65,2*118,2*128,2*129,4*130,4*174,4*177
+  152 R2N1_165a_Rab4a5a    141,2*142,2*179,2*187,2*188,4*189,4*236,4*239
+  153 R2N1_165a_Rab11a     200,2*201,2*241,2*249,2*250,4*251,4*274,4*277
+  154 R2N1N1_165a_surf     2*128,4*130,4*174,4*177
+  155 R2N1N1_165a_Rab4a5a  2*187,4*189,4*236,4*239
+  156 R2N1N1_165a_Rab11a   2*249,4*251,4*274,4*277
+end groups
